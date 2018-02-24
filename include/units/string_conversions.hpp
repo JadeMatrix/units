@@ -17,10 +17,10 @@ namespace units
         return std::to_string( v );
     }
     
-    template< typename T, template< typename > class Traits >
+    template< typename T, class Traits >
     std::string to_string( const unit< T, Traits >& v )
     {
-        return to_string( ( T )v ) + Traits< T >::unit_string();
+        return to_string( ( T )v ) + Traits::unit_string();
     }
 }
 

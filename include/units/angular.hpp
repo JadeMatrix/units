@@ -15,9 +15,9 @@ namespace units // Declarations ////////////////////////////////////////////////
     template< typename T > struct    radian_traits;
     template< typename T > struct arcminute_traits;
     
-    template< typename T > using    degrees = unit< T,    degree_traits >;
-    template< typename T > using    radians = unit< T,    radian_traits >;
-    template< typename T > using arcminutes = unit< T, arcminute_traits >;
+    template< typename T > using    degrees = unit< T,    degree_traits< T > >;
+    template< typename T > using    radians = unit< T,    radian_traits< T > >;
+    template< typename T > using arcminutes = unit< T, arcminute_traits< T > >;
 }
 
 

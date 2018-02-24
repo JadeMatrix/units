@@ -8,26 +8,26 @@
 
 namespace units // Base unit classes ///////////////////////////////////////////
 {
-    template< typename T, template< typename > class Traits > class unit;
+    template< typename T, class Traits > class unit;
     
     template<
         typename T,
-        template< typename > class Numer_Traits,
-        template< typename > class Denom_Traits
+        class Numer_Traits,
+        class Denom_Traits
     > struct per;
     
     template<
         typename T,
-        template< typename > class Traits_A,
-        template< typename > class Traits_B
+        class Traits_A,
+        class Traits_B
     > struct by;
     
     
-    template< typename T, template< typename > class Traits > class unit
+    template< typename T, class Traits > class unit
     {
     public:
         using  value_type = T;
-        using traits_type = Traits< T >;
+        using traits_type = Traits;
         
     protected:
         value_type value;
@@ -36,11 +36,11 @@ namespace units // Base unit classes ///////////////////////////////////////////
         constexpr unit() {}
         constexpr unit( const T& v ) : value( v ) {}
         
-        template< typename O > unit(
-            const unit< O, Traits >& o
-        ) : value( ( T )o ) {}
+        // template< typename O > unit(
+        //     const unit< O, Traits >& o
+        // ) : value( ( T )o ) {}
         
-        template< typename O, template< typename > class Other_Traits >
+        template< typename O, class Other_Traits >
         constexpr
         unit( const unit< O, Other_Traits >& o ) :
             value( traits_type::convert_from( o ) )
@@ -58,125 +58,83 @@ namespace units // Base unit classes ///////////////////////////////////////////
     
     template<
         typename T,
-        template< typename > class Numer_Traits,
-        template< typename > class Denom_Traits
+        class Numer_Traits,
+        class Denom_Traits
     > struct per_traits
     {
-        // using value_type = T;
-        template< typename O > using numer_traits_type = Numer_Traits< O >;
-        template< typename O > using denom_traits_type = Denom_Traits< O >;
-        
-        template<
-            template< typename > class Other_Numer_Traits,
-            template< typename > class Other_Denom_Traits
-        > struct split_type
-        {
-            template< typename O > using template_type = per_traits<
-                O,
-                Other_Numer_Traits,
-                Other_Denom_Traits
-            >;
-        };
-        template< typename O > using template_type = per_traits<
-            O,
-            Numer_Traits,
-            Denom_Traits
-        >;
-        
         static std::string unit_string()
         {
-            // TODO: recursive specialization for other `per_traits`s and `by`s to
-            // reduce the number of parentheses needed?
+            // TODO: recursive specialization for other `per_traits`s and
+            // `by_traits`s to reduce the number of parentheses needed?
             return (
                 "("
-                + Numer_Traits< T >::unit_string()
+                + Numer_Traits::unit_string()
                 + ")/("
-                + Denom_Traits< T >::unit_string()
+                + Denom_Traits::unit_string()
                 + ")"
             );
         }
         
-        // template< typename O > static constexpr T convert_from(
-        //     const unit< O, template_type >& from
-        // )
-        // {
-        //     return ( O )from;
-        // }
-        
         template<
             typename O,
-            template< typename > class Other_Numer_Traits,
-            template< typename > class Other_Denom_Traits,
-            template< typename, template< typename > class, template< typename > class > class Other_per_Traits
+            class Other_Numer_Traits,
+            class Other_Denom_Traits
         >
         static constexpr
         T convert_from(
-            // const per_traits< O, Other_Numer_Traits, Other_Denom_Traits >& from
-            // const unit< O, template_type >& from
-            // const unit< O, split_type< Other_Numer_Traits, Other_Denom_Traits >::template_type >& from
-            // const unit< O, per_traits< Other_Numer_Traits, Other_Denom_Traits, O >::template_type >& from
-            // const unit< O, per_traits< Other_Numer_Traits, Other_Denom_Traits > >& from
-            // const unit< O, per_traits >& from
-            // const unit< O, Other_per_Traits >& from
-            const unit< O, split_type< Other_Numer_Traits, Other_Denom_Traits >::template_type >& from
+            const unit<O, per_traits< O, Other_Numer_Traits, Other_Denom_Traits > >& from
         )
         {
             return (
-                Numer_Traits< O >::convert_from(
-                    // unit< O, decltype( from )::traits_type::numer_traits_type >( ( O )from )
-                    // unit< O, Other_Numer_Traits >( ( O )from )
-                    unit< O, Other_per_Traits< O, Other_Numer_Traits, Other_Denom_Traits >::numer_traits_type >( ( O )from )
+                Numer_Traits::convert_from(
+                    unit< O, Other_Numer_Traits >( ( O )from )
                 ) /
-                Denom_Traits< O >::convert_from(
-                    // unit< O, decltype( from )::traits_type::denom_traits_type >( 1 )
-                    // unit< O, Other_Denom_Traits >( 1 )
-                    unit< O, Other_per_Traits< O, Other_Numer_Traits, Other_Denom_Traits >::denom_traits_type >( 1 )
+                Denom_Traits::convert_from(
+                    unit< O, Other_Denom_Traits >( 1 )
                 )
             );
         }
     };
     
-    // template<
-    //     typename T,
-    //     template< typename > class Traits_A,
-    //     template< typename > class Traits_B
-    // > struct by_traits
-    // {
-    //     using value_type = T;
+    template<
+        typename T,
+        class Left_Traits,
+        class Right_Traits
+    > struct by_traits
+    {
+        static std::string unit_string()
+        {
+            // TODO: recursive specialization for other `per_traits`s and
+            // `by_traits`s to reduce the number of parentheses needed?
+            return (
+                "("
+                + Left_Traits::unit_string()
+                + ")*("
+                + Right_Traits::unit_string()
+                + ")"
+            );
+        }
         
-    //     static std::string unit_string()
-    //     {
-    //         // TODO: recursive specialization for other `per`s and `by_traits`s to
-    //         // reduce the number of parentheses needed?
-    //         return (
-    //             "("
-    //             + Traits_A< T >::unit_string()
-    //             + ")*("
-    //             + Traits_B< T >::unit_string()
-    //             + ")"
-    //         );
-    //     }
-        
-    //     template<
-    //         typename O,
-    //         template< typename > class Other_Traits_A,
-    //         template< typename > class Other_Traits_B
-    //     >
-    //     static constexpr
-    //     T convert_from(
-    //         const by_traits< O, Other_Traits_A, Other_Traits_B >& from
-    //     )
-    //     {
-    //         return (
-    //             Traits_A< O >::convert_from(
-    //                 unit< O, Other_Traits_A >( ( O )from )
-    //             ) *
-    //             Traits_B< O >::convert_from(
-    //                 unit< O, Other_Traits_B >( 1 )
-    //             )
-    //         );
-    //     }
-    // };
+        template<
+            typename O,
+            class Other_Left_Traits,
+            class Other_Right_Traits
+        >
+        static constexpr
+        T convert_from(
+            const unit<O, by_traits< O, Other_Left_Traits, Other_Right_Traits > >& from
+        )
+        {
+            return (
+                Left_Traits::convert_from(
+                    unit< O, Other_Left_Traits >( ( O )from )
+                ) *
+                Right_Traits::convert_from(
+                    unit< O, Other_Right_Traits >( 1 )
+                )
+            );
+        }
+    };
 }
 
 
@@ -193,16 +151,22 @@ namespace units // Binary operators ////////////////////////////////////////////
     #define DEFINE_OPERATORS_FOR_BINARY_OPERAND( OPERAND ) \
     template< typename L, template< typename > class LTraits, typename R > \
     constexpr \
-    auto operator OPERAND( const unit< L, LTraits >& lhs, const R& rhs ) \
-        -> unit< decltype( ( L )lhs OPERAND rhs ), LTraits > \
+    auto operator OPERAND( const unit< L, LTraits< L > >& lhs, const R& rhs ) \
+        -> unit< \
+                     decltype( ( L )lhs OPERAND rhs ), \
+            LTraits< decltype( ( L )lhs OPERAND rhs ) > \
+        > \
     { \
         return ( L )lhs OPERAND rhs; \
     } \
      \
     template< typename L, typename R, template< typename > class RTraits > \
     constexpr \
-    auto operator OPERAND( const L& lhs, const unit< R, RTraits >& rhs ) \
-        -> decltype( lhs OPERAND ( R )rhs ) \
+    auto operator OPERAND( const L& lhs, const unit< R, RTraits< R > >& rhs ) \
+        -> unit< \
+                     decltype( lhs OPERAND ( R )rhs ), \
+            RTraits< decltype( lhs OPERAND ( R )rhs ) > \
+        > \
     { \
         return lhs OPERAND ( R )rhs; \
     } \
@@ -211,15 +175,15 @@ namespace units // Binary operators ////////////////////////////////////////////
         typename L, \
         template< typename > class LTraits, \
         typename R, \
-        template< typename > class RTraits \
+        /*template< typename >*/ class RTraits \
     > \
     constexpr \
     auto operator OPERAND( \
-        const unit< L, LTraits >& lhs, \
-        const unit< R, RTraits >& rhs \
+        const unit< L, LTraits< L > >& lhs, \
+        const unit< R, RTraits/*< R >*/ >& rhs \
     ) -> unit< \
-        decltype( ( L )lhs OPERAND ( R )LTraits< R >::convert_from( rhs ) ), \
-        LTraits \
+                 decltype( ( L )lhs OPERAND ( R )LTraits< R >::convert_from( rhs ) ), \
+        LTraits< decltype( ( L )lhs OPERAND ( R )LTraits< R >::convert_from( rhs ) ) > \
     > \
     { \
         return ( L )lhs OPERAND ( R )LTraits< R >::convert_from( rhs ); \
@@ -241,7 +205,7 @@ namespace units // Binary operators ////////////////////////////////////////////
 namespace units // Comparison operators ////////////////////////////////////////
 {
     #define DEFINE_OPERATORS_FOR_COMPARISON_OPERAND( OPERAND ) \
-    template< typename L, template< typename > class LTraits, typename R > \
+    template< typename L, class LTraits, typename R > \
     constexpr \
     auto operator OPERAND( const unit< L, LTraits >& lhs, const R& rhs ) \
         -> decltype( ( L )lhs OPERAND rhs ) \
@@ -249,7 +213,7 @@ namespace units // Comparison operators ////////////////////////////////////////
         return ( L )lhs OPERAND rhs; \
     } \
      \
-    template< typename L, typename R, template< typename > class RTraits > \
+    template< typename L, typename R, class RTraits > \
     constexpr \
     auto operator OPERAND( const L& lhs, const unit< R, RTraits >& rhs ) \
         -> decltype( lhs OPERAND ( R )rhs ) \
@@ -261,12 +225,12 @@ namespace units // Comparison operators ////////////////////////////////////////
         typename L, \
         template< typename > class LTraits, \
         typename R, \
-        template< typename > class RTraits \
+        /*template< typename >*/ class RTraits \
     > \
     constexpr \
     auto operator OPERAND( \
-        const unit< L, LTraits >& lhs, \
-        const unit< R, RTraits >& rhs \
+        const unit< L, LTraits< L > >& lhs, \
+        const unit< R, RTraits/*< R >*/ >& rhs \
     ) -> decltype( ( L )lhs OPERAND ( R )LTraits< R >::convert_from( rhs ) ) \
     { \
         return ( L )lhs OPERAND ( R )LTraits< R >::convert_from( rhs ); \
@@ -286,7 +250,7 @@ namespace units // Comparison operators ////////////////////////////////////////
 namespace units // Assignment operators ////////////////////////////////////////
 {
     #define DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND( OPERAND, BASE_OPERAND ) \
-    template< typename L, template< typename > class LTraits, typename R > \
+    template< typename L, class LTraits, typename R > \
     unit< L, LTraits >& operator OPERAND( \
         unit< L, LTraits >& lhs, \
         const R& rhs \
@@ -296,7 +260,7 @@ namespace units // Assignment operators ////////////////////////////////////////
         return lhs; \
     } \
      \
-    template< typename L, typename R, template< typename > class RTraits > \
+    template< typename L, typename R, class RTraits > \
     L& operator OPERAND( L& lhs, const unit< R, RTraits >& rhs ) \
     { \
         return lhs OPERAND ( R )rhs; \
@@ -306,11 +270,11 @@ namespace units // Assignment operators ////////////////////////////////////////
         typename L, \
         template< typename > class LTraits, \
         typename R, \
-        template< typename > class RTraits \
+        /*template< typename >*/ class RTraits \
     > \
-    unit< L, LTraits >& operator OPERAND( \
-              unit< L, LTraits >& lhs, \
-        const unit< R, RTraits >& rhs \
+    unit< L, LTraits< L > >& operator OPERAND( \
+              unit< L, LTraits< L > >& lhs, \
+        const unit< R, RTraits/*< R >*/ >& rhs \
     ) \
     { \
         lhs = ( L )lhs BASE_OPERAND ( R )LTraits< R >::convert_from( rhs ); \
@@ -335,8 +299,11 @@ namespace units // Unary operators /////////////////////////////////////////////
     #define DEFINE_OPERATORS_FOR_UNARY_OPERAND( OPERAND ) \
     template< typename R, template< typename > class RTraits > \
     constexpr \
-    auto operator OPERAND( const unit< R, RTraits >& rhs ) \
-        -> unit< decltype( OPERAND( R )rhs ), RTraits > \
+    auto operator OPERAND( const unit< R, RTraits< R > >& rhs ) \
+        -> unit< \
+                     decltype( OPERAND( R )rhs ), \
+            RTraits< decltype( OPERAND( R )rhs ) > \
+        > \
     { \
         return OPERAND( R )rhs; \
     }
@@ -354,8 +321,11 @@ namespace units // Shift operators /////////////////////////////////////////////
     #define DEFINE_OPERATORS_FOR_BINARY_SHIFT_OPERAND( OPERAND ) \
     template< typename L, template< typename > class LTraits > \
     constexpr \
-    auto operator OPERAND( const unit< L, LTraits >& lhs, int rhs ) \
-        -> unit< decltype( ( L )lhs OPERAND rhs ), LTraits > \
+    auto operator OPERAND( const unit< L, LTraits< L > >& lhs, int rhs ) \
+        -> unit< \
+                     decltype( ( L )lhs OPERAND rhs ), \
+            LTraits< decltype( ( L )lhs OPERAND rhs ) > \
+        > \
     { \
         return ( L )lhs OPERAND rhs; \
     }
@@ -369,7 +339,7 @@ namespace units // Shift operators /////////////////////////////////////////////
         OPERAND, \
         BASE_OPERAND \
     ) \
-    template< typename L, template< typename > class LTraits > \
+    template< typename L, class LTraits > \
     unit< L, LTraits >& operator OPERAND( unit< L, LTraits >& lhs, int rhs ) \
     { \
         lhs = ( L )lhs BASE_OPERAND rhs; \
