@@ -82,7 +82,7 @@ namespace yavsg // Unit string specializations /////////////////////////////////
         static constexpr \
         T convert_from( const unit< O, Other_Traits >& from ) \
         { \
-            return Base_Traits::convert_from( from ) FACTOR_OPERAND ( T )FACTOR; \
+            return Base_Traits::convert_from( from ) FACTOR_OPERAND static_cast< T >( FACTOR ); \
         } \
     };
     
@@ -103,6 +103,8 @@ namespace yavsg // Unit string specializations /////////////////////////////////
     PREFIX_UNIT_STRING_SPECIALIZATION( 1000000000000      , *, div_prefix_traits, "pico" , "p"  );
     PREFIX_UNIT_STRING_SPECIALIZATION( 1000000000000000   , *, div_prefix_traits, "femto", "f"  );
     PREFIX_UNIT_STRING_SPECIALIZATION( 1000000000000000000, *, div_prefix_traits, "atto" , "a"  );
+    
+    // TODO: dozen, semi-, bi-, etc.
     
     #undef PREFIX_UNIT_STRING_SPECIALIZATION
 }

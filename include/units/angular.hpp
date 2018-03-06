@@ -43,7 +43,7 @@ namespace yavsg // Degrees /////////////////////////////////////////////////////
         static constexpr
         T convert_from( const degrees< O >& from )
         {
-            return ( O )from;
+            return static_cast< O >( from );
         }
         
         // Conversions from other units ////////////////////////////////////////
@@ -53,8 +53,8 @@ namespace yavsg // Degrees /////////////////////////////////////////////////////
         T convert_from( const radians< O >& from )
         {
             return (
-                ( O )from
-                * ( constants::circle_degrees< T > / ( T )2 )
+                static_cast< O >( from )
+                * ( constants::circle_degrees< T > / 2 )
                 / constants::pi< T >
             );
         }
@@ -63,7 +63,7 @@ namespace yavsg // Degrees /////////////////////////////////////////////////////
         static constexpr
         T convert_from( const arcminutes< O >& from )
         {
-            return ( O )from / constants::hour_minutes< T >;
+            return static_cast< O >( from ) / constants::hour_minutes< T >;
         }
     };
 }
@@ -90,7 +90,7 @@ namespace yavsg // Radians /////////////////////////////////////////////////////
         static constexpr
         T convert_from( const radians< O >& from )
         {
-            return ( O )from;
+            return static_cast< O >( from );
         }
         
         // Conversions from other units ////////////////////////////////////////
@@ -100,9 +100,9 @@ namespace yavsg // Radians /////////////////////////////////////////////////////
         T convert_from( const degrees< O >& from )
         {
             return (
-                ( T )from
+                static_cast< O >( from )
                 * constants::pi< T >
-                / ( constants::circle_degrees< T > / ( T )2 )
+                / ( constants::circle_degrees< T > / 2 )
             );
         }
         
@@ -110,7 +110,7 @@ namespace yavsg // Radians /////////////////////////////////////////////////////
         static constexpr
         T convert_from( const arcminutes< O >& from )
         {
-            return ( O )radians< O >( degrees< O >( from ) );
+            return static_cast< O >( radians< O >( degrees< O >( from ) ) );
         }
     };
 }
@@ -137,7 +137,7 @@ namespace yavsg // Arcminutes //////////////////////////////////////////////////
         static constexpr
         T convert_from( const arcminutes< O >& from )
         {
-            return ( O )from;
+            return static_cast< O >( from );
         }
         
         // Conversions from other units ////////////////////////////////////////
@@ -146,14 +146,16 @@ namespace yavsg // Arcminutes //////////////////////////////////////////////////
         static constexpr
         T convert_from( const degrees< O >& from )
         {
-            return ( O )from * constants::hour_minutes< T >;
+            return static_cast< O >( from ) * constants::hour_minutes< T >;
         }
         
         template< typename O >
         static constexpr
         T convert_from( const radians< O >& from )
         {
-            return ( O )degrees< O >( from ) * constants::hour_minutes< T >;
+            return static_cast< O >(
+                degrees< O >( from ) * constants::hour_minutes< T >
+            );
         }
     };
 }

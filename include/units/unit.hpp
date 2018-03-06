@@ -7,8 +7,6 @@
 #include <string>
 #include <type_traits>
 
-// #include "scalar_operations.hpp"
-
 
 namespace yavsg // Base unit classes ///////////////////////////////////////////
 {
@@ -27,7 +25,7 @@ namespace yavsg // Base unit classes ///////////////////////////////////////////
         
         // template< typename O > unit(
         //     const unit< O, Traits >& o
-        // ) : value( ( T )o ) {}
+        // ) : value( static_cast< T >( o ) ) {}
         
         template< typename O, class Other_Traits >
         constexpr
@@ -41,7 +39,7 @@ namespace yavsg // Base unit classes ///////////////////////////////////////////
         }
         template< typename O > explicit constexpr operator O () const
         {
-            return ( O )value;
+            return static_cast< O >( value );
         }
         template< typename O, class Other_Traits >
         constexpr
@@ -83,7 +81,7 @@ namespace yavsg // Base unit classes ///////////////////////////////////////////
         per( const per< O, Other_Numer_Traits, Other_Denom_Traits >& o ) :
             value(
                 Numer_Traits::convert_from(
-                    unit< O, Other_Numer_Traits >( ( O )o )
+                    unit< O, Other_Numer_Traits >( static_cast< O >( o ) )
                 ) /
                 Denom_Traits::convert_from(
                     unit< O, Other_Denom_Traits >( 1 )
@@ -97,7 +95,7 @@ namespace yavsg // Base unit classes ///////////////////////////////////////////
         }
         template< typename O > explicit constexpr operator O () const
         {
-            return ( O )value;
+            return static_cast< O >( value );
         }
         
         static std::string unit_name()
@@ -147,7 +145,7 @@ namespace yavsg // Base unit classes ///////////////////////////////////////////
         }
         template< typename O > explicit constexpr operator O () const
         {
-            return ( O )value;
+            return static_cast< O >( value );
         }
         
         static std::string unit_name_raw()
@@ -184,13 +182,13 @@ namespace yavsg // Base unit classes ///////////////////////////////////////////
         auto operator *(
             const   by< O, Other_Traits< O >... >& rhs
         ) -> by<
-            decltype( value * ( O )rhs ),
+            decltype( value * static_cast< O >( rhs ) ),
             First_Traits,
             More_Traits...,
-            Other_Traits< decltype( value * ( O )rhs ) >...
+            Other_Traits< decltype( value * static_cast< O >( rhs ) ) >...
         >
         {
-            return value * ( O )rhs;
+            return value * static_cast< O >( rhs );
         }
     };
     
@@ -219,7 +217,7 @@ namespace yavsg // Base unit classes ///////////////////////////////////////////
         }
         template< typename O > explicit constexpr operator O () const
         {
-            return ( O )value;
+            return static_cast< O >( value );
         }
         
         static std::string unit_name_raw()
@@ -256,13 +254,13 @@ namespace yavsg // Base unit classes ///////////////////////////////////////////
         auto operator *(
             const   by< O, Other_Traits< O >... >& rhs
         ) -> by<
-            decltype( value * ( O )rhs ),
+            decltype( value * static_cast< O >( rhs ) ),
             First_Traits,
             Second_Traits,
-            Other_Traits< decltype( value * ( O )rhs ) >...
+            Other_Traits< decltype( value * static_cast< O >( rhs ) ) >...
         >
         {
-            return value * ( O )rhs;
+            return value * static_cast< O >( rhs );
         }
     };
     
@@ -280,7 +278,7 @@ namespace yavsg // Base unit classes ///////////////////////////////////////////
         
         template< typename O, class Other_Traits > constexpr ratio(
             const per< O, Other_Traits, Other_Traits >& o
-        ) : value( ( O )o )
+        ) : value( static_cast< O >( o ) )
         {}
         
         // Ratio can be implicitly converted to its base type
@@ -290,7 +288,7 @@ namespace yavsg // Base unit classes ///////////////////////////////////////////
         }
         template< typename O > explicit constexpr operator O () const
         {
-            return ( O )value;
+            return static_cast< O >( value );
         }
         
         static std::string unit_name()
@@ -307,7 +305,11 @@ namespace yavsg // Base unit classes ///////////////////////////////////////////
 
 /* NOTE:
 The pattern
-    return ( L )lhs OPERATOR ( R )LTraits< R >::convert_from( rhs );
+    return (
+        static_cast< L >( lhs )
+        OPERAND
+        static_cast< R >( LTraits< R >::convert_from( rhs ) )
+    );
 makes a conversion to the left-hand unit for the operation while keeping the
 right-hand side the same value type.
 */
@@ -325,11 +327,11 @@ namespace yavsg // Basic binary operators //////////////////////////////////////
     constexpr \
     auto operator OPERAND( const unit< L, LTraits< L > >& lhs, const R& rhs ) \
         -> unit< \
-                     decltype( ( L )lhs OPERAND rhs ), \
-            LTraits< decltype( ( L )lhs OPERAND rhs ) > \
+                     decltype( static_cast< L >( lhs ) OPERAND rhs ), \
+            LTraits< decltype( static_cast< L >( lhs ) OPERAND rhs ) > \
         > \
     { \
-        return ( L )lhs OPERAND rhs; \
+        return static_cast< L >( lhs ) OPERAND rhs; \
     } \
      \
     template< \
@@ -341,11 +343,11 @@ namespace yavsg // Basic binary operators //////////////////////////////////////
     constexpr \
     auto operator OPERAND( const L& lhs, const unit< R, RTraits< R > >& rhs ) \
         -> unit< \
-                     decltype( lhs OPERAND ( R )rhs ), \
-            RTraits< decltype( lhs OPERAND ( R )rhs ) > \
+                     decltype( lhs OPERAND static_cast< R >( rhs ) ), \
+            RTraits< decltype( lhs OPERAND static_cast< R >( rhs ) ) > \
         > \
     { \
-        return lhs OPERAND ( R )rhs; \
+        return lhs OPERAND static_cast< R >( rhs ); \
     }
     
     #define DEFINE_OPERATORS_FOR_BINARY_OPERAND_UNIT( OPERAND ) \
@@ -360,11 +362,23 @@ namespace yavsg // Basic binary operators //////////////////////////////////////
         const unit< L, LTraits< L > >& lhs, \
         const unit< R, RTraits      >& rhs \
     ) -> unit< \
-                 decltype( ( L )lhs OPERAND ( R )LTraits< R >::convert_from( rhs ) ), \
-        LTraits< decltype( ( L )lhs OPERAND ( R )LTraits< R >::convert_from( rhs ) ) > \
+        decltype( \
+            static_cast< L >( lhs ) \
+            OPERAND \
+            static_cast< R >( LTraits< R >::convert_from( rhs ) ) \
+        ), \
+        LTraits< decltype( \
+            static_cast< L >( lhs ) \
+            OPERAND \
+            static_cast< R >( LTraits< R >::convert_from( rhs ) ) \
+        ) > \
     > \
     { \
-        return ( L )lhs OPERAND ( R )LTraits< R >::convert_from( rhs ); \
+        return ( \
+            static_cast< L >( lhs ) \
+            OPERAND \
+            static_cast< R >( LTraits< R >::convert_from( rhs ) ) \
+        ); \
     }
     
     DEFINE_OPERATORS_FOR_BINARY_OPERAND_NONUNIT( + )
@@ -403,12 +417,12 @@ namespace yavsg // Multiplication & division specializations ///////////////////
         const unit< L, LTraits< L > >& lhs,
         const unit< R, RTraits      >& rhs
     ) -> by<
-                 decltype( ( L )lhs * ( R )rhs ),
-        LTraits< decltype( ( L )lhs * ( R )rhs ) >,
+                 decltype( static_cast< L >( lhs ) * static_cast< R >( rhs ) ),
+        LTraits< decltype( static_cast< L >( lhs ) * static_cast< R >( rhs ) ) >,
         RTraits
     >
     {
-        return ( L )lhs * ( R )rhs;
+        return static_cast< L >( lhs ) * static_cast< R >( rhs );
     }
     
     template< // Multiplying a unit and a by produces a by /////////////////////
@@ -422,12 +436,12 @@ namespace yavsg // Multiplication & division specializations ///////////////////
         const unit< L, LTraits< L >    >& lhs,
         const   by< R, RTraits< R >... >& rhs
     ) -> by<
-                  decltype( ( L )lhs * ( R )rhs ),
-        LTraits<  decltype( ( L )lhs * ( R )rhs ) >,
-        RTraits<  decltype( ( L )lhs * ( R )rhs ) >...
+                  decltype( static_cast< L >( lhs ) * static_cast< R >( rhs ) ),
+        LTraits<  decltype( static_cast< L >( lhs ) * static_cast< R >( rhs ) ) >,
+        RTraits<  decltype( static_cast< L >( lhs ) * static_cast< R >( rhs ) ) >...
     >
     {
-        return ( L )lhs * ( R )rhs;
+        return static_cast< L >( lhs ) * static_cast< R >( rhs );
     }
     
     template< // Multiplying a by and a unit produces a by /////////////////////
@@ -441,12 +455,12 @@ namespace yavsg // Multiplication & division specializations ///////////////////
         const   by< L, LTraits< L >... >& lhs,
         const unit< R, RTraits< R >    >& rhs
     ) -> by<
-                 decltype( ( L )lhs * ( R )rhs ),
-        LTraits< decltype( ( L )lhs * ( R )rhs ) >...,
-        RTraits< decltype( ( L )lhs * ( R )rhs ) >
+                 decltype( static_cast< L >( lhs ) * static_cast< R >( rhs ) ),
+        LTraits< decltype( static_cast< L >( lhs ) * static_cast< R >( rhs ) ) >...,
+        RTraits< decltype( static_cast< L >( lhs ) * static_cast< R >( rhs ) ) >
     >
     {
-        return ( L )lhs * ( R )rhs;
+        return static_cast< L >( lhs ) * static_cast< R >( rhs );
     }
     
     // Multiplying two bys produces a by -- implemented in class ///////////////
@@ -459,9 +473,9 @@ namespace yavsg // Multiplication & division specializations ///////////////////
     auto operator *(
         const ratio< L >& lhs,
         const ratio< R >& rhs
-    ) -> ratio< decltype( ( L )lhs * ( R )rhs ) >
+    ) -> ratio< decltype( static_cast< L >( lhs ) * static_cast< R >( rhs ) ) >
     {
-        return ( L )lhs * ( R )rhs;
+        return static_cast< L >( lhs ) * static_cast< R >( rhs );
     }
     
     template< // Dividing two units produces a per /////////////////////////////
@@ -475,12 +489,12 @@ namespace yavsg // Multiplication & division specializations ///////////////////
         const unit< L, LTraits< L > >& lhs,
         const unit< R, RTraits      >& rhs
     ) -> per<
-                 decltype( ( L )lhs / ( R )rhs ),
-        LTraits< decltype( ( L )lhs / ( R )rhs ) >,
+                 decltype( static_cast< L >( lhs ) / static_cast< R >( rhs ) ),
+        LTraits< decltype( static_cast< L >( lhs ) / static_cast< R >( rhs ) ) >,
         RTraits
     >
     {
-        return ( L )lhs / ( R )rhs;
+        return static_cast< L >( lhs ) / static_cast< R >( rhs );
     }
     
     template< // Dividing two of the same unit produces a ratio unit ///////////
@@ -492,9 +506,9 @@ namespace yavsg // Multiplication & division specializations ///////////////////
     auto operator /(
         const unit< L, Traits< L > >& lhs,
         const unit< R, Traits< R > >& rhs
-    ) -> ratio< decltype( ( L )lhs / ( R )rhs ) >
+    ) -> ratio< decltype( static_cast< L >( lhs ) / static_cast< R >( rhs ) ) >
     {
-        return ( L )lhs / ( R )rhs;
+        return static_cast< L >( lhs ) / static_cast< R >( rhs );
     }
     
     // TODO: by division, per division, per multiplication
@@ -513,9 +527,9 @@ namespace yavsg // Comparison operators ////////////////////////////////////////
     > \
     constexpr \
     auto operator OPERAND( const unit< L, LTraits >& lhs, const R& rhs ) \
-        -> decltype( ( L )lhs OPERAND rhs ) \
+        -> decltype( static_cast< L >( lhs ) OPERAND rhs ) \
     { \
-        return ( L )lhs OPERAND rhs; \
+        return static_cast< L >( lhs ) OPERAND rhs; \
     } \
      \
     template< \
@@ -526,9 +540,9 @@ namespace yavsg // Comparison operators ////////////////////////////////////////
     > \
     constexpr \
     auto operator OPERAND( const L& lhs, const unit< R, RTraits >& rhs ) \
-        -> decltype( lhs OPERAND ( R )rhs ) \
+        -> decltype( lhs OPERAND static_cast< R >( rhs ) ) \
     { \
-        return lhs OPERAND ( R )rhs; \
+        return lhs OPERAND static_cast< R >( rhs ); \
     } \
      \
     template< \
@@ -541,9 +555,17 @@ namespace yavsg // Comparison operators ////////////////////////////////////////
     auto operator OPERAND( \
         const unit< L, LTraits< L > >& lhs, \
         const unit< R, RTraits      >& rhs \
-    ) -> decltype( ( L )lhs OPERAND ( R )LTraits< R >::convert_from( rhs ) ) \
+    ) -> decltype( \
+        static_cast< L >( lhs ) \
+        OPERAND \
+        static_cast< R >( LTraits< R >::convert_from( rhs ) ) \
+    ) \
     { \
-        return ( L )lhs OPERAND ( R )LTraits< R >::convert_from( rhs ); \
+        return ( \
+            static_cast< L >( lhs ) \
+            OPERAND \
+            static_cast< R >( LTraits< R >::convert_from( rhs ) ) \
+        ); \
     }
     
     DEFINE_OPERATORS_FOR_COMPARISON_OPERAND( == )
@@ -571,7 +593,7 @@ namespace yavsg // Assignment operators ////////////////////////////////////////
         const R& rhs \
     ) \
     { \
-        lhs = ( L )lhs OPERAND rhs; \
+        lhs = static_cast< L >( lhs ) OPERAND rhs; \
         return lhs; \
     } \
      \
@@ -583,7 +605,7 @@ namespace yavsg // Assignment operators ////////////////////////////////////////
     > \
     L& operator OPERAND##=( L& lhs, const unit< R, RTraits >& rhs ) \
     { \
-        return lhs OPERAND##= ( R )rhs; \
+        return lhs OPERAND##= static_cast< R >( rhs ); \
     } \
      \
     template< \
@@ -596,7 +618,7 @@ namespace yavsg // Assignment operators ////////////////////////////////////////
         const ratio< R >& rhs \
     ) \
     { \
-        lhs = ( L )lhs OPERAND ( R )rhs; \
+        lhs = static_cast< L >( lhs ) OPERAND static_cast< R >( rhs ); \
         return lhs; \
     } \
     
@@ -621,11 +643,11 @@ namespace yavsg // Unary operators /////////////////////////////////////////////
     constexpr \
     auto operator OPERAND( const unit< R, RTraits< R > >& rhs ) \
         -> unit< \
-                     decltype( OPERAND( R )rhs ), \
-            RTraits< decltype( OPERAND( R )rhs ) > \
+                     decltype( OPERAND static_cast< R >( rhs ) ), \
+            RTraits< decltype( OPERAND static_cast< R >( rhs ) ) > \
         > \
     { \
-        return OPERAND( R )rhs; \
+        return OPERAND static_cast< R >( rhs ); \
     }
     
     DEFINE_OPERATORS_FOR_UNARY_OPERAND( + )
@@ -636,41 +658,43 @@ namespace yavsg // Unary operators /////////////////////////////////////////////
 }
 
 
-// namespace yavsg // Shift operators /////////////////////////////////////////////
-// {
-//     #define DEFINE_OPERATORS_FOR_BINARY_SHIFT_OPERAND( OPERAND ) \
-//     template< typename L, template< typename > class LTraits > \
-//     constexpr \
-//     auto operator OPERAND( const unit< L, LTraits< L > >& lhs, int rhs ) \
-//         -> unit< \
-//                      decltype( ( L )lhs OPERAND rhs ), \
-//             LTraits< decltype( ( L )lhs OPERAND rhs ) > \
-//         > \
-//     { \
-//         return ( L )lhs OPERAND rhs; \
-//     }
+#if 0
+namespace yavsg // Shift operators /////////////////////////////////////////////
+{
+    #define DEFINE_OPERATORS_FOR_BINARY_SHIFT_OPERAND( OPERAND ) \
+    template< typename L, template< typename > class LTraits > \
+    constexpr \
+    auto operator OPERAND( const unit< L, LTraits< L > >& lhs, int rhs ) \
+        -> unit< \
+                     decltype( static_cast< L >( lhs ) OPERAND rhs ), \
+            LTraits< decltype( static_cast< L >( lhs ) OPERAND rhs ) > \
+        > \
+    { \
+        return static_cast< L >( lhs ) OPERAND rhs; \
+    }
     
-//     DEFINE_OPERATORS_FOR_BINARY_SHIFT_OPERAND( << )
-//     DEFINE_OPERATORS_FOR_BINARY_SHIFT_OPERAND( >> )
+    DEFINE_OPERATORS_FOR_BINARY_SHIFT_OPERAND( << )
+    DEFINE_OPERATORS_FOR_BINARY_SHIFT_OPERAND( >> )
     
-//     #undef DEFINE_OPERATORS_FOR_BINARY_SHIFT_OPERAND
+    #undef DEFINE_OPERATORS_FOR_BINARY_SHIFT_OPERAND
     
-//     #define DEFINE_OPERATORS_FOR_ASSIGNMENT_SHIFT_OPERAND( \
-//         OPERAND, \
-//         BASE_OPERAND \
-//     ) \
-//     template< typename L, class LTraits > \
-//     unit< L, LTraits >& operator OPERAND( unit< L, LTraits >& lhs, int rhs ) \
-//     { \
-//         lhs = ( L )lhs BASE_OPERAND rhs; \
-//         return lhs; \
-//     }
+    #define DEFINE_OPERATORS_FOR_ASSIGNMENT_SHIFT_OPERAND( \
+        OPERAND, \
+        BASE_OPERAND \
+    ) \
+    template< typename L, class LTraits > \
+    unit< L, LTraits >& operator OPERAND( unit< L, LTraits >& lhs, int rhs ) \
+    { \
+        lhs = static_cast< L >( lhs ) BASE_OPERAND rhs; \
+        return lhs; \
+    }
     
-//     DEFINE_OPERATORS_FOR_ASSIGNMENT_SHIFT_OPERAND( <<=, << )
-//     DEFINE_OPERATORS_FOR_ASSIGNMENT_SHIFT_OPERAND( >>=, >> )
+    DEFINE_OPERATORS_FOR_ASSIGNMENT_SHIFT_OPERAND( <<=, << )
+    DEFINE_OPERATORS_FOR_ASSIGNMENT_SHIFT_OPERAND( >>=, >> )
     
-//     #undef DEFINE_OPERATORS_FOR_ASSIGNMENT_SHIFT_OPERAND
-// }
+    #undef DEFINE_OPERATORS_FOR_ASSIGNMENT_SHIFT_OPERAND
+}
+#endif
 
 
 namespace yavsg // Scalar operations specializations ///////////////////////////
@@ -707,7 +731,7 @@ namespace yavsg // Stream formatting operators /////////////////////////////////
     template< typename T, class Traits >
     std::ostream& operator<<( std::ostream& out, const unit< T, Traits >& u )
     {
-        return out << ( T )u << unit< T, Traits >::unit_symbol();
+        return out << static_cast< T >( u ) << unit< T, Traits >::unit_symbol();
     }
     
     template< typename T, class Numer_Traits, class Denom_Traits >
@@ -717,7 +741,7 @@ namespace yavsg // Stream formatting operators /////////////////////////////////
     )
     {
         return out
-            << ( T )u
+            << static_cast< T >( u )
             << per< T, Numer_Traits, Denom_Traits >::unit_symbol()
         ;
     }
@@ -725,13 +749,16 @@ namespace yavsg // Stream formatting operators /////////////////////////////////
     template< typename T, class... Traits >
     std::ostream& operator<<( std::ostream& out, const by< T, Traits... >& u )
     {
-        return out << ( T )u << by< T, Traits... >::unit_symbol();
+        return out
+            << static_cast< T >( u )
+            << by< T, Traits... >::unit_symbol()
+        ;
     }
     
     template< typename T >
     std::ostream& operator<<( std::ostream& out, const ratio< T >& u )
     {
-        return out << ( T )u;
+        return out << static_cast< T >( u );
     }
 }
 
