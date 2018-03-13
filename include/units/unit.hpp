@@ -478,6 +478,19 @@ namespace yavsg // Multiplication & division specializations ///////////////////
         return static_cast< L >( lhs ) * static_cast< R >( rhs );
     }
     
+    template< // Dividing two ratios produces a ratio //////////////////////////
+        typename L,
+        typename R
+    >
+    constexpr
+    auto operator /(
+        const ratio< L >& lhs,
+        const ratio< R >& rhs
+    ) -> ratio< decltype( static_cast< L >( lhs ) / static_cast< R >( rhs ) ) >
+    {
+        return static_cast< L >( lhs ) / static_cast< R >( rhs );
+    }
+    
     template< // Dividing two units produces a per /////////////////////////////
         typename L,
         template< typename > class LTraits,
