@@ -322,7 +322,10 @@ namespace yavsg // Basic binary operators //////////////////////////////////////
         typename L, \
         template< typename > class LTraits, \
         typename R, \
-        typename std::enable_if< std::is_arithmetic< R >::value, R >::type = 0 \
+        typename std::enable_if< \
+            std::is_arithmetic< R >::value, \
+            int \
+        >::type = 0 \
     > \
     constexpr \
     auto operator OPERAND( const unit< L, LTraits< L > >& lhs, const R& rhs ) \
@@ -338,7 +341,10 @@ namespace yavsg // Basic binary operators //////////////////////////////////////
         typename L, \
         typename R, \
         template< typename > class RTraits, \
-        typename std::enable_if< std::is_arithmetic< L >::value, L >::type = 0 \
+        typename std::enable_if< \
+            std::is_arithmetic< L >::value, \
+            int \
+        >::type = 0 \
     > \
     constexpr \
     auto operator OPERAND( const L& lhs, const unit< R, RTraits< R > >& rhs ) \
@@ -536,7 +542,10 @@ namespace yavsg // Comparison operators ////////////////////////////////////////
         typename L, \
         class LTraits, \
         typename R, \
-        typename std::enable_if< std::is_arithmetic< R >::value, R >::type = 0 \
+        typename std::enable_if< \
+            std::is_arithmetic< R >::value, \
+            int \
+        >::type = 0 \
     > \
     constexpr \
     auto operator OPERAND( const unit< L, LTraits >& lhs, const R& rhs ) \
@@ -549,7 +558,10 @@ namespace yavsg // Comparison operators ////////////////////////////////////////
         typename L, \
         typename R, \
         class RTraits, \
-        typename std::enable_if< std::is_arithmetic< L >::value, L >::type = 0 \
+        typename std::enable_if< \
+            std::is_arithmetic< L >::value, \
+            int \
+        >::type = 0 \
     > \
     constexpr \
     auto operator OPERAND( const L& lhs, const unit< R, RTraits >& rhs ) \
@@ -599,7 +611,10 @@ namespace yavsg // Assignment operators ////////////////////////////////////////
         typename L, \
         class LTraits, \
         typename R, \
-        typename std::enable_if< std::is_arithmetic< R >::value, R >::type = 0 \
+        typename std::enable_if< \
+            std::is_arithmetic< R >::value, \
+            int \
+        >::type = 0 \
     > \
     unit< L, LTraits >& operator OPERAND##=( \
         unit< L, LTraits >& lhs, \
@@ -614,7 +629,10 @@ namespace yavsg // Assignment operators ////////////////////////////////////////
         typename L, \
         typename R, \
         class RTraits, \
-        typename std::enable_if< std::is_arithmetic< L >::value, L >::type = 0 \
+        typename std::enable_if< \
+            std::is_arithmetic< L >::value, \
+            int \
+        >::type = 0 \
     > \
     L& operator OPERAND##=( L& lhs, const unit< R, RTraits >& rhs ) \
     { \
