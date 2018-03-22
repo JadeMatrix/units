@@ -30,12 +30,12 @@ namespace yavsg // Degrees /////////////////////////////////////////////////////
         
         static const std::string& unit_name()
         {
-            static const std::string s = "degree";
+            static const std::string s{ "degree" };
             return s;
         }
         static const std::string& unit_symbol()
         {
-            static const std::string s = "°";
+            static const std::string s{ "°" };
             return s;
         }
         
@@ -77,12 +77,12 @@ namespace yavsg // Radians /////////////////////////////////////////////////////
         
         static const std::string& unit_name()
         {
-            static const std::string s = "radian";
+            static const std::string s{ "radian" };
             return s;
         }
         static const std::string& unit_symbol()
         {
-            static const std::string s = "r";
+            static const std::string s{ "r" };
             return s;
         }
         
@@ -124,12 +124,12 @@ namespace yavsg // Arcminutes //////////////////////////////////////////////////
         
         static const std::string& unit_name()
         {
-            static const std::string s = "arcminute";
+            static const std::string s{ "arcminute" };
             return s;
         }
         static const std::string& unit_symbol()
         {
-            static const std::string s = "moa";
+            static const std::string s{ "moa" };
             return s;
         }
         
