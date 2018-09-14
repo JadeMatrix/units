@@ -43,7 +43,7 @@ namespace JadeMatrix { namespace units // Base unit classes ////////////////////
         }
         template< typename O, class Other_Traits >
         constexpr
-        operator unit< O, Other_Traits >()
+        operator unit< O, Other_Traits >() const
         {
             return Other_Traits::convert_from( *this );
         }
@@ -177,11 +177,9 @@ namespace JadeMatrix { namespace units // Base unit classes ////////////////////
         template< // Multiplying two bys produces a by /////////////////////////
             typename O,
             template< typename > class... Other_Traits
-        >
-        constexpr
-        auto operator *(
-            const   by< O, Other_Traits< O >... >& rhs
-        ) -> by<
+        > constexpr auto operator *(
+            const by< O, Other_Traits< O >... >& rhs
+        ) const -> by<
             decltype( value * static_cast< O >( rhs ) ),
             First_Traits,
             More_Traits...,
@@ -249,11 +247,9 @@ namespace JadeMatrix { namespace units // Base unit classes ////////////////////
         template< // Multiplying two bys produces a by /////////////////////////
             typename O,
             template< typename > class... Other_Traits
-        >
-        constexpr
-        auto operator *(
-            const   by< O, Other_Traits< O >... >& rhs
-        ) -> by<
+        > constexpr auto operator *(
+            const by< O, Other_Traits< O >... >& rhs
+        ) const -> by<
             decltype( value * static_cast< O >( rhs ) ),
             First_Traits,
             Second_Traits,

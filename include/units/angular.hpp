@@ -54,8 +54,8 @@ namespace JadeMatrix { namespace units // Degrees //////////////////////////////
         {
             return (
                 static_cast< O >( from )
-                * ( constants::circle_degrees< T > / 2 )
-                / constants::pi< T >
+                * ( constants< T >::circle_degrees / 2 )
+                / constants< T >::pi
             );
         }
         
@@ -63,7 +63,7 @@ namespace JadeMatrix { namespace units // Degrees //////////////////////////////
         static constexpr
         T convert_from( const arcminutes< O >& from )
         {
-            return static_cast< O >( from ) / constants::hour_minutes< T >;
+            return static_cast< O >( from ) / constants< T >::hour_minutes;
         }
     };
 } }
@@ -101,8 +101,8 @@ namespace JadeMatrix { namespace units // Radians //////////////////////////////
         {
             return (
                 static_cast< O >( from )
-                * constants::pi< T >
-                / ( constants::circle_degrees< T > / 2 )
+                * constants< T >::pi
+                / ( constants< T >::circle_degrees / 2 )
             );
         }
         
@@ -146,7 +146,7 @@ namespace JadeMatrix { namespace units // Arcminutes ///////////////////////////
         static constexpr
         T convert_from( const degrees< O >& from )
         {
-            return static_cast< O >( from ) * constants::hour_minutes< T >;
+            return static_cast< O >( from ) * constants< T >::hour_minutes;
         }
         
         template< typename O >
@@ -154,7 +154,7 @@ namespace JadeMatrix { namespace units // Arcminutes ///////////////////////////
         T convert_from( const radians< O >& from )
         {
             return static_cast< O >(
-                degrees< O >( from ) * constants::hour_minutes< T >
+                degrees< O >( from ) * constants< T >::hour_minutes
             );
         }
     };
