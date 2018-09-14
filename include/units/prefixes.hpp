@@ -1,6 +1,6 @@
 #pragma once
-#ifndef YAVSG_UNITS_PREFIXES_HPP
-#define YAVSG_UNITS_PREFIXES_HPP
+#ifndef JM_UNITS_PREFIXES_HPP
+#define JM_UNITS_PREFIXES_HPP
 
 
 #include "unit.hpp"
@@ -8,7 +8,7 @@
 #include <string>
 
 
-namespace yavsg // Declarations ////////////////////////////////////////////////
+namespace JadeMatrix { namespace units // Declarations /////////////////////////
 {
     template< typename T, class Base_Traits, long long Factor > struct mul_prefix_traits;
     template< typename T, class Base_Traits, long long Factor > struct div_prefix_traits;
@@ -50,10 +50,10 @@ namespace yavsg // Declarations ////////////////////////////////////////////////
     template< typename T, class Traits > using  pico = unit< T,  pico_traits< T, Traits > >;
     template< typename T, class Traits > using femto = unit< T, femto_traits< T, Traits > >;
     template< typename T, class Traits > using  atto = unit< T,  atto_traits< T, Traits > >;
-}
+} }
 
 
-namespace yavsg // Unit string specializations /////////////////////////////////
+namespace JadeMatrix { namespace units // Unit string specializations //////////
 {
     #define PREFIX_UNIT_STRING_SPECIALIZATION( FACTOR, FACTOR_OPERAND, OPERAND_CLASS, NAME_PREFIX, SYMBOL_PREFIX ) \
     template< \
@@ -107,10 +107,10 @@ namespace yavsg // Unit string specializations /////////////////////////////////
     // TODO: dozen, semi-, bi-, etc.
     
     #undef PREFIX_UNIT_STRING_SPECIALIZATION
-}
+} }
 
 
-namespace yavsg // Helper for defining prefixed units //////////////////////////
+namespace JadeMatrix { namespace units // Helper for defining prefixed units ///
 {
     #define ALL_PREFIXES_FOR_UNIT( SINGULAR, PLURAL ) \
     template< typename T > using   exa##PLURAL =   exa< float, SINGULAR##_traits< float > >; \
@@ -130,7 +130,7 @@ namespace yavsg // Helper for defining prefixed units //////////////////////////
     template< typename T > using  pico##PLURAL =  pico< float, SINGULAR##_traits< float > >; \
     template< typename T > using femto##PLURAL = femto< float, SINGULAR##_traits< float > >; \
     template< typename T > using  atto##PLURAL =  atto< float, SINGULAR##_traits< float > >;
-}
+} }
 
 
 #endif

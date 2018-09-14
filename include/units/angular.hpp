@@ -1,6 +1,6 @@
 #pragma once
-#ifndef YAVSG_UNITS_ANGULAR_HPP
-#define YAVSG_UNITS_ANGULAR_HPP
+#ifndef JM_UNITS_ANGULAR_HPP
+#define JM_UNITS_ANGULAR_HPP
 
 
 #include "unit.hpp"
@@ -10,7 +10,7 @@
 #include <string>
 
 
-namespace yavsg // Declarations ////////////////////////////////////////////////
+namespace JadeMatrix { namespace units // Declarations /////////////////////////
 {
     template< typename T > struct    degree_traits;
     template< typename T > struct    radian_traits;
@@ -19,10 +19,10 @@ namespace yavsg // Declarations ////////////////////////////////////////////////
     template< typename T > using    degrees = unit< T,    degree_traits< T > >;
     template< typename T > using    radians = unit< T,    radian_traits< T > >;
     template< typename T > using arcminutes = unit< T, arcminute_traits< T > >;
-}
+} }
 
 
-namespace yavsg // Degrees /////////////////////////////////////////////////////
+namespace JadeMatrix { namespace units // Degrees //////////////////////////////
 {
     template< typename T > struct degree_traits
     {
@@ -66,10 +66,10 @@ namespace yavsg // Degrees /////////////////////////////////////////////////////
             return static_cast< O >( from ) / constants::hour_minutes< T >;
         }
     };
-}
+} }
 
 
-namespace yavsg // Radians /////////////////////////////////////////////////////
+namespace JadeMatrix { namespace units // Radians //////////////////////////////
 {
     template< typename T > struct radian_traits
     {
@@ -113,10 +113,10 @@ namespace yavsg // Radians /////////////////////////////////////////////////////
             return static_cast< O >( radians< O >( degrees< O >( from ) ) );
         }
     };
-}
+} }
 
 
-namespace yavsg // Arcminutes //////////////////////////////////////////////////
+namespace JadeMatrix { namespace units // Arcminutes ///////////////////////////
 {
     template< typename T > struct arcminute_traits
     {
@@ -158,15 +158,15 @@ namespace yavsg // Arcminutes //////////////////////////////////////////////////
             );
         }
     };
-}
+} }
 
 
-namespace yavsg // Prefixed versions of angular units //////////////////////////
+namespace JadeMatrix { namespace units // Prefixed versions of angular units ///
 {
     ALL_PREFIXES_FOR_UNIT( degree   , degrees    )
     ALL_PREFIXES_FOR_UNIT( radian   , radians    )
     ALL_PREFIXES_FOR_UNIT( arcminute, arcminutes )
-}
+} }
 
 
 #endif

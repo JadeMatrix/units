@@ -1,6 +1,6 @@
 #pragma once
-#ifndef YAVSG_UNITS_UNIT_HPP
-#define YAVSG_UNITS_UNIT_HPP
+#ifndef JM_UNITS_UNIT_HPP
+#define JM_UNITS_UNIT_HPP
 
 
 #include <ostream>
@@ -8,7 +8,7 @@
 #include <type_traits>
 
 
-namespace yavsg // Base unit classes ///////////////////////////////////////////
+namespace JadeMatrix { namespace units // Base unit classes ////////////////////
 {
     template< typename T, class Traits > class unit
     {
@@ -300,7 +300,7 @@ namespace yavsg // Base unit classes ///////////////////////////////////////////
             return "";
         }
     };
-}
+} }
 
 
 /* NOTE:
@@ -315,7 +315,7 @@ right-hand side the same value type.
 */
 
 
-namespace yavsg // Basic binary operators //////////////////////////////////////
+namespace JadeMatrix { namespace units // Basic binary operators ///////////////
 {
     #define DEFINE_OPERATORS_FOR_BINARY_OPERAND_NONUNIT( OPERAND ) \
     template< \
@@ -407,10 +407,10 @@ namespace yavsg // Basic binary operators //////////////////////////////////////
     
     #undef DEFINE_OPERATORS_FOR_BINARY_OPERAND_NONUNIT
     #undef DEFINE_OPERATORS_FOR_BINARY_OPERAND_UNIT
-}
+} }
 
 
-namespace yavsg // Multiplication & division specializations ///////////////////
+namespace JadeMatrix { namespace units // Mult. & div. specializations /////////
 {
     template< // Multiplying two units produces a by ///////////////////////////
         typename L,
@@ -531,11 +531,11 @@ namespace yavsg // Multiplication & division specializations ///////////////////
     }
     
     // TODO: by division, per division, per multiplication
-}
+} }
 
 
 // TODO: Comparison operators for ratios (bys and pers may be a bit hard...)
-namespace yavsg // Comparison operators ////////////////////////////////////////
+namespace JadeMatrix { namespace units // Comparison operators /////////////////
 {
     #define DEFINE_OPERATORS_FOR_COMPARISON_OPERAND( OPERAND ) \
     template< \
@@ -601,10 +601,10 @@ namespace yavsg // Comparison operators ////////////////////////////////////////
     DEFINE_OPERATORS_FOR_COMPARISON_OPERAND( >= )
     
     #undef DEFINE_OPERATORS_FOR_COMPARISON_OPERAND
-}
+} }
 
 
-namespace yavsg // Assignment operators ////////////////////////////////////////
+namespace JadeMatrix { namespace units // Assignment operators /////////////////
 {
     #define DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND( OPERAND ) \
     template< \
@@ -663,11 +663,11 @@ namespace yavsg // Assignment operators ////////////////////////////////////////
     // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND( ^ )
     
     #undef DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND
-}
+} }
 
 
 // TODO: unaries for per/by/ratio
-namespace yavsg // Unary operators /////////////////////////////////////////////
+namespace JadeMatrix { namespace units // Unary operators //////////////////////
 {
     #define DEFINE_OPERATORS_FOR_UNARY_OPERAND( OPERAND ) \
     template< typename R, template< typename > class RTraits > \
@@ -686,11 +686,11 @@ namespace yavsg // Unary operators /////////////////////////////////////////////
     DEFINE_OPERATORS_FOR_UNARY_OPERAND( ~ )
     
     #undef DEFINE_OPERATORS_FOR_UNARY_OPERAND
-}
+} }
 
 
 #if 0
-namespace yavsg // Shift operators /////////////////////////////////////////////
+namespace JadeMatrix { namespace units // Shift operators //////////////////////
 {
     #define DEFINE_OPERATORS_FOR_BINARY_SHIFT_OPERAND( OPERAND ) \
     template< typename L, template< typename > class LTraits > \
@@ -724,11 +724,11 @@ namespace yavsg // Shift operators /////////////////////////////////////////////
     DEFINE_OPERATORS_FOR_ASSIGNMENT_SHIFT_OPERAND( >>=, >> )
     
     #undef DEFINE_OPERATORS_FOR_ASSIGNMENT_SHIFT_OPERAND
-}
+} }
 #endif
 
 
-namespace yavsg // Scalar operations specializations ///////////////////////////
+namespace JadeMatrix { namespace units // Scalar operations specializations ////
 {
     // template<
     //     typename T,
@@ -754,10 +754,10 @@ namespace yavsg // Scalar operations specializations ///////////////////////////
     // {
     //     return ratio< T >( sqrt( ( T )u ) );
     // }
-}
+} }
 
 
-namespace yavsg // Stream formatting operators /////////////////////////////////
+namespace JadeMatrix { namespace units // Stream formatting operators //////////
 {
     template< typename T, class Traits >
     std::ostream& operator<<( std::ostream& out, const unit< T, Traits >& u )
@@ -791,7 +791,7 @@ namespace yavsg // Stream formatting operators /////////////////////////////////
     {
         return out << static_cast< T >( u );
     }
-}
+} }
 
 
 #endif
