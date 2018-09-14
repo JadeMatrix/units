@@ -5,7 +5,7 @@
 
 #include "unit.hpp"
 #include "prefixes.hpp"
-#include "../math/constants.hpp"
+#include "constants.hpp"
 
 #include <string>
 
