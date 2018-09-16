@@ -113,23 +113,23 @@ namespace JadeMatrix { namespace units // Unit string specializations //////////
 namespace JadeMatrix { namespace units // Helper for defining prefixed units ///
 {
     #define ALL_PREFIXES_FOR_UNIT( SINGULAR, PLURAL ) \
-    template< typename T > using   exa##PLURAL =   exa< float, SINGULAR##_traits< float > >; \
-    template< typename T > using  peta##PLURAL =  peta< float, SINGULAR##_traits< float > >; \
-    template< typename T > using  tera##PLURAL =  tera< float, SINGULAR##_traits< float > >; \
-    template< typename T > using  giga##PLURAL =  giga< float, SINGULAR##_traits< float > >; \
-    template< typename T > using  mega##PLURAL =  mega< float, SINGULAR##_traits< float > >; \
-    template< typename T > using  kilo##PLURAL =  kilo< float, SINGULAR##_traits< float > >; \
-    template< typename T > using hecto##PLURAL = hecto< float, SINGULAR##_traits< float > >; \
-    template< typename T > using  deca##PLURAL =  deca< float, SINGULAR##_traits< float > >; \
+    template< typename T > using   exa##PLURAL =   exa< T, SINGULAR##_traits< T > >; \
+    template< typename T > using  peta##PLURAL =  peta< T, SINGULAR##_traits< T > >; \
+    template< typename T > using  tera##PLURAL =  tera< T, SINGULAR##_traits< T > >; \
+    template< typename T > using  giga##PLURAL =  giga< T, SINGULAR##_traits< T > >; \
+    template< typename T > using  mega##PLURAL =  mega< T, SINGULAR##_traits< T > >; \
+    template< typename T > using  kilo##PLURAL =  kilo< T, SINGULAR##_traits< T > >; \
+    template< typename T > using hecto##PLURAL = hecto< T, SINGULAR##_traits< T > >; \
+    template< typename T > using  deca##PLURAL =  deca< T, SINGULAR##_traits< T > >; \
      \
-    template< typename T > using  deci##PLURAL =  deci< float, SINGULAR##_traits< float > >; \
-    template< typename T > using centi##PLURAL = centi< float, SINGULAR##_traits< float > >; \
-    template< typename T > using milli##PLURAL = milli< float, SINGULAR##_traits< float > >; \
-    template< typename T > using micro##PLURAL = micro< float, SINGULAR##_traits< float > >; \
-    template< typename T > using  nano##PLURAL =  nano< float, SINGULAR##_traits< float > >; \
-    template< typename T > using  pico##PLURAL =  pico< float, SINGULAR##_traits< float > >; \
-    template< typename T > using femto##PLURAL = femto< float, SINGULAR##_traits< float > >; \
-    template< typename T > using  atto##PLURAL =  atto< float, SINGULAR##_traits< float > >;
+    template< typename T > using  deci##PLURAL =  deci< T, SINGULAR##_traits< T > >; \
+    template< typename T > using centi##PLURAL = centi< T, SINGULAR##_traits< T > >; \
+    template< typename T > using milli##PLURAL = milli< T, SINGULAR##_traits< T > >; \
+    template< typename T > using micro##PLURAL = micro< T, SINGULAR##_traits< T > >; \
+    template< typename T > using  nano##PLURAL =  nano< T, SINGULAR##_traits< T > >; \
+    template< typename T > using  pico##PLURAL =  pico< T, SINGULAR##_traits< T > >; \
+    template< typename T > using femto##PLURAL = femto< T, SINGULAR##_traits< T > >; \
+    template< typename T > using  atto##PLURAL =  atto< T, SINGULAR##_traits< T > >;
 } }
 
 
