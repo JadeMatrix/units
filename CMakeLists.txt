@@ -11,9 +11,17 @@ SET( CMAKE_CXX_EXTENSIONS OFF )
 
 
 ADD_LIBRARY( units INTERFACE )
-TARGET_INCLUDE_DIRECTORIES( units INTERFACE "include/" )
+TARGET_INCLUDE_DIRECTORIES(
+    units
+    INTERFACE
+        "$<INSTALL_INTERFACE:include/>"
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/>"
+)
+
+
 INSTALL(
     TARGETS units
+    EXPORT "unitsConfig"
     RUNTIME DESTINATION "bin/"
     LIBRARY DESTINATION "lib/"
     ARCHIVE DESTINATION "lib/static/"
@@ -22,3 +30,17 @@ INSTALL(
     DIRECTORY "include/"
     DESTINATION "include/"
 )
+
+INCLUDE( CMakePackageConfigHelpers )
+WRITE_BASIC_PACKAGE_VERSION_FILE(
+    "${CMAKE_CURRENT_BINARY_DIR}/unitsConfigVersion.cmake"
+    COMPATIBILITY SameMajorVersion
+)
+INSTALL(
+    FILES "${CMAKE_CURRENT_BINARY_DIR}/unitsConfigVersion.cmake"
+    DESTINATION "cmake/units/"
+)
+
+INSTALL( EXPORT "unitsConfig" NAMESPACE "units::" DESTINATION "cmake/units/" )
+
+EXPORT( EXPORT "unitsConfig" FILE "unitsConfig.cmake" )
