@@ -61,6 +61,10 @@ namespace JadeMatrix { namespace units // Unit string specializations //////////
         class Base_Traits \
     > struct OPERAND_CLASS< T, Base_Traits, FACTOR > \
     { \
+    protected: \
+        using this_type = OPERAND_CLASS< T, Base_Traits, FACTOR >; \
+         \
+    public: \
         using value_type = T; \
          \
         static const std::string& unit_name() \
@@ -83,6 +87,16 @@ namespace JadeMatrix { namespace units // Unit string specializations //////////
         T convert_from( const unit< O, Other_Traits >& from ) \
         { \
             return Base_Traits::convert_from( from ) FACTOR_OPERAND static_cast< T >( FACTOR ); \
+        } \
+         \
+        template< typename O, class Other_Traits > \
+        static constexpr \
+        O convert_to( const unit< T, this_type >& from ) \
+        { \
+            return Other_Traits::convert_from( unit< T, Base_Traits >{ \
+                static_cast< T >( from ) \
+                / ( 1 FACTOR_OPERAND static_cast< T >( FACTOR ) ) \
+            } ); \
         } \
     };
     

@@ -19,6 +19,48 @@ namespace JadeMatrix { namespace units // Base unit classes ////////////////////
     protected:
         value_type value;
         
+        using this_type = unit< T, Traits >;
+        
+        template< typename... Ts > using void_t = void;
+        
+        template<
+            typename O,
+            typename Other_Traits,
+            typename = void
+        > struct has_convert_to : std::false_type {};
+        template<
+            typename O,
+            typename Other_Traits
+        > struct has_convert_to<
+            O,
+            Other_Traits,
+            void_t< decltype( Other_Traits::template convert_to<
+                value_type,
+                traits_type
+            >(
+                std::declval< unit< O, Other_Traits > >()
+            ) ) >
+        > : std::true_type {};
+        
+        template< typename O, class Other_Traits >
+        constexpr auto convert_from( const unit< O, Other_Traits >& o )
+            -> typename std::enable_if<
+                has_convert_to< O, Other_Traits >::value,
+                value_type
+            >::type
+        {
+            return Other_Traits::template convert_to< T, Traits >( o );
+        }
+        template< typename O, class Other_Traits >
+        constexpr auto convert_from( const unit< O, Other_Traits >& o )
+            -> typename std::enable_if<
+                !has_convert_to< O, Other_Traits >::value,
+                value_type
+            >::type
+        {
+            return traits_type::convert_from( o );
+        }
+        
     public:
         constexpr unit() {}
         constexpr unit( const T& v ) : value( v ) {}
@@ -30,7 +72,7 @@ namespace JadeMatrix { namespace units // Base unit classes ////////////////////
         template< typename O, class Other_Traits >
         constexpr
         unit( const unit< O, Other_Traits >& o ) :
-            value( traits_type::convert_from( o ) )
+            value( convert_from( o ) )
         {}
         
         explicit constexpr operator T () const
