@@ -38,13 +38,13 @@ WRITE_BASIC_PACKAGE_VERSION_FILE(
 )
 INSTALL(
     FILES "${CMAKE_CURRENT_BINARY_DIR}/jmunits-config-version.cmake"
-    DESTINATION "cmake/jmunits/"
+    DESTINATION "lib/cmake/jmunits/"
 )
 
 INSTALL(
     EXPORT "jmunits-config"
     NAMESPACE "JadeMatrix::units::"
-    DESTINATION "cmake/jmunits/"
+    DESTINATION "lib/cmake/jmunits/"
 )
 
 EXPORT( EXPORT "jmunits-config" FILE "jmunits-config.cmake" )
