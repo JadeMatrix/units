@@ -21,7 +21,7 @@ TARGET_INCLUDE_DIRECTORIES(
 
 INSTALL(
     TARGETS units
-    EXPORT "unitsConfig"
+    EXPORT "jmunits-config"
     RUNTIME DESTINATION "bin/"
     LIBRARY DESTINATION "lib/"
     ARCHIVE DESTINATION "lib/static/"
@@ -33,14 +33,18 @@ INSTALL(
 
 INCLUDE( CMakePackageConfigHelpers )
 WRITE_BASIC_PACKAGE_VERSION_FILE(
-    "${CMAKE_CURRENT_BINARY_DIR}/unitsConfigVersion.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/jmunits-config-version.cmake"
     COMPATIBILITY SameMajorVersion
 )
 INSTALL(
-    FILES "${CMAKE_CURRENT_BINARY_DIR}/unitsConfigVersion.cmake"
-    DESTINATION "cmake/units/"
+    FILES "${CMAKE_CURRENT_BINARY_DIR}/jmunits-config-version.cmake"
+    DESTINATION "cmake/jmunits/"
 )
 
-INSTALL( EXPORT "unitsConfig" NAMESPACE "units::" DESTINATION "cmake/units/" )
+INSTALL(
+    EXPORT "jmunits-config"
+    NAMESPACE "JadeMatrix::units::"
+    DESTINATION "cmake/jmunits/"
+)
 
-EXPORT( EXPORT "unitsConfig" FILE "unitsConfig.cmake" )
+EXPORT( EXPORT "jmunits-config" FILE "jmunits-config.cmake" )
