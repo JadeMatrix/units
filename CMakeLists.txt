@@ -34,7 +34,7 @@ INSTALL(
 INCLUDE( CMakePackageConfigHelpers )
 WRITE_BASIC_PACKAGE_VERSION_FILE(
     "${CMAKE_CURRENT_BINARY_DIR}/jmunits-config-version.cmake"
-    COMPATIBILITY SameMajorVersion
+    COMPATIBILITY SameMinorVersion
 )
 INSTALL(
     FILES "${CMAKE_CURRENT_BINARY_DIR}/jmunits-config-version.cmake"
