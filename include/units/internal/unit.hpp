@@ -64,8 +64,10 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
             _value{ traits_type::from( v ) }
         {}
         
-        // `static_cast<>()` to unit types will use the conversion constructor
-        template< typename O > explicit constexpr operator O () const
+        template<
+            typename O = value_type,
+            typename = typename std::enable_if< !is_unit< O >::value >::type
+        > explicit constexpr operator O () const
         {
             return static_cast< O >( _value );
         }

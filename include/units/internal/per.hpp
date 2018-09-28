@@ -44,8 +44,10 @@ namespace JadeMatrix { namespace units // Unit divided by another //////////////
         }
         {}
         
-        // `static_cast<>()` to per types will use the conversion constructor
-        template< typename O > explicit constexpr operator O () const
+        template<
+            typename O = value_type,
+            typename = typename std::enable_if< !is_unit< O >::value >::type
+        > explicit constexpr operator O () const
         {
             return static_cast< O >( _value );
         }
