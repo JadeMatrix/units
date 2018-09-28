@@ -3,10 +3,10 @@
 #define JM_UNITS_ANGULAR_HPP
 
 
-#include "unit.hpp"
+#include "units.hpp"
 #include "scales.hpp"
 #include "strings.hpp"
-#include "constants.hpp"
+#include "internal/constants.hpp"
 
 
 namespace JadeMatrix { namespace units // Declarations /////////////////////////

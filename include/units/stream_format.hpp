@@ -3,8 +3,8 @@
 #define JM_UNITS_STREAM_FORMAT_HPP
 
 
-#include "unit.hpp"
 #include "strings.hpp"
+#include "internal/core_types.hpp"
 
 #include <ostream>
 

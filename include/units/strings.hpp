@@ -3,7 +3,7 @@
 #define JM_UNITS_STRINGS_HPP
 
 
-#include "traits_utils.hpp"
+#include "internal/traits_utils.hpp"
 
 #include <string>
 

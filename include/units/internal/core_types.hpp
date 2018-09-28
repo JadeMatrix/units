@@ -3,7 +3,7 @@
 #define JM_UNITS_CORE_TYPES_HPP
 
 
-#include "scales.hpp"
+#include "../scales.hpp"
 
 
 namespace JadeMatrix { namespace units
