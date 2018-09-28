@@ -191,15 +191,6 @@ namespace JadeMatrix { namespace units // Base unit classes ////////////////////
         {
             return static_cast< O >( _value );
         }
-        
-        static std::string unit_name()
-        {
-            return "";
-        }
-        static std::string unit_symbol()
-        {
-            return "";
-        }
     };
 } }
 
