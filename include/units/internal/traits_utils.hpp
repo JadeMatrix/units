@@ -147,13 +147,10 @@ namespace JadeMatrix { namespace units // Core types detection /////////////////
     > struct is_ratio : std::false_type {};
     template< typename T > struct is_ratio<
         T,
-        typename std::enable_if<
-            std::is_same<
-                T,
-                ratio< typename T::value_type >
-            >::value,
-            void
-        >::type
+        typename std::enable_if< std::is_same<
+            T,
+            ratio< typename T::value_type >
+        >::value >::type
     > : std::true_type {};
     
     template<
@@ -162,15 +159,12 @@ namespace JadeMatrix { namespace units // Core types detection /////////////////
     > struct is_unit : std::false_type {};
     template< typename T > struct is_unit<
         T,
-        typename std::enable_if<
-            (
-                   is_basic_unit< T >::value
-                || is_per       < T >::value
-                || is_by        < T >::value
-                || is_ratio     < T >::value
-            ),
-            void
-        >::type
+        typename std::enable_if< (
+               is_basic_unit< T >::value
+            || is_per       < T >::value
+            || is_by        < T >::value
+            || is_ratio     < T >::value
+        ) >::type
     > : std::true_type {};
 } }
 

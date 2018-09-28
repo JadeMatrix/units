@@ -25,13 +25,10 @@ namespace JadeMatrix { namespace units
     ) \
     template< typename Unit > struct unit_strings< \
         Unit, \
-        typename std::enable_if< \
-            std::is_same< \
-                Unit, \
-                SCALE_NAME##UNIT_PLURAL< typename Unit::value_type > \
-            >::value, \
-            void \
-        >::type \
+        typename std::enable_if< std::is_same< \
+            Unit, \
+            SCALE_NAME##UNIT_PLURAL< typename Unit::value_type > \
+        >::value >::type \
     > \
     { \
         static const std::string& name() \
@@ -81,19 +78,20 @@ namespace JadeMatrix { namespace units
     
     template< typename Unit > struct unit_strings<
         Unit,
-        typename std::enable_if<
-            is_per< Unit >::value,
-            void
-        >::type
+        typename std::enable_if< is_per< Unit >::value >::type
     >
     {
         static const std::string& name()
         {
             static const std::string s{
                 "("
-                + unit_strings< typename Unit::template numer_unit< empty_type > >::name()
+                + unit_strings<
+                    typename Unit::template numer_unit< empty_type >
+                >::name()
                 + ")/("
-                + unit_strings< typename Unit::template denom_unit< empty_type > >::name()
+                + unit_strings<
+                    typename Unit::template denom_unit< empty_type >
+                >::name()
                 + ")"
             };
             return s;
@@ -102,9 +100,13 @@ namespace JadeMatrix { namespace units
         {
             static const std::string s{
                 "("
-                + unit_strings< typename Unit::template numer_unit< empty_type > >::symbol()
+                + unit_strings<
+                    typename Unit::template numer_unit< empty_type >
+                >::symbol()
                 + ")/("
-                + unit_strings< typename Unit::template denom_unit< empty_type > >::symbol()
+                + unit_strings<
+                    typename Unit::template denom_unit< empty_type >
+                >::symbol()
                 + ")"
             };
             return s;
@@ -113,19 +115,20 @@ namespace JadeMatrix { namespace units
     
     template< typename Unit > struct unit_strings<
         Unit,
-        typename std::enable_if<
-            is_by< Unit >::value,
-            void
-        >::type
+        typename std::enable_if< is_by< Unit >::value >::type
     >
     {
         static const std::string& name()
         {
             static const std::string s{
                 "("
-                + unit_strings< typename Unit::template first_unit< empty_type > >::name()
+                + unit_strings<
+                    typename Unit::template first_unit< empty_type >
+                >::name()
                 + ")*("
-                + unit_strings< typename Unit::template second_unit< empty_type > >::name()
+                + unit_strings<
+                    typename Unit::template second_unit< empty_type >
+                >::name()
                 + ")"
             };
             return s;
@@ -134,9 +137,13 @@ namespace JadeMatrix { namespace units
         {
             static const std::string s{
                 "("
-                + unit_strings< typename Unit::template first_unit< empty_type > >::symbol()
+                + unit_strings<
+                    typename Unit::template first_unit< empty_type >
+                >::symbol()
                 + ")*("
-                + unit_strings< typename Unit::template second_unit< empty_type > >::symbol()
+                + unit_strings<
+                    typename Unit::template second_unit< empty_type >
+                >::symbol()
                 + ")"
             };
             return s;
@@ -145,10 +152,7 @@ namespace JadeMatrix { namespace units
     
     template< typename Unit > struct unit_strings<
         Unit,
-        typename std::enable_if<
-            is_ratio< Unit >::value,
-            void
-        >::type
+        typename std::enable_if< is_ratio< Unit >::value >::type
     >
     {
         static const std::string& name()

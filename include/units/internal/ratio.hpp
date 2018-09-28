@@ -19,7 +19,7 @@ namespace JadeMatrix { namespace units // Dimensionless values /////////////////
         
     public:
         constexpr ratio() {}
-        constexpr ratio( const T& v ) : _value{ v } {}
+        constexpr ratio( const value_type& v ) : _value{ v } {}
         // Implicit conversion from unit/unit of same unit
         template<
             template< typename > class Unit,
@@ -29,7 +29,7 @@ namespace JadeMatrix { namespace units // Dimensionless values /////////////////
         {}
         
         // Ratio can be implicitly converted to its base type
-        constexpr operator T () const
+        constexpr operator value_type () const
         {
             return _value;
         }
