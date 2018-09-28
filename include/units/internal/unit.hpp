@@ -31,12 +31,9 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
             typename Other_Traits,
             typename O,
             typename Other_Scale
-        > static constexpr auto from(
+        > static constexpr value_type from(
             const unit< Other_Traits, O, Other_Scale >& o
-        ) -> typename std::enable_if<
-            true,
-            value_type
-        >::type
+        )
         {
             return scale_type::scale(
                 Other_Scale::unscale(
