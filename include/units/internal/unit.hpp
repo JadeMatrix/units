@@ -329,8 +329,7 @@ namespace JadeMatrix { namespace units // Assignment operators /////////////////
         decltype( lhs )& \
     >::type \
     { \
-        lhs = static_cast< L >( lhs ) OPERAND rhs; \
-        return lhs; \
+        return ( lhs = static_cast< L >( lhs ) OPERAND rhs, lhs ); \
     }
     
     #define DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_UNIT( OPERAND ) \
@@ -349,12 +348,11 @@ namespace JadeMatrix { namespace units // Assignment operators /////////////////
         decltype( lhs )& \
     >::type \
     { \
-        lhs = ( \
+        return ( lhs = ( \
             static_cast< L >( lhs ) \
             OPERAND \
             static_cast< R >( unit< Left_Traits, R, Left_Scale >{ rhs } ) \
-        ); \
-        return lhs; \
+        ), lhs ); \
     }
     
     DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_NONUNIT( + )
