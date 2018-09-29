@@ -172,7 +172,8 @@ namespace JadeMatrix { namespace units // Basic binary operators ///////////////
 
 namespace JadeMatrix { namespace units // Mult. & div. specializations /////////
 {
-    template< // Multiplying two units produces a by ///////////////////////////
+    // Multiplying two units produces a by
+    template<
         typename Left_Traits,
         typename L,
         typename Left_Scale,
@@ -192,7 +193,8 @@ namespace JadeMatrix { namespace units // Mult. & div. specializations /////////
         return static_cast< L >( lhs ) * static_cast< R >( rhs );
     }
     
-    template< // Dividing two units produces a per /////////////////////////////
+    // Dividing two units produces a per
+    template<
         typename Left_Traits,
         typename L,
         typename Left_Scale,
@@ -214,7 +216,8 @@ namespace JadeMatrix { namespace units // Mult. & div. specializations /////////
         return static_cast< L >( lhs ) / static_cast< R >( rhs );
     }
     
-    template< // Dividing two convertible units produces a ratio ///////////////
+    // Dividing two convertible units produces a ratio
+    template<
         typename Left_Traits,
         typename L,
         typename Left_Scale,
@@ -359,18 +362,18 @@ namespace JadeMatrix { namespace units // Assignment operators /////////////////
     DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_NONUNIT( * )
     DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_NONUNIT( / )
     DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_NONUNIT( % )
-    // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_NONUNIT( & )
-    // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_NONUNIT( | )
-    // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_NONUNIT( ^ )
+    // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_NONUNIT( & ) No bitwise operators
+    // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_NONUNIT( | ) No bitwise operators
+    // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_NONUNIT( ^ ) No bitwise operators
     
     DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_UNIT( + )
     DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_UNIT( - )
     DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_UNIT( * )
     DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_UNIT( / )
-    // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_UNIT( % )
-    // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_UNIT( & )
-    // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_UNIT( | )
-    // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_UNIT( ^ )
+    // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_UNIT( % ) No way to preserve units
+    // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_UNIT( & ) No bitwise operators
+    // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_UNIT( | ) No bitwise operators
+    // DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_UNIT( ^ ) No bitwise operators
     
     #undef DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_NONUNIT
     #undef DEFINE_OPERATORS_FOR_ASSIGNMENT_OPERAND_UNIT
@@ -393,7 +396,7 @@ namespace JadeMatrix { namespace units // Unary operators //////////////////////
     
     DEFINE_OPERATORS_FOR_UNARY_OPERAND( + )
     DEFINE_OPERATORS_FOR_UNARY_OPERAND( - )
-    // DEFINE_OPERATORS_FOR_UNARY_OPERAND( ~ )
+    // DEFINE_OPERATORS_FOR_UNARY_OPERAND( ~ ) No bitwise operators
     
     #undef DEFINE_OPERATORS_FOR_UNARY_OPERAND
 } }
