@@ -97,6 +97,29 @@ namespace JadeMatrix { namespace units
             ) / relation::slope );
         }
     };
+    
+    
+    template<
+        typename Traits,
+        typename T,
+        typename Other_Traits,
+        typename O,
+        typename = void
+    > struct conversion_exists : std::false_type {};
+    template<
+        typename Traits,
+        typename T,
+        typename Other_Traits,
+        typename O
+    > struct conversion_exists<
+        Traits,
+        T,
+        Other_Traits,
+        O,
+        void_t< decltype(
+            traits_convert< Traits, T >::template from< Other_Traits, O >
+        ) >
+    > : std::true_type {};
 } }
 
 
