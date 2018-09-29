@@ -35,13 +35,9 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
             const unit< Other_Traits, O, Other_Scale >& o
         )
         {
-            return scale_type::scale(
-                Other_Scale::unscale(
-                    convert::template from< Other_Traits >(
-                        static_cast< O >( o )
-                    )
-                )
-            );
+            return convert::template from< Other_Traits >(
+                static_cast< O >( o )
+            ) * scale_type::scale( Other_Scale::unscale( 1 ) );
         }
         
     public:

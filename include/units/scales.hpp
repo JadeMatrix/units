@@ -14,7 +14,8 @@ namespace JadeMatrix { namespace units
         SYM_PREFIX, \
         SYM_SUFFIX, \
         FACTOR, \
-        OPERAND \
+        OPERAND, \
+        ANTIOPERAND \
     ) \
     struct NAME##_scale \
     { \
@@ -27,35 +28,35 @@ namespace JadeMatrix { namespace units
             return v OPERAND magnitude< T >(); \
         } \
         template< typename T > static constexpr auto unscale( const T& v ) \
-            -> decltype( v / ( 1 OPERAND magnitude< T >() ) ) \
+            -> decltype( v ANTIOPERAND magnitude< T >() ) \
         { \
-            return v / ( 1 OPERAND magnitude< T >() ); \
+            return v ANTIOPERAND magnitude< T >(); \
         } \
     };
     
-    DEFINE_SCALE_SPECIALIZATION( exa  , "exa"   , "E"   , ""  , 1000000000000000000, / )
-    DEFINE_SCALE_SPECIALIZATION( peta , "peta"  , "P"   , ""  , 1000000000000000   , / )
-    DEFINE_SCALE_SPECIALIZATION( tera , "tera"  , "T"   , ""  , 1000000000000      , / )
-    DEFINE_SCALE_SPECIALIZATION( giga , "giga"  , "G"   , ""  , 1000000000         , / )
-    DEFINE_SCALE_SPECIALIZATION( mega , "mega"  , "M"   , ""  , 1000000            , / )
-    DEFINE_SCALE_SPECIALIZATION( kilo , "kilo"  , "k"   , ""  , 1000               , / )
-    DEFINE_SCALE_SPECIALIZATION( hecto, "hecto" , "h"   , ""  , 100                , / )
-    DEFINE_SCALE_SPECIALIZATION( deca , "deca"  , "da"  , ""  , 10                 , / )
+    DEFINE_SCALE_SPECIALIZATION( exa  , "exa"   , "E"   , ""  , 1000000000000000000, /, * )
+    DEFINE_SCALE_SPECIALIZATION( peta , "peta"  , "P"   , ""  , 1000000000000000   , /, * )
+    DEFINE_SCALE_SPECIALIZATION( tera , "tera"  , "T"   , ""  , 1000000000000      , /, * )
+    DEFINE_SCALE_SPECIALIZATION( giga , "giga"  , "G"   , ""  , 1000000000         , /, * )
+    DEFINE_SCALE_SPECIALIZATION( mega , "mega"  , "M"   , ""  , 1000000            , /, * )
+    DEFINE_SCALE_SPECIALIZATION( kilo , "kilo"  , "k"   , ""  , 1000               , /, * )
+    DEFINE_SCALE_SPECIALIZATION( hecto, "hecto" , "h"   , ""  , 100                , /, * )
+    DEFINE_SCALE_SPECIALIZATION( deca , "deca"  , "da"  , ""  , 10                 , /, * )
     
-    DEFINE_SCALE_SPECIALIZATION( unit , ""      , ""    , ""  , 1                  , * )
+    DEFINE_SCALE_SPECIALIZATION( unit , ""      , ""    , ""  , 1                  , *, / )
     
-    DEFINE_SCALE_SPECIALIZATION( deci , "deci"  , "d"   , ""  , 10                 , * )
-    DEFINE_SCALE_SPECIALIZATION( centi, "centi" , "c"   , ""  , 100                , * )
-    DEFINE_SCALE_SPECIALIZATION( milli, "milli" , "m"   , ""  , 1000               , * )
-    DEFINE_SCALE_SPECIALIZATION( micro, "micro" , "μ"   , ""  , 1000000            , * )
-    DEFINE_SCALE_SPECIALIZATION( nano , "nano"  , "n"   , ""  , 1000000000         , * )
-    DEFINE_SCALE_SPECIALIZATION( pico , "pico"  , "p"   , ""  , 1000000000000      , * )
-    DEFINE_SCALE_SPECIALIZATION( femto, "femto" , "f"   , ""  , 1000000000000000   , * )
-    DEFINE_SCALE_SPECIALIZATION( atto , "atto"  , "a"   , ""  , 1000000000000000000, * )
+    DEFINE_SCALE_SPECIALIZATION( deci , "deci"  , "d"   , ""  , 10                 , *, / )
+    DEFINE_SCALE_SPECIALIZATION( centi, "centi" , "c"   , ""  , 100                , *, / )
+    DEFINE_SCALE_SPECIALIZATION( milli, "milli" , "m"   , ""  , 1000               , *, / )
+    DEFINE_SCALE_SPECIALIZATION( micro, "micro" , "μ"   , ""  , 1000000            , *, / )
+    DEFINE_SCALE_SPECIALIZATION( nano , "nano"  , "n"   , ""  , 1000000000         , *, / )
+    DEFINE_SCALE_SPECIALIZATION( pico , "pico"  , "p"   , ""  , 1000000000000      , *, / )
+    DEFINE_SCALE_SPECIALIZATION( femto, "femto" , "f"   , ""  , 1000000000000000   , *, / )
+    DEFINE_SCALE_SPECIALIZATION( atto , "atto"  , "a"   , ""  , 1000000000000000000, *, / )
     
-    DEFINE_SCALE_SPECIALIZATION( dozen, "dozen ", "dz." , ""  , 12                 , / )
-    DEFINE_SCALE_SPECIALIZATION(    bi, "bi"    , ""    , "/2",  2                 , / )
-    DEFINE_SCALE_SPECIALIZATION(  semi, "semi"  , ""    , "*2",  2                 , * )
+    DEFINE_SCALE_SPECIALIZATION( dozen, "dozen ", "dz." , ""  , 12                 , /, * )
+    DEFINE_SCALE_SPECIALIZATION(    bi, "bi"    , ""    , "/2",  2                 , /, * )
+    DEFINE_SCALE_SPECIALIZATION(  semi, "semi"  , ""    , "*2",  2                 , *, / )
     
     #undef DEFINE_SCALE_SPECIALIZATION
 } }
