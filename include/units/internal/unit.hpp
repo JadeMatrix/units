@@ -26,8 +26,6 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
     protected:
         value_type _value;
         
-        using convert = traits_convert< traits_type, value_type >;
-        
         template<
             typename Other_Traits,
             typename O,
@@ -36,6 +34,7 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
             const unit< Other_Traits, O, Other_Scale >& o
         )
         {
+            using convert = traits_convert< traits_type, O >;
             return convert::template from< Other_Traits >(
                 static_cast< O >( o )
             ) * scale_type::scale( Other_Scale::unscale( 1 ) );
