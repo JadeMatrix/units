@@ -11,13 +11,19 @@
 
 namespace JadeMatrix { namespace units
 {
+    struct  yard_traits;
     struct  foot_traits;
+    struct  inch_traits;
     struct meter_traits;
     
+    DEFINE_ALL_PREFIXES_FOR_UNIT(  yards,  yard_traits )
     DEFINE_ALL_PREFIXES_FOR_UNIT(   feet,  foot_traits )
+    DEFINE_ALL_PREFIXES_FOR_UNIT( inches,  inch_traits )
     DEFINE_ALL_PREFIXES_FOR_UNIT( meters, meter_traits )
     
+    DEFINE_ALL_STRINGS_FOR_UNIT( yards , "yards" , "yd" )
     DEFINE_ALL_STRINGS_FOR_UNIT( feet  , "feet"  , "ft" )
+    DEFINE_ALL_STRINGS_FOR_UNIT( inches, "inches", "in" )
     DEFINE_ALL_STRINGS_FOR_UNIT( meters, "meters", "m"  )
 } }
 
@@ -34,6 +40,19 @@ namespace JadeMatrix { namespace units
     };
     
     template< typename T > struct traits_linear_relation<
+        yard_traits,
+        meter_traits,
+        T
+    >
+    {
+        static constexpr T slope = constants< T >::meter_cms / (
+              constants< T >::inch_cms
+            * constants< T >::foot_inches
+            * constants< T >::yard_feet
+        );
+        static constexpr T intercept = 0;
+    };
+    template< typename T > struct traits_linear_relation<
         foot_traits,
         meter_traits,
         T
@@ -43,6 +62,48 @@ namespace JadeMatrix { namespace units
               constants< T >::inch_cms
             * constants< T >::foot_inches
         );
+        static constexpr T intercept = 0;
+    };
+    template< typename T > struct traits_linear_relation<
+        inch_traits,
+        meter_traits,
+        T
+    >
+    {
+        static constexpr T slope = (
+              constants< T >::meter_cms
+            / constants< T >::inch_cms
+        );
+        static constexpr T intercept = 0;
+    };
+    template< typename T > struct traits_linear_relation<
+        inch_traits,
+        yard_traits,
+        T
+    >
+    {
+        static constexpr T slope = (
+              constants< T >::foot_inches
+            * constants< T >::yard_feet
+        );
+        static constexpr T intercept = 0;
+    };
+    template< typename T > struct traits_linear_relation<
+        inch_traits,
+        foot_traits,
+        T
+    >
+    {
+        static constexpr T slope = constants< T >::foot_inches;
+        static constexpr T intercept = 0;
+    };
+    template< typename T > struct traits_linear_relation<
+        foot_traits,
+        yard_traits,
+        T
+    >
+    {
+        static constexpr T slope = constants< T >::yard_feet;
         static constexpr T intercept = 0;
     };
 } }

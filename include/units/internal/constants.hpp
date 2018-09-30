@@ -13,6 +13,7 @@ namespace JadeMatrix { namespace units
         static constexpr T inch_cms       = static_cast< T >( 2.54L                  );
         static constexpr T foot_inches    = static_cast< T >( 12L                    );
         static constexpr T meter_cms      = static_cast< T >( 100L                   );
+        static constexpr T yard_feet      = static_cast< T >( 3L                     );
     };
 } }
 
