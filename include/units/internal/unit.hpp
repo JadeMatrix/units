@@ -79,7 +79,7 @@ namespace JadeMatrix { namespace units // Basic binary operators ///////////////
         typename Left_Scale, \
         typename R \
     > \
-    constexpr auto operator +( \
+    constexpr auto operator OPERAND( \
         const unit< Left_Traits, L, Left_Scale >& lhs, \
         const R& rhs \
     ) -> unit< \
