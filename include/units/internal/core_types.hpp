@@ -10,8 +10,8 @@ namespace JadeMatrix { namespace units
 {
     template<
         typename Traits,
-        typename T,
-        typename Scale = unit_scale
+        typename Scale,
+        typename T
     > class unit;
     
     template<

@@ -11,15 +11,15 @@
 
 namespace JadeMatrix { namespace units // Stream formatting operators //////////
 {
-    template< typename Traits, typename T, typename Scale >
+    template< typename Traits, typename Scale, typename T >
     std::ostream& operator<<(
         std::ostream& out,
-        const unit< Traits, T, Scale >& u
+        const unit< Traits, Scale, T >& u
     )
     {
         return out
             << static_cast< T >( u )
-            << unit_strings< unit< Traits, T, Scale > >::symbol()
+            << unit_strings< unit< Traits, Scale, T > >::symbol()
         ;
     }
     

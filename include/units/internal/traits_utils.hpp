@@ -133,8 +133,8 @@ namespace JadeMatrix { namespace units // Core types detection /////////////////
         T,
         void_t< unit<
             typename T::traits_type,
-            typename T::value_type,
-            typename T::scale_type
+            typename T::scale_type,
+            typename T::value_type
         > >
     > : std::true_type {};
     

@@ -65,29 +65,29 @@ namespace JadeMatrix { namespace units
 namespace JadeMatrix { namespace units // Helper for defining prefixed units ///
 {
     #define DEFINE_ALL_PREFIXES_FOR_UNIT( PLURAL, TRAITS ) \
-    template< typename T > using    exa##PLURAL = unit< TRAITS, T, ::JadeMatrix::units::  exa_scale >; \
-    template< typename T > using   peta##PLURAL = unit< TRAITS, T, ::JadeMatrix::units:: peta_scale >; \
-    template< typename T > using   tera##PLURAL = unit< TRAITS, T, ::JadeMatrix::units:: tera_scale >; \
-    template< typename T > using   giga##PLURAL = unit< TRAITS, T, ::JadeMatrix::units:: giga_scale >; \
-    template< typename T > using   mega##PLURAL = unit< TRAITS, T, ::JadeMatrix::units:: mega_scale >; \
-    template< typename T > using   kilo##PLURAL = unit< TRAITS, T, ::JadeMatrix::units:: kilo_scale >; \
-    template< typename T > using  hecto##PLURAL = unit< TRAITS, T, ::JadeMatrix::units::hecto_scale >; \
-    template< typename T > using   deca##PLURAL = unit< TRAITS, T, ::JadeMatrix::units:: deca_scale >; \
+    template< typename T > using    exa##PLURAL = unit< TRAITS, ::JadeMatrix::units::  exa_scale, T >; \
+    template< typename T > using   peta##PLURAL = unit< TRAITS, ::JadeMatrix::units:: peta_scale, T >; \
+    template< typename T > using   tera##PLURAL = unit< TRAITS, ::JadeMatrix::units:: tera_scale, T >; \
+    template< typename T > using   giga##PLURAL = unit< TRAITS, ::JadeMatrix::units:: giga_scale, T >; \
+    template< typename T > using   mega##PLURAL = unit< TRAITS, ::JadeMatrix::units:: mega_scale, T >; \
+    template< typename T > using   kilo##PLURAL = unit< TRAITS, ::JadeMatrix::units:: kilo_scale, T >; \
+    template< typename T > using  hecto##PLURAL = unit< TRAITS, ::JadeMatrix::units::hecto_scale, T >; \
+    template< typename T > using   deca##PLURAL = unit< TRAITS, ::JadeMatrix::units:: deca_scale, T >; \
      \
-    template< typename T > using         PLURAL = unit< TRAITS, T, ::JadeMatrix::units:: unit_scale >; \
+    template< typename T > using         PLURAL = unit< TRAITS, ::JadeMatrix::units:: unit_scale, T >; \
      \
-    template< typename T > using   deci##PLURAL = unit< TRAITS, T, ::JadeMatrix::units:: deci_scale >; \
-    template< typename T > using  centi##PLURAL = unit< TRAITS, T, ::JadeMatrix::units::centi_scale >; \
-    template< typename T > using  milli##PLURAL = unit< TRAITS, T, ::JadeMatrix::units::milli_scale >; \
-    template< typename T > using  micro##PLURAL = unit< TRAITS, T, ::JadeMatrix::units::micro_scale >; \
-    template< typename T > using   nano##PLURAL = unit< TRAITS, T, ::JadeMatrix::units:: nano_scale >; \
-    template< typename T > using   pico##PLURAL = unit< TRAITS, T, ::JadeMatrix::units:: pico_scale >; \
-    template< typename T > using  femto##PLURAL = unit< TRAITS, T, ::JadeMatrix::units::femto_scale >; \
-    template< typename T > using   atto##PLURAL = unit< TRAITS, T, ::JadeMatrix::units:: atto_scale >; \
+    template< typename T > using   deci##PLURAL = unit< TRAITS, ::JadeMatrix::units:: deci_scale, T >; \
+    template< typename T > using  centi##PLURAL = unit< TRAITS, ::JadeMatrix::units::centi_scale, T >; \
+    template< typename T > using  milli##PLURAL = unit< TRAITS, ::JadeMatrix::units::milli_scale, T >; \
+    template< typename T > using  micro##PLURAL = unit< TRAITS, ::JadeMatrix::units::micro_scale, T >; \
+    template< typename T > using   nano##PLURAL = unit< TRAITS, ::JadeMatrix::units:: nano_scale, T >; \
+    template< typename T > using   pico##PLURAL = unit< TRAITS, ::JadeMatrix::units:: pico_scale, T >; \
+    template< typename T > using  femto##PLURAL = unit< TRAITS, ::JadeMatrix::units::femto_scale, T >; \
+    template< typename T > using   atto##PLURAL = unit< TRAITS, ::JadeMatrix::units:: atto_scale, T >; \
      \
-    template< typename T > using dozen_##PLURAL = unit< TRAITS, T, ::JadeMatrix::units::dozen_scale >; \
-    template< typename T > using     bi##PLURAL = unit< TRAITS, T, ::JadeMatrix::units::   bi_scale >; \
-    template< typename T > using   semi##PLURAL = unit< TRAITS, T, ::JadeMatrix::units:: semi_scale >;
+    template< typename T > using dozen_##PLURAL = unit< TRAITS, ::JadeMatrix::units::dozen_scale, T >; \
+    template< typename T > using     bi##PLURAL = unit< TRAITS, ::JadeMatrix::units::   bi_scale, T >; \
+    template< typename T > using   semi##PLURAL = unit< TRAITS, ::JadeMatrix::units:: semi_scale, T >;
 } }
 
 
