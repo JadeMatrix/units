@@ -34,12 +34,12 @@ namespace JadeMatrix { namespace units
         X_Traits,
         T,
         void_t<
-            decltype( units::traits_linear_relation<
+            decltype( traits_linear_relation<
                 Y_Traits,
                 X_Traits,
                 T
             >::slope ),
-            decltype( units::traits_linear_relation<
+            decltype( traits_linear_relation<
                 Y_Traits,
                 X_Traits,
                 T
