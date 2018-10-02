@@ -10,8 +10,6 @@
 
 namespace JadeMatrix { namespace units
 {
-    struct empty_type {};
-    
     template< typename Unit, typename = void > struct unit_strings;
     
     #define DEFINE_NAME_SYM_STRINGS_FOR_UNIT( \
@@ -86,11 +84,11 @@ namespace JadeMatrix { namespace units
             static const std::string s{
                 "("
                 + unit_strings<
-                    typename Unit::template numer_unit< empty_type >
+                    typename Unit::template numer_unit< void >
                 >::name()
                 + ")/("
                 + unit_strings<
-                    typename Unit::template denom_unit< empty_type >
+                    typename Unit::template denom_unit< void >
                 >::name()
                 + ")"
             };
@@ -101,11 +99,11 @@ namespace JadeMatrix { namespace units
             static const std::string s{
                 "("
                 + unit_strings<
-                    typename Unit::template numer_unit< empty_type >
+                    typename Unit::template numer_unit< void >
                 >::symbol()
                 + ")/("
                 + unit_strings<
-                    typename Unit::template denom_unit< empty_type >
+                    typename Unit::template denom_unit< void >
                 >::symbol()
                 + ")"
             };
@@ -123,11 +121,11 @@ namespace JadeMatrix { namespace units
             static const std::string s{
                 "("
                 + unit_strings<
-                    typename Unit::template first_unit< empty_type >
+                    typename Unit::template first_unit< void >
                 >::name()
                 + ")*("
                 + unit_strings<
-                    typename Unit::template second_unit< empty_type >
+                    typename Unit::template second_unit< void >
                 >::name()
                 + ")"
             };
@@ -138,11 +136,11 @@ namespace JadeMatrix { namespace units
             static const std::string s{
                 "("
                 + unit_strings<
-                    typename Unit::template first_unit< empty_type >
+                    typename Unit::template first_unit< void >
                 >::symbol()
                 + ")*("
                 + unit_strings<
-                    typename Unit::template second_unit< empty_type >
+                    typename Unit::template second_unit< void >
                 >::symbol()
                 + ")"
             };
