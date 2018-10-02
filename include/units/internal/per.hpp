@@ -12,13 +12,18 @@ namespace JadeMatrix { namespace units // Unit divided by another //////////////
     template<
         template< typename > class Numer_Unit,
         template< typename > class Denom_Unit,
-        typename T
+        typename T = void
     > class per
     {
     public:
         template< typename O > using numer_unit = Numer_Unit< O >;
         template< typename O > using denom_unit = Denom_Unit< O >;
         using value_type = T;
+        template< typename O > using unit_type = per<
+            Numer_Unit,
+            Denom_Unit,
+            O
+        >;
         
     protected:
         value_type _value;
@@ -51,6 +56,24 @@ namespace JadeMatrix { namespace units // Unit divided by another //////////////
         {
             return static_cast< O >( _value );
         }
+    
+    template<
+        template< typename > class Numer_Unit,
+        template< typename > class Denom_Unit
+    > class per< Numer_Unit, Denom_Unit, void >
+    {
+    public:
+        template< typename O > using numer_unit = Numer_Unit< O >;
+        template< typename O > using denom_unit = Denom_Unit< O >;
+        using value_type = void;
+        template< typename O > using unit_type = per<
+            Numer_Unit,
+            Denom_Unit,
+            O
+        >;
+        
+        per() = delete;
+        ~per() = delete;
     };
 } }
 

@@ -14,14 +14,18 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
     template<
         typename Traits,
         typename Scale,
-        typename T
+        typename T = void
     > class unit
     {
     public:
         using traits_type = Traits;
         using  scale_type = Scale;
         using  value_type = T;
-        template< typename O > using unit_type = unit< traits_type, scale_type, O >;
+        template< typename O > using unit_type = unit<
+            traits_type,
+            scale_type,
+            O
+        >;
         
     protected:
         value_type _value;
@@ -66,6 +70,25 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
         {
             return static_cast< O >( _value );
         }
+    };
+    
+    template<
+        typename Traits,
+        typename Scale
+    > class unit< Traits, Scale, void >
+    {
+    public:
+        using traits_type = Traits;
+        using  scale_type = Scale;
+        using value_type = void;
+        template< typename O > using unit_type = unit<
+            traits_type,
+            scale_type,
+            O
+        >;
+        
+        unit() = delete;
+        ~unit() = delete;
     };
 } }
 

@@ -12,13 +12,18 @@ namespace JadeMatrix { namespace units // Unit multiplied by another ///////////
     template<
         template< typename > class First_Unit,
         template< typename > class Second_Unit,
-        typename T
+        typename T = void
     > class by
     {
     public:
         template< typename O > using  first_unit =  First_Unit< O >;
         template< typename O > using second_unit = Second_Unit< O >;
         using value_type = T;
+        template< typename O > using unit_type = by<
+            First_Unit,
+            Second_Unit,
+            O
+        >;
         
     protected:
         value_type _value;
@@ -50,6 +55,25 @@ namespace JadeMatrix { namespace units // Unit multiplied by another ///////////
         {
             return static_cast< O >( _value );
         }
+    };
+    
+    template<
+        template< typename > class First_Unit,
+        template< typename > class Second_Unit
+    > class by< First_Unit, Second_Unit, void >
+    {
+    public:
+        template< typename O > using  first_unit =  First_Unit< O >;
+        template< typename O > using second_unit = Second_Unit< O >;
+        using value_type = void;
+        template< typename O > using unit_type = by<
+            First_Unit,
+            Second_Unit,
+            O
+        >;
+        
+        by() = delete;
+        ~by() = delete;
     };
     
     // TODO: power<Unit,Exponent,T?>, squared, cubed

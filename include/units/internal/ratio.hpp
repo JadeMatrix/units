@@ -9,10 +9,11 @@
 
 namespace JadeMatrix { namespace units // Dimensionless values /////////////////
 {
-    template< typename T > class ratio
+    template< typename T = void > class ratio
     {
     public:
         using value_type = T;
+        template< typename O > using unit_type = ratio< O >;
         
     protected:
         value_type _value;
@@ -40,6 +41,16 @@ namespace JadeMatrix { namespace units // Dimensionless values /////////////////
         {
             return static_cast< O >( _value );
         }
+    };
+    
+    template<> class ratio< void >
+    {
+    public:
+        using value_type = void;
+        template< typename O > using unit_type = ratio< O >;
+        
+        ratio() = delete;
+        ~ratio() = delete;
     };
 } }
 
