@@ -35,8 +35,7 @@ namespace JadeMatrix { namespace units // Unit divided by another //////////////
             template< typename > class Other_Numer_Unit,
             template< typename > class Other_Denom_Unit,
             typename O
-        >
-        constexpr per( const per<
+        > constexpr per( const per<
             Other_Numer_Unit,
             Other_Denom_Unit,
             O
@@ -67,8 +66,8 @@ namespace JadeMatrix { namespace units // Unit divided by another //////////////
         template< typename O > using denom_unit = Denom_Unit< O >;
         using value_type = void;
         template< typename O > using unit_type = per<
-            Numer_Unit,
-            Denom_Unit,
+            numer_unit,
+            denom_unit,
             O
         >;
         

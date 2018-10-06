@@ -80,7 +80,7 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
     public:
         using traits_type = Traits;
         using  scale_type = Scale;
-        using value_type = void;
+        using  value_type = void;
         template< typename O > using unit_type = unit<
             traits_type,
             scale_type,

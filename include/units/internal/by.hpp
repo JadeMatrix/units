@@ -35,8 +35,7 @@ namespace JadeMatrix { namespace units // Unit multiplied by another ///////////
             template< typename > class Other_First_Unit,
             template< typename > class Other_Second_Unit,
             typename O
-        >
-        constexpr by( const by<
+        > constexpr by( const by<
             Other_First_Unit,
             Other_Second_Unit,
             O
@@ -67,8 +66,8 @@ namespace JadeMatrix { namespace units // Unit multiplied by another ///////////
         template< typename O > using second_unit = Second_Unit< O >;
         using value_type = void;
         template< typename O > using unit_type = by<
-            First_Unit,
-            Second_Unit,
+            first_unit,
+            second_unit,
             O
         >;
         
