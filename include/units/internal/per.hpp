@@ -12,7 +12,7 @@ namespace JadeMatrix { namespace units // Unit divided by another //////////////
     template<
         template< typename > class Numer_Unit,
         template< typename > class Denom_Unit,
-        typename T = void
+        typename T
     > class per
     {
     public:

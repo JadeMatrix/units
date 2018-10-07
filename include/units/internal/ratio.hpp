@@ -9,7 +9,7 @@
 
 namespace JadeMatrix { namespace units // Dimensionless values /////////////////
 {
-    template< typename T = void > class ratio
+    template< typename T > class ratio
     {
     public:
         using value_type = T;

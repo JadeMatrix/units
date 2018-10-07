@@ -14,7 +14,7 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
     template<
         typename Traits,
         typename Scale,
-        typename T = void
+        typename T
     > class unit
     {
     public:

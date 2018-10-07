@@ -12,7 +12,7 @@ namespace JadeMatrix { namespace units // Unit multiplied by another ///////////
     template<
         template< typename > class First_Unit,
         template< typename > class Second_Unit,
-        typename T = void
+        typename T
     > class by
     {
     public:
