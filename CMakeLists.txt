@@ -48,3 +48,7 @@ INSTALL(
 )
 
 EXPORT( EXPORT "JadeMatrix-units-config" FILE "JadeMatrix-units-config.cmake" )
+
+
+ENABLE_TESTING()
+ADD_SUBDIRECTORY( "tests/" )
