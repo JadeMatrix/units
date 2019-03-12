@@ -7,7 +7,7 @@
 #include <type_traits>
 
 
-namespace JadeMatrix { namespace units
+namespace JadeMatrix { namespace units // Unit conversions /////////////////////
 {
     template< typename... T > using void_t = void;
     
