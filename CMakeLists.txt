@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED( VERSION 3.11 )
 
 PROJECT(
-    units
+    JadeMatrix-units
     VERSION 0.2
     LANGUAGES CXX
 )
@@ -21,7 +21,7 @@ TARGET_INCLUDE_DIRECTORIES(
 
 INSTALL(
     TARGETS units
-    EXPORT "jmunits-config"
+    EXPORT "JadeMatrix-units-config"
     RUNTIME DESTINATION "bin/"
     LIBRARY DESTINATION "lib/"
     ARCHIVE DESTINATION "lib/static/"
@@ -33,18 +33,18 @@ INSTALL(
 
 INCLUDE( CMakePackageConfigHelpers )
 WRITE_BASIC_PACKAGE_VERSION_FILE(
-    "${PROJECT_BINARY_DIR}/jmunits-config-version.cmake"
+    "${PROJECT_BINARY_DIR}/JadeMatrix-units-config-version.cmake"
     COMPATIBILITY SameMinorVersion
 )
 INSTALL(
-    FILES "${PROJECT_BINARY_DIR}/jmunits-config-version.cmake"
-    DESTINATION "lib/cmake/jmunits/"
+    FILES "${PROJECT_BINARY_DIR}/JadeMatrix-units-config-version.cmake"
+    DESTINATION "lib/cmake/JadeMatrix-units/"
 )
 
 INSTALL(
-    EXPORT "jmunits-config"
+    EXPORT "JadeMatrix-units-config"
     NAMESPACE "JadeMatrix::units::"
-    DESTINATION "lib/cmake/jmunits/"
+    DESTINATION "lib/cmake/JadeMatrix-units/"
 )
 
-EXPORT( EXPORT "jmunits-config" FILE "jmunits-config.cmake" )
+EXPORT( EXPORT "JadeMatrix-units-config" FILE "JadeMatrix-units-config.cmake" )
