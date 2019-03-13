@@ -11,7 +11,7 @@ While primarily header-only, `units` uses modern [CMake](https://cmake.org/) (3.
 git clone https://github.com/JadeMatrix/units.git $SOURCE_DIRECTORY
 cd $BUILD_DIRECTORY
 cmake -D CMAKE_INSTALL_PREFIX=$INSTALL_DIRECTORY $SOURCE_DIRECTORY
-make test install
+make all test install
 ```
 
 … where `$SOURCE_DIRECTORY`, `$BUILD_DIRECTORY`, and `$INSTALL_DIRECTORY` are the places where `units` is cloned, built, and installed to, respectively.  While these can all be the same location, this is not recommended as build and install outputs may interfere with (overwrite) the cloned source code.
