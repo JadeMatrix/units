@@ -16,7 +16,7 @@ make all test install
 
 … where `$SOURCE_DIRECTORY`, `$BUILD_DIRECTORY`, and `$INSTALL_DIRECTORY` are the places where `units` is cloned, built, and installed to, respectively.  While these can all be the same location, this is not recommended as build and install outputs may interfere with (overwrite) the cloned source code.
 
-Then, to use `units` in your own CMake project, add the `lib/cmake/units` under your `units` install location to your project's [`CMAKE_PREFIX_PATH`](https://cmake.org/cmake/help/latest/variable/CMAKE_PREFIX_PATH.html) variable.  Then, in your project's `CMakeLists.txt`:
+Then, to use `units` in your own CMake project, add the `lib/cmake` under your `units` install location to your project's [`CMAKE_PREFIX_PATH`](https://cmake.org/cmake/help/latest/variable/CMAKE_PREFIX_PATH.html) variable.  Then, in your project's `CMakeLists.txt`:
 
 ```cmake
 FIND_PACKAGE( JadeMatrix::units 0.2 REQUIRED COMPONENTS units )
