@@ -5,7 +5,11 @@ STRING( REPLACE ";" "@" README_CONTENTS "${README_CONTENTS}" )
 
 # CMake regexes supporting lookbehind/lookahead would make this section much
 # simpler
-STRING( REGEX MATCHALL "```cpp[^`]+```" README_SOURCES_RAW "${README_CONTENTS}" )
+STRING(
+    REGEX MATCHALL "```cpp[^`]+```"
+    README_SOURCES_RAW
+    "${README_CONTENTS}"
+)
 
 # Split out C++ code sections
 SET( README_SOURCES )
