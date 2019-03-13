@@ -24,8 +24,8 @@ namespace JadeMatrix { namespace units // Stream formatting operators //////////
     }
     
     template<
-        template< typename > typename Numer_Unit,
-        template< typename > typename Denom_Unit,
+        template< typename > class Numer_Unit,
+        template< typename > class Denom_Unit,
         typename T
     >
     std::ostream& operator<<(
@@ -40,8 +40,8 @@ namespace JadeMatrix { namespace units // Stream formatting operators //////////
     }
     
     template<
-        template< typename > typename First_Unit,
-        template< typename > typename Second_Unit,
+        template< typename > class First_Unit,
+        template< typename > class Second_Unit,
         typename T
     >
     std::ostream& operator<<(
