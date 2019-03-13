@@ -1,7 +1,20 @@
 ADD_SUBDIRECTORY( "test_utils/" )
 
 
-INCLUDE( "GenerateReadmeTest.cmake" )
+# Add command to generate the source for the readme code test
+ADD_CUSTOM_COMMAND(
+    OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/readme_tests.cpp"
+    COMMAND "${CMAKE_COMMAND}"
+    ARGS
+        -D "PROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\""
+        -D "SOURCE_DIR=\"${CMAKE_CURRENT_SOURCE_DIR}\""
+        -D "BINARY_DIR=\"${CMAKE_CURRENT_BINARY_DIR}\""
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/GenerateReadmeTest.cmake"
+    MAIN_DEPENDENCY "GenerateReadmeTest.cmake"
+    DEPENDS
+        "${PROJECT_SOURCE_DIR}/README.md"
+        "unit_tests/readme_tests.cpp.in"
+)
 
 
 SET( TEST_NAMES
@@ -28,6 +41,7 @@ FOREACH( TEST_NAME ${TEST_NAMES} )
             PRIVATE "unit_tests/${EXECUTABLE_NAME}.cpp"
         )
     ELSE()
+        # Add target built from generated source file
         TARGET_SOURCES(
             "${EXECUTABLE_NAME}"
             PRIVATE
