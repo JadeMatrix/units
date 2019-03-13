@@ -1,0 +1,8 @@
+#include <main.hpp>
+
+@JOINED_SOURCES@
+
+bool test()
+{
+    return true;
+}

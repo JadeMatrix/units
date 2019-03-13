@@ -1,8 +1,12 @@
 ADD_SUBDIRECTORY( "test_utils/" )
 
 
+INCLUDE( "GenerateReadmeTest.cmake" )
+
+
 SET( TEST_NAMES
     "Unit_Tests"
+    "Readme_Tests"
 )
 
 
@@ -13,14 +17,24 @@ FOREACH( TEST_NAME ${TEST_NAMES} )
     ADD_EXECUTABLE( "${EXECUTABLE_NAME}" )
     
     ADD_TEST(
-        NAME "UnitTests"
+        NAME "${TEST_NAME}"
         COMMAND "${EXECUTABLE_NAME}"
     )
     
-    TARGET_SOURCES(
-        "${EXECUTABLE_NAME}"
-        PRIVATE "unit_tests/${EXECUTABLE_NAME}.cpp"
-    )
+    # Command IF( EXISTS ... ) "... is well-defined only for full paths"
+    IF( EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/${EXECUTABLE_NAME}.cpp" )
+        TARGET_SOURCES(
+            "${EXECUTABLE_NAME}"
+            PRIVATE "unit_tests/${EXECUTABLE_NAME}.cpp"
+        )
+    ELSE()
+        TARGET_SOURCES(
+            "${EXECUTABLE_NAME}"
+            PRIVATE
+                "${CMAKE_CURRENT_BINARY_DIR}/${EXECUTABLE_NAME}.cpp"
+        )
+    ENDIF()
+    
     TARGET_LINK_LIBRARIES( "${EXECUTABLE_NAME}" PRIVATE test_utils )
 ENDFOREACH()
 
