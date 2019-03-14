@@ -25,10 +25,12 @@ INSTALL(
     RUNTIME DESTINATION "bin/"
     LIBRARY DESTINATION "lib/"
     ARCHIVE DESTINATION "lib/static/"
+    COMPONENT core
 )
 INSTALL(
     DIRECTORY "include/"
     DESTINATION "include/"
+    COMPONENT core
 )
 
 INCLUDE( CMakePackageConfigHelpers )
@@ -39,12 +41,14 @@ WRITE_BASIC_PACKAGE_VERSION_FILE(
 INSTALL(
     FILES "${PROJECT_BINARY_DIR}/JadeMatrix-units-config-version.cmake"
     DESTINATION "lib/cmake/JadeMatrix-units/"
+    COMPONENT cmake
 )
 
 INSTALL(
     EXPORT "JadeMatrix-units-config"
     NAMESPACE "JadeMatrix::units::"
     DESTINATION "lib/cmake/JadeMatrix-units/"
+    COMPONENT cmake
 )
 
 EXPORT( EXPORT "JadeMatrix-units-config" FILE "JadeMatrix-units-config.cmake" )
