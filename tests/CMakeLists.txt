@@ -30,7 +30,7 @@ FOREACH( TEST_NAME ${TEST_NAMES} )
     ADD_EXECUTABLE( "${EXECUTABLE_NAME}" )
     
     ADD_TEST(
-        NAME "${TEST_NAME}"
+        NAME "${DISPLAY_NAME}"
         COMMAND "${EXECUTABLE_NAME}"
     )
     
