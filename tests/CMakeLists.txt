@@ -46,8 +46,7 @@ FOREACH( TEST_NAME ${TEST_NAMES} )
         # Add target built from generated source file
         TARGET_SOURCES(
             "${EXECUTABLE_NAME}"
-            PRIVATE
-                "${CMAKE_CURRENT_BINARY_DIR}/${EXECUTABLE_NAME}.cpp"
+            PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/${EXECUTABLE_NAME}.cpp"
         )
     ENDIF()
     
