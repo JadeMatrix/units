@@ -1,6 +1,6 @@
 #pragma once
-#ifndef JM_INTERNAL_UNITS_UNIT_HPP
-#define JM_INTERNAL_UNITS_UNIT_HPP
+#ifndef JM_UNITS_INTERNAL_UNIT_HPP
+#define JM_UNITS_INTERNAL_UNIT_HPP
 
 
 #include "core_types.hpp"
