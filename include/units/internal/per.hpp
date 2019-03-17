@@ -55,6 +55,7 @@ namespace JadeMatrix { namespace units // Unit divided by another //////////////
         {
             return static_cast< O >( _value );
         }
+    };
     
     template<
         template< typename > class Numer_Unit,
