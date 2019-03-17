@@ -3,62 +3,42 @@
 #define JM_UNITS_SCALES_HPP
 
 
-#include <string>
+#include <ratio>
 
 
 namespace JadeMatrix { namespace units
 {
-    #define DEFINE_SCALE_SPECIALIZATION( \
-        NAME, \
-        PREFIX, \
-        SYM_PREFIX, \
-        SYM_SUFFIX, \
-        FACTOR, \
-        OPERAND, \
-        ANTIOPERAND \
-    ) \
-    struct NAME##_scale \
-    { \
-        template< typename T > \
-        static constexpr T magnitude() { return static_cast< T >( FACTOR ); } \
-         \
-        template< typename T > static constexpr auto scale( const T& v ) \
-            -> decltype( v OPERAND magnitude< T >() ) \
-        { \
-            return v OPERAND magnitude< T >(); \
-        } \
-        template< typename T > static constexpr auto unscale( const T& v ) \
-            -> decltype( v ANTIOPERAND magnitude< T >() ) \
-        { \
-            return v ANTIOPERAND magnitude< T >(); \
-        } \
-    };
+    using  unit_scale = std::ratio<  1, 1 >;
+    using dozen_scale = std::ratio< 12, 1 >;
+    using    bi_scale = std::ratio<  2, 1 >;
+    using  semi_scale = std::ratio<  1, 2 >;
     
-    DEFINE_SCALE_SPECIALIZATION( exa  , "exa"   , "E"   , ""  , 1000000000000000000, /, * )
-    DEFINE_SCALE_SPECIALIZATION( peta , "peta"  , "P"   , ""  , 1000000000000000   , /, * )
-    DEFINE_SCALE_SPECIALIZATION( tera , "tera"  , "T"   , ""  , 1000000000000      , /, * )
-    DEFINE_SCALE_SPECIALIZATION( giga , "giga"  , "G"   , ""  , 1000000000         , /, * )
-    DEFINE_SCALE_SPECIALIZATION( mega , "mega"  , "M"   , ""  , 1000000            , /, * )
-    DEFINE_SCALE_SPECIALIZATION( kilo , "kilo"  , "k"   , ""  , 1000               , /, * )
-    DEFINE_SCALE_SPECIALIZATION( hecto, "hecto" , "h"   , ""  , 100                , /, * )
-    DEFINE_SCALE_SPECIALIZATION( deca , "deca"  , "da"  , ""  , 10                 , /, * )
+    using   exa_scale = std::  exa;
+    using  peta_scale = std:: peta;
+    using  tera_scale = std:: tera;
+    using  giga_scale = std:: giga;
+    using  mega_scale = std:: mega;
+    using  kilo_scale = std:: kilo;
+    using hecto_scale = std::hecto;
+    using  deca_scale = std:: deca;
     
-    DEFINE_SCALE_SPECIALIZATION( unit , ""      , ""    , ""  , 1                  , *, / )
+    using  deci_scale = std:: deci;
+    using centi_scale = std::centi;
+    using milli_scale = std::milli;
+    using micro_scale = std::micro;
+    using  nano_scale = std:: nano;
+    using  pico_scale = std:: pico;
+    using femto_scale = std::femto;
+    using  atto_scale = std:: atto;
     
-    DEFINE_SCALE_SPECIALIZATION( deci , "deci"  , "d"   , ""  , 10                 , *, / )
-    DEFINE_SCALE_SPECIALIZATION( centi, "centi" , "c"   , ""  , 100                , *, / )
-    DEFINE_SCALE_SPECIALIZATION( milli, "milli" , "m"   , ""  , 1000               , *, / )
-    DEFINE_SCALE_SPECIALIZATION( micro, "micro" , "μ"   , ""  , 1000000            , *, / )
-    DEFINE_SCALE_SPECIALIZATION( nano , "nano"  , "n"   , ""  , 1000000000         , *, / )
-    DEFINE_SCALE_SPECIALIZATION( pico , "pico"  , "p"   , ""  , 1000000000000      , *, / )
-    DEFINE_SCALE_SPECIALIZATION( femto, "femto" , "f"   , ""  , 1000000000000000   , *, / )
-    DEFINE_SCALE_SPECIALIZATION( atto , "atto"  , "a"   , ""  , 1000000000000000000, *, / )
-    
-    DEFINE_SCALE_SPECIALIZATION( dozen, "dozen ", "dz." , ""  , 12                 , /, * )
-    DEFINE_SCALE_SPECIALIZATION(    bi, "bi"    , ""    , "/2",  2                 , /, * )
-    DEFINE_SCALE_SPECIALIZATION(  semi, "semi"  , ""    , "*2",  2                 , *, / )
-    
-    #undef DEFINE_SCALE_SPECIALIZATION
+    #if INTMAX_MAX / 1000000000000000000 >= 1000
+    using zepto_scale = std::zepto;
+    using zetta_scale = std::zetta;
+    #if INTMAX_MAX / 1000000000000000000 >= 1000000
+    using yocto_scale = std::yocto;
+    using yotta_scale = std::yotta;
+    #endif
+    #endif
 } }
 
 

@@ -6,6 +6,7 @@
 #include "core_types.hpp"
 #include "traits_utils.hpp"
 
+#include <ratio>
 #include <type_traits>
 
 
@@ -19,7 +20,7 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
     {
     public:
         using traits_type = Traits;
-        using  scale_type = Scale;
+        using  scale_type = typename Scale::type;
         using  value_type = T;
         template< typename O > using unit_type = unit<
             traits_type,
@@ -38,10 +39,11 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
             const unit< Other_Traits, Other_Scale, O >& o
         )
         {
-            using convert = traits_convert< traits_type, O >;
+            using convert = traits_convert< traits_type, T >;
+            using scale   = std::ratio_divide< scale_type, Other_Scale >;
             return convert::template from< Other_Traits >(
-                static_cast< O >( o )
-            ) * scale_type::scale( Other_Scale::unscale( 1 ) );
+                static_cast< O >( o ) * scale::den
+            ) / scale::num;
         }
         
     public:
@@ -79,7 +81,7 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
     {
     public:
         using traits_type = Traits;
-        using  scale_type = Scale;
+        using  scale_type = typename Scale::type;
         using  value_type = void;
         template< typename O > using unit_type = unit<
             traits_type,
