@@ -46,10 +46,8 @@ namespace JadeMatrix { namespace units
         T
     >
     {
-        static constexpr T slope = (
-            constants< T >::circle_degrees
-            / ( 2 * constants< T >::pi )
-        );
+        static constexpr T slope_num = constants< T >::circle_degrees / 2;
+        static constexpr T slope_den = constants< T >::pi;
         static constexpr T intercept = 0;
     };
     template< typename T > struct traits_linear_relation<
@@ -58,7 +56,8 @@ namespace JadeMatrix { namespace units
         T
     >
     {
-        static constexpr T slope = 1 / constants< T >::hour_minutes;
+        static constexpr T slope_num = 1;
+        static constexpr T slope_den = constants< T >::hour_minutes;
         static constexpr T intercept = 0;
     };
     template< typename T > struct traits_linear_relation<
@@ -67,15 +66,10 @@ namespace JadeMatrix { namespace units
         T
     >
     {
-        static constexpr T slope = traits_linear_relation<
-            degree_traits,
-            radian_traits,
-            T
-        >::slope / traits_linear_relation<
-            degree_traits,
-            arcminute_traits,
-            T
-        >::slope;
+        static constexpr T slope_num = (
+            constants< T >::circle_degrees * constants< T >::hour_minutes
+        );
+        static constexpr T slope_den =  constants< T >::pi * 2 ;
         static constexpr T intercept = 0;
     };
 } }

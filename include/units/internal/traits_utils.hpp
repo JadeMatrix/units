@@ -38,7 +38,12 @@ namespace JadeMatrix { namespace units // Unit conversions /////////////////////
                 Y_Traits,
                 X_Traits,
                 T
-            >::slope ),
+            >::slope_num ),
+            decltype( traits_linear_relation<
+                Y_Traits,
+                X_Traits,
+                T
+            >::slope_den ),
             decltype( traits_linear_relation<
                 Y_Traits,
                 X_Traits,
@@ -75,7 +80,8 @@ namespace JadeMatrix { namespace units // Unit conversions /////////////////////
             using relation = traits_linear_relation< Traits, Other_Traits, O >;
             return (
                 static_cast< O >( o )
-                * relation::slope
+                * relation::slope_num
+                / relation::slope_den
                 + relation::intercept
             );
         }
@@ -94,7 +100,7 @@ namespace JadeMatrix { namespace units // Unit conversions /////////////////////
             return ( (
                 static_cast< O >( o )
                 - relation::intercept
-            ) / relation::slope );
+            ) * relation::slope_den / relation::slope_num );
         }
     };
     

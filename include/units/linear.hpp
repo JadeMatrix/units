@@ -45,7 +45,8 @@ namespace JadeMatrix { namespace units
         T
     >
     {
-        static constexpr T slope = constants< T >::meter_cms / (
+        static constexpr T slope_num = constants< T >::meter_cms;
+        static constexpr T slope_den = (
               constants< T >::inch_cms
             * constants< T >::foot_inches
             * constants< T >::yard_feet
@@ -58,7 +59,8 @@ namespace JadeMatrix { namespace units
         T
     >
     {
-        static constexpr T slope = constants< T >::meter_cms / (
+        static constexpr T slope_num = constants< T >::meter_cms;
+        static constexpr T slope_den = (
               constants< T >::inch_cms
             * constants< T >::foot_inches
         );
@@ -70,10 +72,8 @@ namespace JadeMatrix { namespace units
         T
     >
     {
-        static constexpr T slope = (
-              constants< T >::meter_cms
-            / constants< T >::inch_cms
-        );
+        static constexpr T slope_num = constants< T >::meter_cms;
+        static constexpr T slope_den = constants< T >::inch_cms;
         static constexpr T intercept = 0;
     };
     template< typename T > struct traits_linear_relation<
@@ -82,10 +82,11 @@ namespace JadeMatrix { namespace units
         T
     >
     {
-        static constexpr T slope = (
+        static constexpr T slope_num = (
               constants< T >::foot_inches
             * constants< T >::yard_feet
         );
+        static constexpr T slope_den = 1;
         static constexpr T intercept = 0;
     };
     template< typename T > struct traits_linear_relation<
@@ -94,7 +95,8 @@ namespace JadeMatrix { namespace units
         T
     >
     {
-        static constexpr T slope = constants< T >::foot_inches;
+        static constexpr T slope_num = constants< T >::foot_inches;
+        static constexpr T slope_den = 1;
         static constexpr T intercept = 0;
     };
     template< typename T > struct traits_linear_relation<
@@ -103,7 +105,8 @@ namespace JadeMatrix { namespace units
         T
     >
     {
-        static constexpr T slope = constants< T >::yard_feet;
+        static constexpr T slope_num = constants< T >::yard_feet;
+        static constexpr T slope_den = 1;
         static constexpr T intercept = 0;
     };
 } }
