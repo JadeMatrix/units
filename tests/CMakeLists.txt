@@ -21,6 +21,7 @@ SET( TEST_NAMES
     "Readme_Tests"
     "Linear_Metric"
     "Linear_Imperial"
+    "Angular"
 )
 
 
