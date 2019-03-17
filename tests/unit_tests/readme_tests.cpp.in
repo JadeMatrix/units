@@ -2,7 +2,4 @@
 
 @JOINED_SOURCES@
 
-bool test()
-{
-    return true;
-}
+void test() {}
