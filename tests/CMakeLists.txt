@@ -18,8 +18,9 @@ ADD_CUSTOM_COMMAND(
 
 
 SET( TEST_NAMES
-    "Unit_Tests"
     "Readme_Tests"
+    "Inches_To_Centimeters"
+    "Centimeters_To_Inches"
 )
 
 
