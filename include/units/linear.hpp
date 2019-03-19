@@ -30,7 +30,15 @@ namespace JadeMatrix { namespace units
 
 namespace JadeMatrix { namespace units
 {
+    struct yard_traits
+    {
+        template< typename T, typename In > static T from( const In& );
+    };
     struct foot_traits
+    {
+        template< typename T, typename In > static T from( const In& );
+    };
+    struct inch_traits
     {
         template< typename T, typename In > static T from( const In& );
     };
