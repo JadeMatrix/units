@@ -21,7 +21,7 @@ namespace JadeMatrix { namespace units
         SCALE_SYM_PREFIX_STR, \
         SCALE_SYM_SUFFIX_STR \
     ) \
-    template< typename Unit > struct unit_strings< \
+    template< typename Unit > struct ::JadeMatrix::units::unit_strings< \
         Unit, \
         typename std::enable_if< std::is_same< \
             Unit, \
