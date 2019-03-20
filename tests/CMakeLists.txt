@@ -22,6 +22,7 @@ SET( TEST_NAMES
     "Linear_Metric"
     "Linear_Imperial"
     "Angular"
+    "Temporal"
 )
 
 
