@@ -11,10 +11,10 @@
 
 namespace JadeMatrix { namespace units
 {
-    struct  yard_traits;
-    struct  foot_traits;
-    struct  inch_traits;
-    struct meter_traits;
+    struct  yard_traits {};
+    struct  foot_traits {};
+    struct  inch_traits {};
+    struct meter_traits {};
     
     DEFINE_ALL_PREFIXES_FOR_UNIT(  yards,  yard_traits )
     DEFINE_ALL_PREFIXES_FOR_UNIT(   feet,  foot_traits )
@@ -30,23 +30,6 @@ namespace JadeMatrix { namespace units
 
 namespace JadeMatrix { namespace units
 {
-    struct yard_traits
-    {
-        template< typename T, typename In > static T from( const In& );
-    };
-    struct foot_traits
-    {
-        template< typename T, typename In > static T from( const In& );
-    };
-    struct inch_traits
-    {
-        template< typename T, typename In > static T from( const In& );
-    };
-    struct meter_traits
-    {
-        template< typename T, typename In > static T from( const In& );
-    };
-    
     template< typename T > struct traits_linear_relation<
         yard_traits,
         meter_traits,

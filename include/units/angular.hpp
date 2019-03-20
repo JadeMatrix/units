@@ -11,9 +11,9 @@
 
 namespace JadeMatrix { namespace units // Declarations /////////////////////////
 {
-    struct    degree_traits;
-    struct    radian_traits;
-    struct arcminute_traits;
+    struct    degree_traits {};
+    struct    radian_traits {};
+    struct arcminute_traits {};
     
     DEFINE_ALL_PREFIXES_FOR_UNIT(    degrees,    degree_traits )
     DEFINE_ALL_PREFIXES_FOR_UNIT(    radians,    radian_traits )
@@ -27,19 +27,6 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
 
 namespace JadeMatrix { namespace units
 {
-    struct degree_traits
-    {
-        template< typename T, typename In > static T from( const In& );
-    };
-    struct radian_traits
-    {
-        template< typename T, typename In > static T from( const In& );
-    };
-    struct arcminute_traits
-    {
-        template< typename T, typename In > static T from( const In& );
-    };
-    
     template< typename T > struct traits_linear_relation<
         degree_traits,
         radian_traits,

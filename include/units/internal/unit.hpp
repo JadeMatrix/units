@@ -56,14 +56,6 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
         > constexpr unit( const unit< Other_Traits, Other_Scale, O >& o ) :
             _value{ from( o ) }
         {}
-        // Allow custom conversions if specialization available in unit traits
-        template< typename O > constexpr unit(
-            const typename std::enable_if< (
-                !is_unit< O >::value
-                && !std::is_arithmetic< O >::value
-            ), O
-        >::value& v ) : _value{ traits_type::from( v ) }
-        {}
         
         template<
             typename O = value_type,
