@@ -1,6 +1,6 @@
 # Units for C++11
 
-This project aims to provide a type-safe, efficient, and easy-to-use C++11 library for representing real-world units.  It is essentially a more abstract version of `std::duration<>` available in the [C++ `<chrono>` header](https://en.cppreference.com/w/cpp/chrono).
+This project aims to provide a type-safe, efficient, and easy-to-use C++11 library for representing real-world units.  It is similar to a more abstract version of `std::duration<>` available in the [C++ `<chrono>` header](https://en.cppreference.com/w/cpp/chrono).
 
 
 ## Installation & Integration
@@ -67,3 +67,60 @@ void print_kiloyards_in_feet( units::kiloyards< int > kyd )
     ;
 }
 ```
+
+## Available Types
+
+* Angular — `units/angular.hpp`
+    * `radians`
+    * `degrees`
+    * `arcminutes`
+* Linear — `units/linear.hpp`
+    * `yards`
+    * `feet`
+    * `inches`
+    * `meters`
+* Temporal — `units/temporal.hpp` — these are also implicitly convertible to & from [`std::chrono::duration<>`s](https://en.cppreference.com/w/cpp/chrono/duration)
+    * `seconds`
+    * `minutes`
+    * `hours`
+
+All unit types have versions for all the [SI prefixes](https://en.wikipedia.org/wiki/Metric_prefix) from `atto` to `exa`, `zepto`/`zetta` and `yocto`/`yotta` [if the platform `std::intmax_t` can represent them](https://en.cppreference.com/w/cpp/numeric/ratio/ratio), as well as `dozen_`, `bi`, and `semi`.
+
+## Creating Custom Units
+
+Creating custom units is generally very simple, consisting of a traits/tag type, two macros to define prefixed `unit` aliases and strings, and a number of relationships representing unit conversions.  For example, the units `inches` and `feet` are defined basically as:
+
+```cpp
+#include <units/units.hpp>
+#include <units/scales.hpp>
+#include <units/strings.hpp>
+
+struct inch_traits {};
+struct foot_traits {};
+
+DEFINE_ALL_PREFIXES_FOR_UNIT( inches, inch_traits )
+DEFINE_ALL_PREFIXES_FOR_UNIT(   feet, foot_traits )
+
+DEFINE_ALL_STRINGS_FOR_UNIT( inches, "inches", "in" )
+DEFINE_ALL_STRINGS_FOR_UNIT(   feet,   "feet", "ft" )
+
+template< typename T >
+struct ::JadeMatrix::units::traits_linear_relation<
+    inch_traits,
+    foot_traits,
+    T
+>
+{
+    static constexpr T slope_num = constants< T >::foot_inches;
+    static constexpr T slope_den = static_cast< T >( 1 );
+    static constexpr T intercept = static_cast< T >( 0 );
+};
+```
+
+In this case a partial specialization of `traits_linear_relation< A, B, T >` represents how much of type A there is in type B — that is,
+
+```
+A = B * slope_num / slope_den + intercept
+```
+
+Note that only one relationship partial overload is necessary; the library will swap the numerator and denominator as needed depending on the direction of the conversion.
