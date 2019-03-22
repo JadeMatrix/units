@@ -80,6 +80,8 @@ void print_kiloyards_in_feet( units::kiloyards< int > kyd )
     * `yards`
     * `miles`
     * `meters`
+    * `fathoms`
+    * `nautical_miles` (Note: prefixed versions follow the pattern `kilo_nautical_miles`, `dozen_nautical_miles`, etc.)
 * Temporal — `units/temporal.hpp` — these are also implicitly convertible to & from [`std::chrono::duration<>`s](https://en.cppreference.com/w/cpp/chrono/duration)
     * `seconds`
     * `minutes`
