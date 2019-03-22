@@ -19,8 +19,8 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
     DEFINE_ALL_PREFIXES_FOR_UNIT(    radians,    radian_traits )
     DEFINE_ALL_PREFIXES_FOR_UNIT( arcminutes, arcminute_traits )
     
-    DEFINE_ALL_STRINGS_FOR_UNIT( degrees   , "degrees"   , "°"   )
-    DEFINE_ALL_STRINGS_FOR_UNIT( radians   , "radians"   , "r"   )
+    DEFINE_ALL_STRINGS_FOR_UNIT(    degrees,    "degrees",   "°" )
+    DEFINE_ALL_STRINGS_FOR_UNIT(    radians,    "radians",   "r" )
     DEFINE_ALL_STRINGS_FOR_UNIT( arcminutes, "arcminutes", "moa" )
 } }
 
