@@ -75,9 +75,10 @@ void print_kiloyards_in_feet( units::kiloyards< int > kyd )
     * `degrees`
     * `arcminutes`
 * Linear — `units/linear.hpp`
-    * `yards`
-    * `feet`
     * `inches`
+    * `feet`
+    * `yards`
+    * `miles`
     * `meters`
 * Temporal — `units/temporal.hpp` — these are also implicitly convertible to & from [`std::chrono::duration<>`s](https://en.cppreference.com/w/cpp/chrono/duration)
     * `seconds`
