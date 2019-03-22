@@ -26,7 +26,7 @@ There will now be an imported target by the name `JadeMatrix::units::units` whic
 
 ## Usage
 
-`units` follows the `<author>::<library>::` namespacing convention, which is intended to be aliased to simply `units::` in most cases and unambiguous if required.  Currently, a few linear and angular units are provided in their own headers; a full set of standard units are planned by v1.0.
+`units` follows the `<author>::<library>::` namespacing convention, which is intended to be aliased to simply `units::` in most cases but be unambiguous if required.  Currently, a few linear and angular units are provided in their own headers; a full set of standard units are planned by v1.0.
 
 ```cpp
 #include <units/angular.hpp>
