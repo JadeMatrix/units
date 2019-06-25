@@ -45,4 +45,38 @@ void test()
         units::degrees< double > degrees{ arcminutes };
         CHECK( static_cast< double >( degrees ) == 7.0 / 60.0 );
     }
+    
+    {
+        units::arcminutes< double > arcminutes{ 7 };
+        units::arcseconds< double > arcseconds{ arcminutes };
+        CHECK( static_cast< double >( arcseconds ) == 420.0 );
+    }
+    {
+        units::arcseconds< double > arcseconds{ 7 };
+        units::arcminutes< double > arcminutes{ arcseconds };
+        CHECK( static_cast< double >( arcminutes ) == 7.0 / 60.0 );
+    }
+    
+    {
+        units::revolutions< double > revolutions{ 7 };
+        units::degrees< double > degrees{ revolutions };
+        CHECK( static_cast< double >( degrees ) == 2520.0 );
+    }
+    {
+        units::revolutions< double > revolutions{ 7 };
+        units::radians< double > radians{ revolutions };
+        CHECK( static_cast< double >( radians ) == (
+            14.0 * units::constants< double >::pi
+        ) );
+    }
+    {
+        units::revolutions< double > revolutions{ 7 };
+        units::arcminutes< double > arcminutes{ revolutions };
+        CHECK( static_cast< double >( arcminutes ) == 151200.0 );
+    }
+    {
+        units::revolutions< double > revolutions{ 7 };
+        units::arcseconds< double > arcseconds{ revolutions };
+        CHECK( static_cast< double >( arcseconds ) == 9072000.0 );
+    }
 }

@@ -74,6 +74,8 @@ void print_kiloyards_in_feet( units::kiloyards< int > kyd )
     * `radians`
     * `degrees`
     * `arcminutes`
+    * `arcseconds`
+    * `revolutions`
 * Linear — `units/linear.hpp`
     * `inches`
     * `feet`
