@@ -1,5 +1,0 @@
-#include <main.hpp>
-
-@JOINED_SOURCES@
-
-void test() {}

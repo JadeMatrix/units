@@ -1,0 +1,8 @@
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include <doctest/doctest.h>
+
+
+@JOINED_SOURCES@
+
+
+TEST_CASE( "examples" ) {}

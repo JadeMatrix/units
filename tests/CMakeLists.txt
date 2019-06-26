@@ -1,9 +1,13 @@
-ADD_SUBDIRECTORY( "test_utils/" )
+FIND_PACKAGE( doctest 2.3.3 REQUIRED COMPONENTS doctest )
+INCLUDE( doctest )
+
+
+# ADD_SUBDIRECTORY( "testing/" )
 
 
 # Add command to generate the source for the readme code test
 ADD_CUSTOM_COMMAND(
-    OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/readme_tests.cpp"
+    OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/suites/readme_tests.cpp"
     COMMAND "${CMAKE_COMMAND}"
     ARGS
         -D "PROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\""
@@ -13,52 +17,40 @@ ADD_CUSTOM_COMMAND(
     MAIN_DEPENDENCY "GenerateReadmeTest.cmake"
     DEPENDS
         "${PROJECT_SOURCE_DIR}/README.md"
-        "unit_tests/readme_tests.cpp.in"
+        "suites/readme_tests.cpp.in"
 )
 
 
-SET( TEST_NAMES
-    "Readme_Tests"
-    "Linear_Metric"
-    "Linear_Imperial"
-    "Linear_Nautical"
-    "Angular"
-    "Temporal"
+ADD_CUSTOM_TARGET( tests ALL )
+
+FOREACH( SUITE
+    "angular"
+    "custom_unit"
+    "linear_imperial"
+    "linear_metric"
+    "linear_nautical"
+    "readme_tests"
+    "temporal"
 )
-
-
-FOREACH( TEST_NAME ${TEST_NAMES} )
-    STRING( REPLACE "_" "" DISPLAY_NAME "${TEST_NAME}" )
-    STRING( TOLOWER "${TEST_NAME}" EXECUTABLE_NAME )
-    
-    ADD_EXECUTABLE( "${EXECUTABLE_NAME}" )
-    
-    ADD_TEST(
-        NAME "${DISPLAY_NAME}"
-        COMMAND "${EXECUTABLE_NAME}"
-    )
+    ADD_EXECUTABLE( ${SUITE}_tests )
+    # TARGET_SOURCES( ${SUITE}_tests PRIVATE "suites/${SUITE}.cpp" )
     
     # Command IF( EXISTS ... ) "... is well-defined only for full paths"
-    IF( EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/${EXECUTABLE_NAME}.cpp" )
+    IF( EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/suites/${SUITE}.cpp" )
         TARGET_SOURCES(
-            "${EXECUTABLE_NAME}"
-            PRIVATE "unit_tests/${EXECUTABLE_NAME}.cpp"
+            ${SUITE}_tests
+            PRIVATE "suites/${SUITE}.cpp"
         )
     ELSE()
         # Add target built from generated source file
         TARGET_SOURCES(
-            "${EXECUTABLE_NAME}"
-            PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/${EXECUTABLE_NAME}.cpp"
+            ${SUITE}_tests
+            PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/suites/${SUITE}.cpp"
         )
     ENDIF()
     
-    TARGET_LINK_LIBRARIES( "${EXECUTABLE_NAME}" PRIVATE test_utils )
-ENDFOREACH()
-
-
-# Apply compile options to `test_utils` library, too
-FOREACH( NAME "test_utils" ${TEST_NAMES} )
-    STRING( TOLOWER "${NAME}" TARGET_NAME )
+    TARGET_LINK_LIBRARIES( ${SUITE}_tests PRIVATE units doctest::doctest )
+    
     IF(
            "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"
         OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"
@@ -66,7 +58,7 @@ FOREACH( NAME "test_utils" ${TEST_NAMES} )
         OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel"
     )
         TARGET_COMPILE_OPTIONS(
-            "${TARGET_NAME}"
+            ${SUITE}_tests
             PRIVATE
                 "-g"
                 "-Werror"
@@ -87,7 +79,7 @@ FOREACH( NAME "test_utils" ${TEST_NAMES} )
         )
         IF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
             TARGET_COMPILE_OPTIONS(
-                "${TARGET_NAME}"
+                ${SUITE}_tests
                 PRIVATE
                     "-Wduplicated-cond"
                     "-Wduplicated-branches"
@@ -95,14 +87,16 @@ FOREACH( NAME "test_utils" ${TEST_NAMES} )
                     "-Wuseless-cast"
             )
         ENDIF()
-    
     ELSEIF( "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" )
         TARGET_COMPILE_OPTIONS(
-            "${TARGET_NAME}"
+            ${SUITE}_tests
             PRIVATE
                 "/DEBUG"
                 "/WX"
                 "/Wall"
         )
     ENDIF()
+    
+    ADD_DEPENDENCIES( tests ${SUITE}_tests )
+    DOCTEST_DISCOVER_TESTS( ${SUITE}_tests )
 ENDFOREACH()

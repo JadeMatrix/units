@@ -33,7 +33,7 @@ ENDFOREACH()
 
 # Write concatenated code segments to test source template file
 CONFIGURE_FILE(
-    "${SOURCE_DIR}/unit_tests/readme_tests.cpp.in"
-    "${BINARY_DIR}/readme_tests.cpp"
+    "${SOURCE_DIR}/suites/readme_tests.cpp.in"
+    "${BINARY_DIR}/suites/readme_tests.cpp"
     @ONLY
 )
