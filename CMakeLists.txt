@@ -17,28 +17,29 @@ IF( EXISTS "${CMAKE_BINARY_DIR}/conanbuildinfo.cmake" )
 ENDIF()
 
 INCLUDE( CTest )
+INCLUDE( GNUInstallDirs )
 
 
 ADD_LIBRARY( units INTERFACE )
 TARGET_INCLUDE_DIRECTORIES(
     units
     INTERFACE
-        "$<INSTALL_INTERFACE:include/>"
         "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>"
+        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
 
 
 INSTALL(
     TARGETS units
     EXPORT "JadeMatrix-units-config"
-    RUNTIME DESTINATION "bin/"
-    LIBRARY DESTINATION "lib/"
-    ARCHIVE DESTINATION "lib/static/"
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     COMPONENT core
 )
 INSTALL(
     DIRECTORY "include/"
-    DESTINATION "include/"
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     COMPONENT core
 )
 
@@ -49,14 +50,14 @@ WRITE_BASIC_PACKAGE_VERSION_FILE(
 )
 INSTALL(
     FILES "${PROJECT_BINARY_DIR}/JadeMatrix-units-config-version.cmake"
-    DESTINATION "lib/cmake/JadeMatrix-units/"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/JadeMatrix-units/"
     COMPONENT cmake
 )
 
 INSTALL(
     EXPORT "JadeMatrix-units-config"
     NAMESPACE "JadeMatrix::units::"
-    DESTINATION "lib/cmake/JadeMatrix-units/"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/JadeMatrix-units/"
     COMPONENT cmake
 )
 
