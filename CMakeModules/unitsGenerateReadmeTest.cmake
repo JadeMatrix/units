@@ -31,9 +31,5 @@ FOREACH( README_SOURCE ${README_SOURCES} )
     STRING( APPEND JOINED_SOURCES "${README_SOURCE}" )
 ENDFOREACH()
 
-# Write concatenated code segments to test source template file
-CONFIGURE_FILE(
-    "${SOURCE_DIR}/suites/readme_tests.cpp.in"
-    "${BINARY_DIR}/suites/readme_tests.cpp"
-    @ONLY
-)
+# Write concatenated code segments to test source file
+FILE( WRITE "${BINARY_DIR}/compile/readme_tests.cpp" "${JOINED_SOURCES}" )
