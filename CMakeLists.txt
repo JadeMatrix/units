@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED( VERSION 3.11 )
 
 PROJECT(
-    JadeMatrix-units
+    "JadeMatrix-units"
     VERSION 0.2
     LANGUAGES CXX
 )
