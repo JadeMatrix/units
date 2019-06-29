@@ -28,6 +28,7 @@ namespace JadeMatrix { namespace units
     DEFINE_ALL_PREFIXES_FOR_UNIT( _nautical_miles, nautical_mile_traits )
     
     template< typename T > using nautical_miles = _nautical_miles< T >;
+    template< typename T > using dozen_nautical_miles = dozen__nautical_miles< T >;
     
     DEFINE_ALL_STRINGS_FOR_UNIT(          inches,          "inches", "in" )
     DEFINE_ALL_STRINGS_FOR_UNIT(            feet,            "feet", "ft" )
