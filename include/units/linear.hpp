@@ -30,13 +30,13 @@ namespace JadeMatrix { namespace units
     template< typename T > using nautical_miles = _nautical_miles< T >;
     template< typename T > using dozen_nautical_miles = dozen__nautical_miles< T >;
     
-    DEFINE_ALL_STRINGS_FOR_UNIT(          inches,          "inches", "in" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(            feet,            "feet", "ft" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(           yards,           "yards", "yd" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(           miles,           "miles", "mi" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(          meters,          "meters",  "m" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(         fathoms,         "fathoms", "fm" )
-    DEFINE_ALL_STRINGS_FOR_UNIT( _nautical_miles, " nautical miles",  "M" )
+    DEFINE_ALL_STRINGS_FOR_UNIT(          inch_traits,          "inches", "in" )
+    DEFINE_ALL_STRINGS_FOR_UNIT(          foot_traits,            "feet", "ft" )
+    DEFINE_ALL_STRINGS_FOR_UNIT(          yard_traits,           "yards", "yd" )
+    DEFINE_ALL_STRINGS_FOR_UNIT(          mile_traits,           "miles", "mi" )
+    DEFINE_ALL_STRINGS_FOR_UNIT(         meter_traits,          "meters",  "m" )
+    DEFINE_ALL_STRINGS_FOR_UNIT(        fathom_traits,         "fathoms", "fm" )
+    DEFINE_ALL_STRINGS_FOR_UNIT( nautical_mile_traits, " nautical miles",  "M" )
 } }
 
 

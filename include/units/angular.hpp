@@ -21,11 +21,11 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
     DEFINE_ALL_PREFIXES_FOR_UNIT(  arcseconds,  arcsecond_traits )
     DEFINE_ALL_PREFIXES_FOR_UNIT( revolutions, revolution_traits )
     
-    DEFINE_ALL_STRINGS_FOR_UNIT(     degrees,     "degrees",   "°" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(     radians,     "radians",   "r" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(  arcminutes,  "arcminutes", "moa" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(  arcseconds,  "arcseconds", "soa" )
-    DEFINE_ALL_STRINGS_FOR_UNIT( revolutions, "revolutions", "rev" )
+    DEFINE_ALL_STRINGS_FOR_UNIT(     degree_traits,     "degrees",   "°" )
+    DEFINE_ALL_STRINGS_FOR_UNIT(     radian_traits,     "radians",   "r" )
+    DEFINE_ALL_STRINGS_FOR_UNIT(  arcminute_traits,  "arcminutes", "moa" )
+    DEFINE_ALL_STRINGS_FOR_UNIT(  arcsecond_traits,  "arcseconds", "soa" )
+    DEFINE_ALL_STRINGS_FOR_UNIT( revolution_traits, "revolutions", "rev" )
 } }
 
 

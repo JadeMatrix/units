@@ -1,9 +1,10 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
-#include <units/core/units.hpp>
-#include <units/core/scales.hpp>
-#include <units/core/strings.hpp>
+#include <units/core/define_unit.hpp>
+#include <units/core/stream_format.hpp>
+
+#include <sstream>
 
 
 namespace units = ::JadeMatrix::units;
@@ -28,13 +29,14 @@ namespace asdf
     //         return static_cast< To >( b.value );
     //     }
     // };
+    
+    DEFINE_ALL_STRINGS_FOR_UNIT( foo_traits, "foos", "¿" )
 }
 
 DEFINE_ALL_PREFIXES_FOR_UNIT( foos, asdf::foo_traits )
-DEFINE_ALL_STRINGS_FOR_UNIT( foos, "foos", "¿" )
 
 
-TEST_CASE( "custom unit" )
+TEST_CASE( "custom unit symbol string" )
 {
     // {
     //     units::radians< double > radians{ 7 };
@@ -47,4 +49,8 @@ TEST_CASE( "custom unit" )
     // asdf::bar b{ 1 };
     // /*asdf::*/foos< float > f{ /*b*/ };
     // /*asdf::*/megafoos< int > F{ f };
+    
+    std::stringstream ss;
+    ss << /*asdf::*/foos< int >{ 3219 };
+    REQUIRE( ss.str() == "3219¿" );
 }

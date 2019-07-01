@@ -106,8 +106,8 @@ struct foot_traits {};
 DEFINE_ALL_PREFIXES_FOR_UNIT( inches, inch_traits )
 DEFINE_ALL_PREFIXES_FOR_UNIT(   feet, foot_traits )
 
-DEFINE_ALL_STRINGS_FOR_UNIT( inches, "inches", "in" )
-DEFINE_ALL_STRINGS_FOR_UNIT(   feet,   "feet", "ft" )
+DEFINE_ALL_STRINGS_FOR_UNIT( inch_traits, "inches", "in" )
+DEFINE_ALL_STRINGS_FOR_UNIT( foot_traits,   "feet", "ft" )
 
 template< typename T >
 struct ::JadeMatrix::units::internal::traits_linear_relation<

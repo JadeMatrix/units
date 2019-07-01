@@ -142,7 +142,7 @@ namespace JadeMatrix { namespace units
     template< typename T > using  femto##UNIT_PLURAL = _##UNIT_PLURAL##_unit< femto_scale, T >; \
     template< typename T > using   atto##UNIT_PLURAL = _##UNIT_PLURAL##_unit<  atto_scale, T >; \
      \
-    DEFINE_ALL_STRINGS_FOR_UNIT( UNIT_PLURAL, UNIT_NAME_STR, UNIT_SYM_STR )
+    DEFINE_ALL_STRINGS_FOR_UNIT( TRAITS, UNIT_NAME_STR, UNIT_SYM_STR )
     
     #if defined JM_UNITS_YT_AVAILABLE
         #define DEFINE_ALL_STRINGS_FOR_TEMPORAL_UNIT( \

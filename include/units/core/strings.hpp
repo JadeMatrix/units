@@ -3,9 +3,7 @@
 #define JM_UNITS_CORE_STRINGS_HPP
 
 
-// TODO: Replace with ADL on traits type
-
-
+#include "scales.hpp"
 #include "internal/traits_utils.hpp"
 
 #include <string>
@@ -14,69 +12,82 @@
 
 namespace JadeMatrix { namespace units
 {
-    template< typename Unit, typename = void > struct unit_strings;
+    template< typename Unit, typename = void > struct  unit_strings;
+    template< typename Scale                 > struct scale_strings;
     
-    #define DEFINE_NAME_SYM_STRINGS_FOR_UNIT( \
-        UNIT_PLURAL, \
+    #define DEFINE_STRINGS_FOR_SCALE( \
         SCALE_NAME, \
-        UNIT_NAME_STR, \
-        UNIT_SYM_STR, \
         SCALE_PREFIX_STR, \
         SCALE_SYM_PREFIX_STR, \
         SCALE_SYM_SUFFIX_STR \
     ) \
-    template< typename Unit > struct ::JadeMatrix::units::unit_strings< \
-        Unit, \
-        typename std::enable_if< std::is_same< \
-            Unit, \
-            SCALE_NAME##UNIT_PLURAL< typename Unit::value_type > \
-        >::value >::type \
-    > \
+    template<> struct scale_strings< SCALE_NAME##_scale > \
     { \
-        static const std::string& name() \
+        static const std::string& prefix() \
         { \
-            static const std::string s{ \
-                  std::string{ SCALE_PREFIX_STR } \
-                + std::string{ UNIT_NAME_STR    } \
-            }; \
+            static const std::string s{ SCALE_PREFIX_STR }; \
             return s; \
         } \
-        static const std::string& symbol() \
+        static const std::string& prefix_symbol() \
         { \
-            static const std::string s{ \
-                  std::string{ SCALE_SYM_PREFIX_STR } \
-                + std::string{ UNIT_SYM_STR         } \
-                + std::string{ SCALE_SYM_SUFFIX_STR } \
-            }; \
+            static const std::string s{ SCALE_SYM_PREFIX_STR }; \
+            return s; \
+        } \
+        static const std::string& suffix_symbol() \
+        { \
+            static const std::string s{ SCALE_SYM_SUFFIX_STR }; \
             return s; \
         } \
     };
     
-    #define DEFINE_ALL_STRINGS_FOR_UNIT( \
-        UNIT_PLURAL, \
-        UNIT_NAME_STR, \
-        UNIT_SYM_STR \
-    ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, exa   , UNIT_NAME_STR, UNIT_SYM_STR, "exa"   , "E"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, peta  , UNIT_NAME_STR, UNIT_SYM_STR, "peta"  , "P"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, tera  , UNIT_NAME_STR, UNIT_SYM_STR, "tera"  , "T"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, giga  , UNIT_NAME_STR, UNIT_SYM_STR, "giga"  , "G"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, mega  , UNIT_NAME_STR, UNIT_SYM_STR, "mega"  , "M"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, kilo  , UNIT_NAME_STR, UNIT_SYM_STR, "kilo"  , "k"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, hecto , UNIT_NAME_STR, UNIT_SYM_STR, "hecto" , "h"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, deca  , UNIT_NAME_STR, UNIT_SYM_STR, "deca"  , "da"  , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL,       , UNIT_NAME_STR, UNIT_SYM_STR, ""      , ""    , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, deci  , UNIT_NAME_STR, UNIT_SYM_STR, "deci"  , "d"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, centi , UNIT_NAME_STR, UNIT_SYM_STR, "centi" , "c"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, milli , UNIT_NAME_STR, UNIT_SYM_STR, "milli" , "m"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, micro , UNIT_NAME_STR, UNIT_SYM_STR, "micro" , "μ"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, nano  , UNIT_NAME_STR, UNIT_SYM_STR, "nano"  , "n"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, pico  , UNIT_NAME_STR, UNIT_SYM_STR, "pico"  , "p"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, femto , UNIT_NAME_STR, UNIT_SYM_STR, "femto" , "f"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, atto  , UNIT_NAME_STR, UNIT_SYM_STR, "atto"  , "a"   , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL, dozen_, UNIT_NAME_STR, UNIT_SYM_STR, "dozen ", "dz." , ""   ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL,    bi , UNIT_NAME_STR, UNIT_SYM_STR, "bi"    , ""    , "/2" ) \
-    DEFINE_NAME_SYM_STRINGS_FOR_UNIT( UNIT_PLURAL,  semi , UNIT_NAME_STR, UNIT_SYM_STR, "semi"  , ""    , "*2" )
+    DEFINE_STRINGS_FOR_SCALE( exa  , "exa"   , "E"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( peta , "peta"  , "P"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( tera , "tera"  , "T"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( giga , "giga"  , "G"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( mega , "mega"  , "M"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( kilo , "kilo"  , "k"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( hecto, "hecto" , "h"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( deca , "deca"  , "da"  , ""   )
+    DEFINE_STRINGS_FOR_SCALE( unit , ""      , ""    , ""   )
+    DEFINE_STRINGS_FOR_SCALE( deci , "deci"  , "d"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( centi, "centi" , "c"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( milli, "milli" , "m"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( micro, "micro" , "μ"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( nano , "nano"  , "n"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( pico , "pico"  , "p"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( femto, "femto" , "f"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( atto , "atto"  , "a"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( dozen, "dozen ", "dz." , ""   )
+    DEFINE_STRINGS_FOR_SCALE( bi   , "bi"    , ""    , "/2" )
+    DEFINE_STRINGS_FOR_SCALE( semi , "semi"  , ""    , "*2" )
+    
+    #undef DEFINE_STRINGS_FOR_SCALE
+    
+    template< typename Unit > struct ::JadeMatrix::units::unit_strings<
+        Unit,
+        typename std::enable_if< internal::is_basic_unit< Unit >::value >::type
+    >
+    {
+        static const std::string& name()
+        {
+            static const std::string s{
+                  scale_strings< typename Unit::scale_type >::prefix()
+                  // ADL on traits type
+                + unit_name( typename Unit::traits_type{} )
+            };
+            return s;
+        }
+        static const std::string& symbol()
+        {
+            static const std::string s{
+                  scale_strings< typename Unit::scale_type >::prefix_symbol()
+                  // ADL on traits type
+                + unit_symbol( typename Unit::traits_type{} )
+                + scale_strings< typename Unit::scale_type >::suffix_symbol()
+            };
+            return s;
+        }
+    };
     
     template< typename Unit > struct unit_strings<
         Unit,
