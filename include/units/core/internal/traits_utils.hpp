@@ -3,6 +3,8 @@
 #define JM_UNITS_CORE_INTERNAL_TRAITS_UTILS_HPP
 
 
+#include "core_types.hpp"
+
 #include <string>
 #include <type_traits>
 
