@@ -23,6 +23,8 @@ namespace JadeMatrix { namespace units
     DEFINE_ALL_PREFIXES_FOR_UNIT(           miles,          mile_traits )
     DEFINE_ALL_PREFIXES_FOR_UNIT(          meters,         meter_traits )
     DEFINE_ALL_PREFIXES_FOR_UNIT(         fathoms,        fathom_traits )
+    // FIXME: This will make the unit name string for `nautical_miles` be
+    // prefixed with a space -- need more granular control in macro
     DEFINE_ALL_PREFIXES_FOR_UNIT( _nautical_miles, nautical_mile_traits )
     
     template< typename T > using nautical_miles = _nautical_miles< T >;
@@ -34,8 +36,6 @@ namespace JadeMatrix { namespace units
     DEFINE_ALL_STRINGS_FOR_UNIT(           miles,           "miles", "mi" )
     DEFINE_ALL_STRINGS_FOR_UNIT(          meters,          "meters",  "m" )
     DEFINE_ALL_STRINGS_FOR_UNIT(         fathoms,         "fathoms", "fm" )
-    // FIXME: This will make the unit name string for `nautical_miles` be
-    // prefixed with a space -- need more granular control in macro
     DEFINE_ALL_STRINGS_FOR_UNIT( _nautical_miles, " nautical miles",  "M" )
 } }
 
