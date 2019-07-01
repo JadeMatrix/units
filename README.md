@@ -110,7 +110,7 @@ DEFINE_ALL_STRINGS_FOR_UNIT( inches, "inches", "in" )
 DEFINE_ALL_STRINGS_FOR_UNIT(   feet,   "feet", "ft" )
 
 template< typename T >
-struct ::JadeMatrix::units::traits_linear_relation<
+struct ::JadeMatrix::units::internal::traits_linear_relation<
     inch_traits,
     foot_traits,
     T
