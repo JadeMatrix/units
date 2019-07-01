@@ -8,6 +8,7 @@
 
 #include <string>
 #include <type_traits>
+#include <utility>
 
 
 namespace JadeMatrix { namespace units
@@ -78,12 +79,16 @@ namespace JadeMatrix { namespace units
         typename std::enable_if< internal::is_basic_unit< Unit >::value >::type
     >
     {
+        // ADL on traits type
+        using unit_trait_strings = decltype( units_unit_strings_lookup(
+            std::declval< typename Unit::traits_type >()
+        ) );
+        
         static const std::string& name()
         {
             static const std::string s{
                   scale_strings< typename Unit::scale_type >::prefix()
-                  // ADL on traits type
-                + unit_name( typename Unit::traits_type{} )
+                + unit_trait_strings::unit_name()
             };
             return s;
         }
@@ -91,8 +96,7 @@ namespace JadeMatrix { namespace units
         {
             static const std::string s{
                   scale_strings< typename Unit::scale_type >::prefix_symbol()
-                  // ADL on traits type
-                + unit_symbol( typename Unit::traits_type{} )
+                + unit_trait_strings::unit_symbol()
                 + scale_strings< typename Unit::scale_type >::suffix_symbol()
             };
             return s;
