@@ -3,7 +3,7 @@
 #define JM_UNITS_CORE_SCALES_HPP
 
 
-#include <cstdint>
+#include <cstdint>  // INTMAX_MAX
 #include <ratio>
 
 

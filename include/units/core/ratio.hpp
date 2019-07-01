@@ -3,9 +3,10 @@
 #define JM_UNITS_CORE_RATIO_HPP
 
 
+#include "internal/core_type_detection.hpp"
 #include "internal/core_types.hpp"
 
-#include <type_traits>
+#include <type_traits>  // enable_if
 
 
 namespace JadeMatrix { namespace units // Dimensionless values /////////////////

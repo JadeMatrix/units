@@ -8,7 +8,7 @@
 #include "internal/core_types.hpp"
 
 #include <ostream>
-#include <type_traits>
+#include <type_traits>  // enable_if
 
 
 namespace JadeMatrix { namespace units // Stream formatting operators //////////

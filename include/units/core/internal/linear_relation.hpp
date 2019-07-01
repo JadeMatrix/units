@@ -4,10 +4,10 @@
 
 
 #include "core_types.hpp"
-#include "utils.hpp"
+#include "utils.hpp"    // internal::void_t
 
 #include <string>
-#include <type_traits>
+#include <type_traits>  // true_type, false_type, enable_if, is_same
 
 
 namespace JadeMatrix { namespace units { namespace internal // Unit conversions

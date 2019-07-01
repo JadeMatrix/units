@@ -8,8 +8,7 @@
 #include "internal/linear_relation.hpp"
 #include "internal/reduce.hpp"
 
-#include <ratio>
-#include <type_traits>
+#include <type_traits>  // enable_if
 
 
 namespace JadeMatrix { namespace units // Basic unit class /////////////////////

@@ -4,9 +4,9 @@
 
 
 #include "core_types.hpp"
-#include "utils.hpp"
+#include "utils.hpp"        // void_t
 
-#include <type_traits>
+#include <type_traits>      // true_type, false_type, enable_if
 
 
 namespace JadeMatrix { namespace units { namespace internal // Type detection //

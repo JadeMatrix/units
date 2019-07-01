@@ -7,8 +7,8 @@
 #include "internal/core_type_detection.hpp"
 
 #include <string>
-#include <type_traits>
-#include <utility>
+#include <type_traits>  // enable_if
+#include <utility>      // declval
 
 
 namespace JadeMatrix { namespace units

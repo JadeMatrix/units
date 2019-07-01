@@ -3,7 +3,7 @@
 #define JM_UNITS_CORE_INTERNAL_UTILS_HPP
 
 
-#include <type_traits>
+#include <type_traits>  // enable_if
 
 
 namespace JadeMatrix { namespace units { namespace internal
