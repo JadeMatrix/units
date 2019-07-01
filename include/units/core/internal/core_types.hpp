@@ -5,6 +5,8 @@
 
 namespace JadeMatrix { namespace units
 {
+    // Forward declarations of core types for reference by internal machinery
+    
     template<
         typename Traits,
         typename Scale,
