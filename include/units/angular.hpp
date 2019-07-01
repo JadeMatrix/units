@@ -3,9 +3,7 @@
 #define JM_UNITS_ANGULAR_HPP
 
 
-#include "core/units.hpp"
-#include "core/scales.hpp"
-#include "core/strings.hpp"
+#include "core/define_unit.hpp"
 #include "core/constants.hpp"
 
 

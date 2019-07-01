@@ -96,9 +96,9 @@ All unit types have versions for all the [SI prefixes](https://en.wikipedia.org/
 Creating custom units is generally very simple, consisting of a traits/tag type, two macros to define prefixed `unit` aliases and strings, and a number of relationships representing unit conversions.  For example, the units `inches` and `feet` are defined basically as:
 
 ```cpp
-#include <units/core/units.hpp>
-#include <units/core/scales.hpp>
-#include <units/core/strings.hpp>
+// This header contains includes of all the necessary headers for defining
+// custom units
+#include <units/core/define_unit.hpp>
 
 struct inch_traits {};
 struct foot_traits {};
