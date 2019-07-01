@@ -73,7 +73,7 @@ namespace JadeMatrix { namespace units
     
     #undef DEFINE_STRINGS_FOR_SCALE
     
-    template< typename Unit > struct ::JadeMatrix::units::unit_strings<
+    template< typename Unit > struct unit_strings<
         Unit,
         typename std::enable_if< internal::is_basic_unit< Unit >::value >::type
     >

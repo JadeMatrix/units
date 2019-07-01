@@ -6,7 +6,8 @@
 #include <type_traits>
 
 
-namespace JadeMatrix { namespace units { namespace internal {
+namespace JadeMatrix { namespace units { namespace internal
+{
     // `std::void_t` available in C++17
     template< typename... T > using void_t = void;
 } } }
