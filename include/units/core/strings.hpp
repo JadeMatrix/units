@@ -4,7 +4,7 @@
 
 
 #include "scales.hpp"
-#include "internal/traits_utils.hpp"
+#include "internal/core_type_detection.hpp"
 
 #include <string>
 #include <type_traits>

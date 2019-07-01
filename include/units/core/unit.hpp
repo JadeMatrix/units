@@ -3,8 +3,10 @@
 #define JM_UNITS_CORE_UNIT_HPP
 
 
+#include "internal/core_type_detection.hpp"
 #include "internal/core_types.hpp"
-#include "internal/traits_utils.hpp"
+#include "internal/linear_relation.hpp"
+#include "internal/reduce.hpp"
 
 #include <ratio>
 #include <type_traits>

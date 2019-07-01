@@ -4,8 +4,8 @@
 
 
 #include "strings.hpp"
+#include "internal/core_type_detection.hpp"
 #include "internal/core_types.hpp"
-#include "internal/traits_utils.hpp"
 
 #include <ostream>
 #include <type_traits>

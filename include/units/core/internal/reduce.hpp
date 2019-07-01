@@ -3,7 +3,7 @@
 #define JM_UNITS_CORE_INTERNAL_REDUCE_HPP
 
 
-#include "traits_utils.hpp"
+#include "core_type_detection.hpp"
 #include "unit_list.hpp"
 
 
