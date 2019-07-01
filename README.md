@@ -54,7 +54,7 @@ constexpr units::ratio< T > sin( const units::degrees< T >& r )
 
 ```cpp
 #include <units/linear.hpp>
-#include <units/stream_format.hpp>
+#include <units/core/stream_format.hpp>
 #include <iostream>
 
 void print_kiloyards_in_feet( units::kiloyards< int > kyd )
@@ -96,9 +96,9 @@ All unit types have versions for all the [SI prefixes](https://en.wikipedia.org/
 Creating custom units is generally very simple, consisting of a traits/tag type, two macros to define prefixed `unit` aliases and strings, and a number of relationships representing unit conversions.  For example, the units `inches` and `feet` are defined basically as:
 
 ```cpp
-#include <units/units.hpp>
-#include <units/scales.hpp>
-#include <units/strings.hpp>
+#include <units/core/units.hpp>
+#include <units/core/scales.hpp>
+#include <units/core/strings.hpp>
 
 struct inch_traits {};
 struct foot_traits {};

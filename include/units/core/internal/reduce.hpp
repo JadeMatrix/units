@@ -1,6 +1,6 @@
 #pragma once
-#ifndef JM_UNITS_INTERNAL_REDUCE_HPP
-#define JM_UNITS_INTERNAL_REDUCE_HPP
+#ifndef JM_UNITS_CORE_INTERNAL_REDUCE_HPP
+#define JM_UNITS_CORE_INTERNAL_REDUCE_HPP
 
 
 #include "traits_utils.hpp"

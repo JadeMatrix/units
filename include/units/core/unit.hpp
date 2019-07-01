@@ -1,10 +1,10 @@
 #pragma once
-#ifndef JM_UNITS_INTERNAL_UNIT_HPP
-#define JM_UNITS_INTERNAL_UNIT_HPP
+#ifndef JM_UNITS_CORE_UNIT_HPP
+#define JM_UNITS_CORE_UNIT_HPP
 
 
-#include "core_types.hpp"
-#include "traits_utils.hpp"
+#include "internal/core_types.hpp"
+#include "internal/traits_utils.hpp"
 
 #include <ratio>
 #include <type_traits>

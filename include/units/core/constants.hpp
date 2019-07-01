@@ -1,6 +1,6 @@
 #pragma once
-#ifndef JM_UNITS_CONSTANTS_HPP
-#define JM_UNITS_CONSTANTS_HPP
+#ifndef JM_UNITS_CORE_CONSTANTS_HPP
+#define JM_UNITS_CORE_CONSTANTS_HPP
 
 
 namespace JadeMatrix { namespace units

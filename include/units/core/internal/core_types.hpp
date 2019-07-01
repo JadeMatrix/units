@@ -1,6 +1,6 @@
 #pragma once
-#ifndef JM_UNITS_CORE_TYPES_HPP
-#define JM_UNITS_CORE_TYPES_HPP
+#ifndef JM_UNITS_CORE_INTERNAL_CORE_TYPES_HPP
+#define JM_UNITS_CORE_INTERNAL_CORE_TYPES_HPP
 
 
 namespace JadeMatrix { namespace units

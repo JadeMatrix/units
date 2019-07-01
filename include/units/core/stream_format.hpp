@@ -1,6 +1,6 @@
 #pragma once
-#ifndef JM_UNITS_STREAM_FORMAT_HPP
-#define JM_UNITS_STREAM_FORMAT_HPP
+#ifndef JM_UNITS_CORE_STREAM_FORMAT_HPP
+#define JM_UNITS_CORE_STREAM_FORMAT_HPP
 
 
 #include "strings.hpp"

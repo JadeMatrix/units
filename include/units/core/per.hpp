@@ -1,10 +1,10 @@
 #pragma once
-#ifndef JM_UNITS_INTERNAL_PER_HPP
-#define JM_UNITS_INTERNAL_PER_HPP
+#ifndef JM_UNITS_CORE_PER_HPP
+#define JM_UNITS_CORE_PER_HPP
 
 
-#include "core_types.hpp"
-#include "traits_utils.hpp"
+#include "internal/core_types.hpp"
+#include "internal/traits_utils.hpp"
 
 
 namespace JadeMatrix { namespace units // Unit divided by another //////////////

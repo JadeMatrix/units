@@ -3,10 +3,10 @@
 #define JM_UNITS_LINEAR_HPP
 
 
-#include "units.hpp"
-#include "scales.hpp"
-#include "strings.hpp"
-#include "internal/constants.hpp"
+#include "core/units.hpp"
+#include "core/scales.hpp"
+#include "core/strings.hpp"
+#include "core/constants.hpp"
 
 
 namespace JadeMatrix { namespace units

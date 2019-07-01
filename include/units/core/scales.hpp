@@ -1,6 +1,6 @@
 #pragma once
-#ifndef JM_UNITS_SCALES_HPP
-#define JM_UNITS_SCALES_HPP
+#ifndef JM_UNITS_CORE_SCALES_HPP
+#define JM_UNITS_CORE_SCALES_HPP
 
 
 #include <cstdint>

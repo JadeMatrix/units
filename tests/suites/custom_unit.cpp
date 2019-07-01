@@ -1,9 +1,9 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
-#include <units/units.hpp>
-#include <units/scales.hpp>
-#include <units/strings.hpp>
+#include <units/core/units.hpp>
+#include <units/core/scales.hpp>
+#include <units/core/strings.hpp>
 
 
 namespace units = ::JadeMatrix::units;
