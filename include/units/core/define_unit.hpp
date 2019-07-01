@@ -17,12 +17,12 @@
     UNIT_NAME_STR, \
     UNIT_SYM_STR \
 ) \
-const std::string& unit_name( const TRAITS_TYPE& ) \
+inline const std::string& unit_name( const TRAITS_TYPE& ) \
 { \
     static const std::string s{ UNIT_NAME_STR }; \
     return s; \
 } \
-const std::string& unit_symbol( const TRAITS_TYPE& ) \
+inline const std::string& unit_symbol( const TRAITS_TYPE& ) \
 { \
     static const std::string s{ UNIT_SYM_STR }; \
     return s; \
