@@ -4,6 +4,7 @@
 
 
 #include "core_types.hpp"
+#include "utils.hpp"
 
 #include <string>
 #include <type_traits>
@@ -11,9 +12,6 @@
 
 namespace JadeMatrix { namespace units { namespace internal // Unit conversions
 {
-    template< typename... T > using void_t = void;
-    
-    
     // TODO: Replace with ADL-on-traits trick
     template<
         typename Y_Traits,
