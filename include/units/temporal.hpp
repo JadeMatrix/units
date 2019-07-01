@@ -27,7 +27,7 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
 
 namespace JadeMatrix { namespace units
 {
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         second_traits,
         minute_traits,
         T
@@ -37,7 +37,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = static_cast< T >( 1 );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         second_traits,
         hour_traits,
         T
@@ -50,7 +50,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = static_cast< T >( 1 );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         minute_traits,
         hour_traits,
         T

@@ -34,7 +34,7 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
 namespace JadeMatrix { namespace units
 {
     // Degrees <-> X ///////////////////////////////////////////////////////////
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         degree_traits,
         radian_traits,
         T
@@ -47,7 +47,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = constants< T >::pi;
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         degree_traits,
         arcminute_traits,
         T
@@ -57,7 +57,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = constants< T >::hour_minutes;
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         degree_traits,
         arcsecond_traits,
         T
@@ -70,7 +70,7 @@ namespace JadeMatrix { namespace units
         );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         degree_traits,
         revolution_traits,
         T
@@ -82,7 +82,7 @@ namespace JadeMatrix { namespace units
     };
     
     // Radians <-> X ///////////////////////////////////////////////////////////
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         radian_traits,
         arcminute_traits,
         T
@@ -95,7 +95,7 @@ namespace JadeMatrix { namespace units
         );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         radian_traits,
         arcsecond_traits,
         T
@@ -109,7 +109,7 @@ namespace JadeMatrix { namespace units
         );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         radian_traits,
         revolution_traits,
         T
@@ -121,7 +121,7 @@ namespace JadeMatrix { namespace units
     };
     
     // Arcminutes <-> X ////////////////////////////////////////////////////////
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         arcminute_traits,
         arcsecond_traits,
         T
@@ -131,7 +131,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = constants< T >::minute_seconds;
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         arcminute_traits,
         revolution_traits,
         T
@@ -146,7 +146,7 @@ namespace JadeMatrix { namespace units
     };
     
     // Arcseconds <-> X ////////////////////////////////////////////////////////
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         arcsecond_traits,
         revolution_traits,
         T

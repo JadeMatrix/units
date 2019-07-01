@@ -9,11 +9,12 @@
 #include <type_traits>
 
 
-namespace JadeMatrix { namespace units // Unit conversions /////////////////////
+namespace JadeMatrix { namespace units { namespace internal // Unit conversions
 {
     template< typename... T > using void_t = void;
     
     
+    // TODO: Replace with ADL-on-traits trick
     template<
         typename Y_Traits,
         typename X_Traits,
@@ -128,10 +129,10 @@ namespace JadeMatrix { namespace units // Unit conversions /////////////////////
             traits_convert< Traits, T >::template from< Other_Traits, O >
         ) >
     > : std::true_type {};
-} }
+} } }
 
 
-namespace JadeMatrix { namespace units // Core types detection /////////////////
+namespace JadeMatrix { namespace units { namespace internal // Type detection //
 {
     template<
         typename T,
@@ -197,7 +198,7 @@ namespace JadeMatrix { namespace units // Core types detection /////////////////
             || is_ratio     < T >::value
         ) >::type
     > : std::true_type {};
-} }
+} } }
 
 
 #endif

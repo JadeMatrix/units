@@ -39,7 +39,7 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
             const unit< Other_Traits, Other_Scale, O >& o
         )
         {
-            using convert = traits_convert< traits_type, T >;
+            using convert = internal::traits_convert< traits_type, T >;
             using scale   = std::ratio_divide< scale_type, Other_Scale >;
             return convert::template from< Other_Traits >(
                 static_cast< O >( o ) * scale::den
@@ -59,7 +59,9 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
         
         template<
             typename O = value_type,
-            typename = typename std::enable_if< !is_unit< O >::value >::type
+            typename = typename std::enable_if<
+                !internal::is_unit< O >::value
+            >::type
         > explicit constexpr operator O () const
         {
             return static_cast< O >( _value );
@@ -139,7 +141,7 @@ namespace JadeMatrix { namespace units // Basic binary operators ///////////////
         const unit<  Left_Traits,  Left_Scale, L >& lhs, \
         const unit< Right_Traits, Right_Scale, R >& rhs \
     ) -> typename std::enable_if< \
-        conversion_exists< \
+        internal::conversion_exists< \
             Left_Traits, \
             L, \
             Right_Traits, \
@@ -221,7 +223,7 @@ namespace JadeMatrix { namespace units // Mult. & div. specializations /////////
         const unit<  Left_Traits,  Left_Scale, L >& lhs,
         const unit< Right_Traits, Right_Scale, R >& rhs
     ) -> typename std::enable_if<
-        !conversion_exists< Left_Traits, L, Right_Traits, R >::value,
+        !internal::conversion_exists< Left_Traits, L, Right_Traits, R >::value,
         per<
             std::decay< decltype( lhs ) >::type::template unit_type,
             std::decay< decltype( rhs ) >::type::template unit_type,
@@ -244,7 +246,7 @@ namespace JadeMatrix { namespace units // Mult. & div. specializations /////////
         const unit<  Left_Traits,  Left_Scale, L >& lhs,
         const unit< Right_Traits, Right_Scale, R >& rhs
     ) -> typename std::enable_if<
-        conversion_exists< Left_Traits, L, Right_Traits, R >::value,
+        internal::conversion_exists< Left_Traits, L, Right_Traits, R >::value,
         ratio< decltype( static_cast< L >( lhs ) / static_cast< R >( rhs ) ) >
     >::type
     {
@@ -287,7 +289,7 @@ namespace JadeMatrix { namespace units // Comparison operators /////////////////
         const unit< Left_Traits, Left_Scale, L >& lhs, \
         const R                                 & rhs \
     ) -> typename std::enable_if< \
-        !is_basic_unit< R >::value, \
+        !internal::is_basic_unit< R >::value, \
         decltype( std::declval< L >() OPERAND std::declval< R >() ) \
     >::type \
     { \
@@ -303,7 +305,7 @@ namespace JadeMatrix { namespace units // Comparison operators /////////////////
         const L                                   & lhs, \
         const unit< Right_Traits, Right_Scale, R >& rhs \
     ) -> typename std::enable_if< \
-        !is_basic_unit< L >::value, \
+        !internal::is_basic_unit< L >::value, \
         decltype( std::declval< L >() OPERAND std::declval< R >() ) \
     >::type \
     { \
@@ -333,7 +335,7 @@ namespace JadeMatrix { namespace units // Assignment operators /////////////////
               unit< Left_Traits, Left_Scale, L >& lhs, \
         const R                                 & rhs \
     ) -> typename std::enable_if< \
-        !is_basic_unit< R >::value, \
+        !internal::is_basic_unit< R >::value, \
         decltype( lhs )& \
     >::type \
     { \
@@ -352,7 +354,7 @@ namespace JadeMatrix { namespace units // Assignment operators /////////////////
               unit<  Left_Traits,  Left_Scale, L >& lhs, \
         const unit< Right_Traits, Right_Scale, R >& rhs \
     ) -> typename std::enable_if< \
-        conversion_exists< Left_Traits, L, Right_Traits, R >::value, \
+        internal::conversion_exists< Left_Traits, L, Right_Traits, R >::value, \
         decltype( lhs )& \
     >::type \
     { \

@@ -4,7 +4,8 @@
 
 
 #include "internal/core_types.hpp"
-#include "internal/traits_utils.hpp"
+
+#include <type_traits>
 
 
 namespace JadeMatrix { namespace units // Dimensionless values /////////////////
@@ -36,7 +37,9 @@ namespace JadeMatrix { namespace units // Dimensionless values /////////////////
         }
         template<
             typename O = value_type,
-            typename = typename std::enable_if< !is_unit< O >::value >::type
+            typename = typename std::enable_if<
+                !internal::is_unit< O >::value
+            >::type
         > explicit constexpr operator O () const
         {
             return static_cast< O >( _value );

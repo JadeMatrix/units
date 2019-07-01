@@ -3,9 +3,13 @@
 #define JM_UNITS_CORE_STRINGS_HPP
 
 
+// TODO: Replace with ADL on traits type
+
+
 #include "internal/traits_utils.hpp"
 
 #include <string>
+#include <type_traits>
 
 
 namespace JadeMatrix { namespace units
@@ -76,7 +80,7 @@ namespace JadeMatrix { namespace units
     
     template< typename Unit > struct unit_strings<
         Unit,
-        typename std::enable_if< is_per< Unit >::value >::type
+        typename std::enable_if< internal::is_per< Unit >::value >::type
     >
     {
         static const std::string& name()
@@ -113,7 +117,7 @@ namespace JadeMatrix { namespace units
     
     template< typename Unit > struct unit_strings<
         Unit,
-        typename std::enable_if< is_by< Unit >::value >::type
+        typename std::enable_if< internal::is_by< Unit >::value >::type
     >
     {
         static const std::string& name()
@@ -150,7 +154,7 @@ namespace JadeMatrix { namespace units
     
     template< typename Unit > struct unit_strings<
         Unit,
-        typename std::enable_if< is_ratio< Unit >::value >::type
+        typename std::enable_if< internal::is_ratio< Unit >::value >::type
     >
     {
         static const std::string& name()

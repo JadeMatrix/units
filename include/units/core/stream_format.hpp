@@ -8,6 +8,7 @@
 #include "internal/traits_utils.hpp"
 
 #include <ostream>
+#include <type_traits>
 
 
 namespace JadeMatrix { namespace units // Stream formatting operators //////////
@@ -15,10 +16,10 @@ namespace JadeMatrix { namespace units // Stream formatting operators //////////
     template< typename Unit > auto operator<<(
         std::ostream& out,
         const Unit& u
-    ) -> typename std::enable_if<
-        ( is_unit< Unit >::value && !is_ratio< Unit >::value ),
-        std::ostream&
-    >::type
+    ) -> typename std::enable_if< (
+        internal::is_unit< Unit >::value
+        && !internal::is_ratio< Unit >::value
+    ), std::ostream& >::type
     {
         return out
             << static_cast< typename Unit::value_type >( u )

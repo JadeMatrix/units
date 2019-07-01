@@ -45,7 +45,7 @@ namespace JadeMatrix { namespace units
 namespace JadeMatrix { namespace units
 {
     // Inches <-> X ////////////////////////////////////////////////////////////
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         inch_traits,
         foot_traits,
         T
@@ -55,7 +55,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = static_cast< T >( 1 );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         inch_traits,
         yard_traits,
         T
@@ -68,7 +68,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = static_cast< T >( 1 );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         inch_traits,
         mile_traits,
         T
@@ -81,7 +81,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = static_cast< T >( 1 );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         inch_traits,
         meter_traits,
         T
@@ -91,7 +91,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = constants< T >::inch_cms;
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         inch_traits,
         fathom_traits,
         T
@@ -105,7 +105,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = static_cast< T >( 1 );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         inch_traits,
         nautical_mile_traits,
         T
@@ -120,7 +120,7 @@ namespace JadeMatrix { namespace units
     };
     
     // Feet <-> X //////////////////////////////////////////////////////////////
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         foot_traits,
         yard_traits,
         T
@@ -130,7 +130,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = static_cast< T >( 1 );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         foot_traits,
         mile_traits,
         T
@@ -140,7 +140,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = static_cast< T >( 1 );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         foot_traits,
         meter_traits,
         T
@@ -153,7 +153,7 @@ namespace JadeMatrix { namespace units
         );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         foot_traits,
         fathom_traits,
         T
@@ -166,7 +166,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = static_cast< T >( 1 );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         foot_traits,
         nautical_mile_traits,
         T
@@ -184,7 +184,7 @@ namespace JadeMatrix { namespace units
     };
     
     // Yards <-> X /////////////////////////////////////////////////////////////
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         yard_traits,
         mile_traits,
         T
@@ -194,7 +194,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = constants< T >::yard_feet;
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         yard_traits,
         meter_traits,
         T
@@ -208,7 +208,7 @@ namespace JadeMatrix { namespace units
         );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         yard_traits,
         fathom_traits,
         T
@@ -218,7 +218,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = static_cast< T >( 1 );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         yard_traits,
         nautical_mile_traits,
         T
@@ -237,7 +237,7 @@ namespace JadeMatrix { namespace units
     };
     
     // Miles <-> X /////////////////////////////////////////////////////////////
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         mile_traits,
         meter_traits,
         T
@@ -251,7 +251,7 @@ namespace JadeMatrix { namespace units
         );
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         mile_traits,
         fathom_traits,
         T
@@ -264,7 +264,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = constants< T >::mile_feet;
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         mile_traits,
         nautical_mile_traits,
         T
@@ -284,7 +284,7 @@ namespace JadeMatrix { namespace units
     };
     
     // Meters <-> X ////////////////////////////////////////////////////////////
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         meter_traits,
         fathom_traits,
         T
@@ -299,7 +299,7 @@ namespace JadeMatrix { namespace units
         static constexpr T slope_den = constants< T >::meter_cms;
         static constexpr T intercept = static_cast< T >( 0 );
     };
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         meter_traits,
         nautical_mile_traits,
         T
@@ -311,7 +311,7 @@ namespace JadeMatrix { namespace units
     };
     
     // Fathoms <-> X ///////////////////////////////////////////////////////////
-    template< typename T > struct traits_linear_relation<
+    template< typename T > struct internal::traits_linear_relation<
         fathom_traits,
         nautical_mile_traits,
         T
