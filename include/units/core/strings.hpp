@@ -61,6 +61,16 @@ namespace JadeMatrix { namespace units
     DEFINE_STRINGS_FOR_SCALE( bi   , "bi"    , ""    , "/2" )
     DEFINE_STRINGS_FOR_SCALE( semi , "semi"  , ""    , "*2" )
     
+    #if defined JM_UNITS_ZT_AVAILABLE
+    DEFINE_STRINGS_FOR_SCALE( zepto, "zepto", "z", "" )
+    DEFINE_STRINGS_FOR_SCALE( zetta, "zetta", "Z", "" )
+    #endif
+
+    #if defined JM_UNITS_YT_AVAILABLE
+    DEFINE_STRINGS_FOR_SCALE( yocto, "yocto", "y", "" )
+    DEFINE_STRINGS_FOR_SCALE( yotta, "yotta", "Y", "" )
+    #endif
+    
     #undef DEFINE_STRINGS_FOR_SCALE
     
     template< typename Unit > struct ::JadeMatrix::units::unit_strings<
