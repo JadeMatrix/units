@@ -21,10 +21,12 @@ namespace JadeMatrix { namespace units // Stream formatting operators //////////
         && !internal::is_ratio< Unit >::value
     ), std::ostream& >::type
     {
-        return out
+        std::ostream::sentry s{ out };
+        if( s ) out
             << static_cast< typename Unit::value_type >( u )
             << unit_strings< Unit >::symbol()
         ;
+        return out;
     }
     
     template< typename T > std::ostream& operator<<(
@@ -32,7 +34,9 @@ namespace JadeMatrix { namespace units // Stream formatting operators //////////
         const ratio< T >& u
     )
     {
-        return out << static_cast< T >( u );
+        std::ostream::sentry s{ out };
+        if( s ) out << static_cast< T >( u );
+        return out;
     }
 } }
 
