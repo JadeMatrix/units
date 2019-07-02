@@ -8,7 +8,7 @@
 #include "internal/linear_relation.hpp"
 #include "internal/reduce.hpp"
 
-#include <type_traits>  // enable_if
+#include <type_traits>  // enable_if, is_same
 
 
 namespace JadeMatrix { namespace units // Basic unit class /////////////////////
@@ -41,9 +41,23 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
             typename O,
             typename = typename std::enable_if<
                 internal::is_unit< O >::value
+                && std::is_same< value_type, typename O::value_type >::value
             >::type
         > constexpr unit( const O& o ) :
             _value{ convert::from( o ) }
+        {}
+        // Two 'enable' template parameters so its template signature is
+        // different than the implicit version
+        template<
+            typename O,
+            typename = typename std::enable_if<
+                internal::is_unit< O >::value
+            >::type,
+            typename = typename std::enable_if<
+                !std::is_same< value_type, typename O::value_type >::value
+            >::type
+        > explicit constexpr unit( const O& o ) :
+            _value{ static_cast< value_type >( convert::from( o ) ) }
         {}
         
         template<
