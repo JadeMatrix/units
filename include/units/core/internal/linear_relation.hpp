@@ -225,22 +225,6 @@ namespace JadeMatrix { namespace units { namespace internal // Full conversion /
             );
         }
     };
-    
-    template<
-        template< typename > class ToUnit,
-        template< typename > class FromUnit,
-        typename = void
-    > struct conversion_exists : std::false_type {};
-    template<
-        template< typename > class ToUnit,
-        template< typename > class FromUnit
-    > struct conversion_exists<
-        ToUnit,
-        FromUnit,
-        void_t< decltype(
-            conversion< ToUnit >::from( std::declval< FromUnit< void > >() )
-        ) >
-    > : std::true_type {};
 } } }
 
 

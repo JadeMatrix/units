@@ -245,6 +245,15 @@ namespace JadeMatrix { namespace units { namespace internal // Simplify lists //
         using  first_list = unit_list< FirstFirstUnit, FirstRestUnits... >;
         using second_list = unit_list<>;
     };
+    
+    template<> struct simplify<
+        unit_list<>,
+        unit_list<>
+    >
+    {
+        using  first_list = unit_list<>;
+        using second_list = unit_list<>;
+    };
 } } }
 
 

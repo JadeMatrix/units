@@ -22,15 +22,17 @@ TEST_CASE( "stream format seconds" )
 TEST_CASE( "std::chrono::seconds to JadeMatrix::units::seconds" )
 {
     std::chrono::seconds std_seconds{ 7 };
-    units::seconds< double > seconds{ std_seconds };
-    REQUIRE( static_cast< double >( seconds ) == 7.0 );
+    using rep = std::chrono::seconds::rep;
+    units::seconds< rep > seconds{ std_seconds };
+    REQUIRE( static_cast< rep >( seconds ) == 7 );
 }
 
 TEST_CASE( "std::chrono::minutes to JadeMatrix::units::seconds" )
 {
     std::chrono::minutes std_minutes{ 7 };
-    units::seconds< double > seconds{ std_minutes };
-    REQUIRE( static_cast< double >( seconds ) == 420.0 );
+    using rep = std::chrono::minutes::rep;
+    units::seconds< rep > seconds{ std_minutes };
+    REQUIRE( static_cast< rep >( seconds ) == 420 );
 }
 
 TEST_CASE( "JadeMatrix::units::seconds to std::chrono::seconds" )
