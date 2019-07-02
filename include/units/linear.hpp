@@ -3,8 +3,8 @@
 #define JM_UNITS_LINEAR_HPP
 
 
-#include "core/define_unit.hpp"
 #include "core/constants.hpp"
+#include "core/define_unit.hpp"
 
 
 namespace JadeMatrix { namespace units
@@ -43,290 +43,374 @@ namespace JadeMatrix { namespace units
 namespace JadeMatrix { namespace units
 {
     // Inches <-> X ////////////////////////////////////////////////////////////
-    template< typename T > struct internal::traits_linear_relation<
-        inch_traits,
-        foot_traits,
-        T
-    >
+    
+    struct inches_feet_linear_relation
     {
-        static constexpr T slope_num = constants< T >::foot_inches;
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::foot_inches;
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        inch_traits,
-        yard_traits,
-        T
-    >
+    inches_feet_linear_relation units_linear_relation_lookup(
+        inch_traits&&,
+        foot_traits&&
+    );
+    
+    struct inches_yards_linear_relation
     {
-        static constexpr T slope_num = (
-              constants< T >::foot_inches
-            * constants< T >::yard_feet
-        );
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                  constants< T >::foot_inches
+                * constants< T >::yard_feet
+            );
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        inch_traits,
-        mile_traits,
-        T
-    >
+    inches_yards_linear_relation units_linear_relation_lookup(
+        inch_traits&&,
+        yard_traits&&
+    );
+    
+    struct inches_miles_linear_relation
     {
-        static constexpr T slope_num = (
-              constants< T >::foot_inches
-            * constants< T >::mile_feet
-        );
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                  constants< T >::foot_inches
+                * constants< T >::mile_feet
+            );
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        inch_traits,
-        meter_traits,
-        T
-    >
+    inches_miles_linear_relation units_linear_relation_lookup(
+        inch_traits&&,
+        mile_traits&&
+    );
+    
+    struct inches_meters_linear_relation
     {
-        static constexpr T slope_num = constants< T >::meter_cms;
-        static constexpr T slope_den = constants< T >::inch_cms;
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::meter_cms;
+            static constexpr T slope_den = constants< T >::inch_cms;
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        inch_traits,
-        fathom_traits,
-        T
-    >
+    inches_meters_linear_relation units_linear_relation_lookup(
+        inch_traits&&,
+        meter_traits&&
+    );
+    
+    struct inches_fathoms_linear_relation
     {
-        static constexpr T slope_num = (
-              constants< T >::foot_inches
-            * constants< T >::yard_feet
-            * constants< T >::fathom_yards
-        );
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                  constants< T >::foot_inches
+                * constants< T >::yard_feet
+                * constants< T >::fathom_yards
+            );
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        inch_traits,
-        nautical_mile_traits,
-        T
-    >
+    inches_fathoms_linear_relation units_linear_relation_lookup(
+        inch_traits&&,
+        fathom_traits&&
+    );
+    
+    struct inches_nautical_miles_linear_relation
     {
-        static constexpr T slope_num = (
-              constants< T >::meter_cms
-            * constants< T >::nautical_mile_meters
-        );
-        static constexpr T slope_den = constants< T >::inch_cms;
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                  constants< T >::meter_cms
+                * constants< T >::nautical_mile_meters
+            );
+            static constexpr T slope_den = constants< T >::inch_cms;
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
+    inches_nautical_miles_linear_relation units_linear_relation_lookup(
+        inch_traits&&,
+        nautical_mile_traits&&
+    );
     
     // Feet <-> X //////////////////////////////////////////////////////////////
-    template< typename T > struct internal::traits_linear_relation<
-        foot_traits,
-        yard_traits,
-        T
-    >
+    
+    struct feet_yards_linear_relation
     {
-        static constexpr T slope_num = constants< T >::yard_feet;
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::yard_feet;
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        foot_traits,
-        mile_traits,
-        T
-    >
+    feet_yards_linear_relation units_linear_relation_lookup(
+        foot_traits&&,
+        yard_traits&&
+    );
+    
+    struct feet_miles_linear_relation
     {
-        static constexpr T slope_num = constants< T >::mile_feet;
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::mile_feet;
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        foot_traits,
-        meter_traits,
-        T
-    >
+    feet_miles_linear_relation units_linear_relation_lookup(
+        foot_traits&&,
+        mile_traits&&
+    );
+    
+    struct feet_meters_linear_relation
     {
-        static constexpr T slope_num = constants< T >::meter_cms;
-        static constexpr T slope_den = (
-              constants< T >::inch_cms
-            * constants< T >::foot_inches
-        );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::meter_cms;
+            static constexpr T slope_den = (
+                  constants< T >::inch_cms
+                * constants< T >::foot_inches
+            );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        foot_traits,
-        fathom_traits,
-        T
-    >
+    feet_meters_linear_relation units_linear_relation_lookup(
+        foot_traits&&,
+        meter_traits&&
+    );
+    
+    struct feet_fathoms_linear_relation
     {
-        static constexpr T slope_num = (
-              constants< T >::yard_feet
-            * constants< T >::fathom_yards
-        );
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                  constants< T >::yard_feet
+                * constants< T >::fathom_yards
+            );
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        foot_traits,
-        nautical_mile_traits,
-        T
-    >
+    feet_fathoms_linear_relation units_linear_relation_lookup(
+        foot_traits&&,
+        fathom_traits&&
+    );
+    
+    struct feet_nautical_miles_linear_relation
     {
-        static constexpr T slope_num = (
-              constants< T >::meter_cms
-            * constants< T >::nautical_mile_meters
-        );
-        static constexpr T slope_den = (
-              constants< T >::inch_cms
-            * constants< T >::foot_inches
-        );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                  constants< T >::meter_cms
+                * constants< T >::nautical_mile_meters
+            );
+            static constexpr T slope_den = (
+                  constants< T >::inch_cms
+                * constants< T >::foot_inches
+            );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
+    feet_nautical_miles_linear_relation units_linear_relation_lookup(
+        foot_traits&&,
+        nautical_mile_traits&&
+    );
     
     // Yards <-> X /////////////////////////////////////////////////////////////
-    template< typename T > struct internal::traits_linear_relation<
-        yard_traits,
-        mile_traits,
-        T
-    >
+    
+    struct yards_miles_linear_relation
     {
-        static constexpr T slope_num = constants< T >::mile_feet;
-        static constexpr T slope_den = constants< T >::yard_feet;
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::mile_feet;
+            static constexpr T slope_den = constants< T >::yard_feet;
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        yard_traits,
-        meter_traits,
-        T
-    >
+    yards_miles_linear_relation units_linear_relation_lookup(
+        yard_traits&&,
+        mile_traits&&
+    );
+    
+    struct yards_meters_linear_relation
     {
-        static constexpr T slope_num = constants< T >::meter_cms;
-        static constexpr T slope_den = (
-              constants< T >::inch_cms
-            * constants< T >::foot_inches
-            * constants< T >::yard_feet
-        );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::meter_cms;
+            static constexpr T slope_den = (
+                  constants< T >::inch_cms
+                * constants< T >::foot_inches
+                * constants< T >::yard_feet
+            );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        yard_traits,
-        fathom_traits,
-        T
-    >
+    yards_meters_linear_relation units_linear_relation_lookup(
+        yard_traits&&,
+        meter_traits&&
+    );
+    
+    struct yards_fathoms_linear_relation
     {
-        static constexpr T slope_num = constants< T >::fathom_yards;
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::fathom_yards;
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        yard_traits,
-        nautical_mile_traits,
-        T
-    >
+    yards_fathoms_linear_relation units_linear_relation_lookup(
+        yard_traits&&,
+        fathom_traits&&
+    );
+    
+    struct yards_nautical_miles_linear_relation
     {
-        static constexpr T slope_num = (
-              constants< T >::meter_cms
-            * constants< T >::nautical_mile_meters
-        );
-        static constexpr T slope_den = (
-              constants< T >::inch_cms
-            * constants< T >::foot_inches
-            * constants< T >::yard_feet
-        );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                  constants< T >::meter_cms
+                * constants< T >::nautical_mile_meters
+            );
+            static constexpr T slope_den = (
+                  constants< T >::inch_cms
+                * constants< T >::foot_inches
+                * constants< T >::yard_feet
+            );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
+    yards_nautical_miles_linear_relation units_linear_relation_lookup(
+        yard_traits&&,
+        nautical_mile_traits&&
+    );
     
     // Miles <-> X /////////////////////////////////////////////////////////////
-    template< typename T > struct internal::traits_linear_relation<
-        mile_traits,
-        meter_traits,
-        T
-    >
+    
+    struct miles_meters_linear_relation
     {
-        static constexpr T slope_num = constants< T >::meter_cms;
-        static constexpr T slope_den = (
-              constants< T >::inch_cms
-            * constants< T >::foot_inches
-            * constants< T >::mile_feet
-        );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::meter_cms;
+            static constexpr T slope_den = (
+                  constants< T >::inch_cms
+                * constants< T >::foot_inches
+                * constants< T >::mile_feet
+            );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        mile_traits,
-        fathom_traits,
-        T
-    >
+    miles_meters_linear_relation units_linear_relation_lookup(
+        mile_traits&&,
+        meter_traits&&
+    );
+    
+    struct miles_fathoms_linear_relation
     {
-        static constexpr T slope_num = (
-              constants< T >::yard_feet
-            * constants< T >::fathom_yards
-        );
-        static constexpr T slope_den = constants< T >::mile_feet;
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                  constants< T >::yard_feet
+                * constants< T >::fathom_yards
+            );
+            static constexpr T slope_den = constants< T >::mile_feet;
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        mile_traits,
-        nautical_mile_traits,
-        T
-    >
+    miles_fathoms_linear_relation units_linear_relation_lookup(
+        mile_traits&&,
+        fathom_traits&&
+    );
+    
+    struct miles_nautical_miles_linear_relation
     {
-        static constexpr T slope_num = (
-              constants< T >::meter_cms
-            * constants< T >::nautical_mile_meters
-        );
-        static constexpr T slope_den = (
-              constants< T >::inch_cms
-            * constants< T >::foot_inches
-            * constants< T >::yard_feet
-            * constants< T >::mile_feet
-        );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                  constants< T >::meter_cms
+                * constants< T >::nautical_mile_meters
+            );
+            static constexpr T slope_den = (
+                  constants< T >::inch_cms
+                * constants< T >::foot_inches
+                * constants< T >::yard_feet
+                * constants< T >::mile_feet
+            );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
+    miles_nautical_miles_linear_relation units_linear_relation_lookup(
+        mile_traits&&,
+        nautical_mile_traits&&
+    );
     
     // Meters <-> X ////////////////////////////////////////////////////////////
-    template< typename T > struct internal::traits_linear_relation<
-        meter_traits,
-        fathom_traits,
-        T
-    >
+    
+    struct meters_fathoms_linear_relation
     {
-        static constexpr T slope_num = (
-              constants< T >::inch_cms
-            * constants< T >::foot_inches
-            * constants< T >::yard_feet
-            * constants< T >::fathom_yards
-        );
-        static constexpr T slope_den = constants< T >::meter_cms;
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                  constants< T >::inch_cms
+                * constants< T >::foot_inches
+                * constants< T >::yard_feet
+                * constants< T >::fathom_yards
+            );
+            static constexpr T slope_den = constants< T >::meter_cms;
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        meter_traits,
-        nautical_mile_traits,
-        T
-    >
+    meters_fathoms_linear_relation units_linear_relation_lookup(
+        meter_traits&&,
+        fathom_traits&&
+    );
+    
+    struct meters_nautical_miles_linear_relation
     {
-        static constexpr T slope_num = constants< T >::nautical_mile_meters;
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::nautical_mile_meters;
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
+    meters_nautical_miles_linear_relation units_linear_relation_lookup(
+        meter_traits&&,
+        nautical_mile_traits&&
+    );
     
     // Fathoms <-> X ///////////////////////////////////////////////////////////
-    template< typename T > struct internal::traits_linear_relation<
-        fathom_traits,
-        nautical_mile_traits,
-        T
-    >
+    
+    struct fathoms_nautical_miles_linear_relation
     {
-        static constexpr T slope_num = (
-              constants< T >::meter_cms
-            * constants< T >::nautical_mile_meters
-        );
-        static constexpr T slope_den = (
-              constants< T >::inch_cms
-            * constants< T >::foot_inches
-            * constants< T >::yard_feet
-            * constants< T >::fathom_yards
-        );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                  constants< T >::meter_cms
+                * constants< T >::nautical_mile_meters
+            );
+            static constexpr T slope_den = (
+                  constants< T >::inch_cms
+                * constants< T >::foot_inches
+                * constants< T >::yard_feet
+                * constants< T >::fathom_yards
+            );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
+    fathoms_nautical_miles_linear_relation units_linear_relation_lookup(
+        fathom_traits&&,
+        nautical_mile_traits&&
+    );
 } }
 
 

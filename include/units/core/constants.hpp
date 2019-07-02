@@ -5,7 +5,7 @@
 
 namespace JadeMatrix { namespace units
 {
-    template< typename T> struct constants
+    template< typename T > struct constants
     {
         static constexpr T pi                   = static_cast< T >( 3.1415926535897932385L );
         static constexpr T circle_degrees       = static_cast< T >( 360L                   );

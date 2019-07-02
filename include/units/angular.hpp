@@ -3,8 +3,8 @@
 #define JM_UNITS_ANGULAR_HPP
 
 
-#include "core/define_unit.hpp"
 #include "core/constants.hpp"
+#include "core/define_unit.hpp"
 
 
 namespace JadeMatrix { namespace units // Declarations /////////////////////////
@@ -32,132 +32,172 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
 namespace JadeMatrix { namespace units
 {
     // Degrees <-> X ///////////////////////////////////////////////////////////
-    template< typename T > struct internal::traits_linear_relation<
-        degree_traits,
-        radian_traits,
-        T
-    >
+    
+    struct degrees_radians_linear_relation
     {
-        static constexpr T slope_num = (
-            constants< T >::circle_degrees
-            / static_cast< T >( 2 )
-        );
-        static constexpr T slope_den = constants< T >::pi;
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                constants< T >::circle_degrees
+                / static_cast< T >( 2 )
+            );
+            static constexpr T slope_den = constants< T >::pi;
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        degree_traits,
-        arcminute_traits,
-        T
-    >
+    degrees_radians_linear_relation units_linear_relation_lookup(
+        degree_traits&&,
+        radian_traits&&
+    );
+    
+    struct degrees_arcminutes_linear_relation
     {
-        static constexpr T slope_num = static_cast< T >( 1 );
-        static constexpr T slope_den = constants< T >::hour_minutes;
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = static_cast< T >( 1 );
+            static constexpr T slope_den = constants< T >::hour_minutes;
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        degree_traits,
-        arcsecond_traits,
-        T
-    >
+    degrees_arcminutes_linear_relation units_linear_relation_lookup(
+        degree_traits&&,
+        arcminute_traits&&
+    );
+    
+    struct degrees_arcseconds_linear_relation
     {
-        static constexpr T slope_num = static_cast< T >( 1 );
-        static constexpr T slope_den = (
-              constants< T >::hour_minutes
-            * constants< T >::minute_seconds
-        );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = static_cast< T >( 1 );
+            static constexpr T slope_den = (
+                  constants< T >::hour_minutes
+                * constants< T >::minute_seconds
+            );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        degree_traits,
-        revolution_traits,
-        T
-    >
+    degrees_arcseconds_linear_relation units_linear_relation_lookup(
+        degree_traits&&,
+        arcsecond_traits&&
+    );
+    
+    struct degrees_revolutions_linear_relation
     {
-        static constexpr T slope_num = constants< T >::circle_degrees;
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::circle_degrees;
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
+    degrees_revolutions_linear_relation units_linear_relation_lookup(
+        degree_traits&&,
+        revolution_traits&&
+    );
     
     // Radians <-> X ///////////////////////////////////////////////////////////
-    template< typename T > struct internal::traits_linear_relation<
-        radian_traits,
-        arcminute_traits,
-        T
-    >
+    
+    struct radians_arcminutes_linear_relation
     {
-        static constexpr T slope_num = constants< T >::pi * 2;
-        static constexpr T slope_den = (
-              constants< T >::circle_degrees
-            * constants< T >::hour_minutes
-        );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::pi * 2;
+            static constexpr T slope_den = (
+                  constants< T >::circle_degrees
+                * constants< T >::hour_minutes
+            );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        radian_traits,
-        arcsecond_traits,
-        T
-    >
+    radians_arcminutes_linear_relation units_linear_relation_lookup(
+        radian_traits&&,
+        arcminute_traits&&
+    );
+    
+    struct radians_arcseconds_linear_relation
     {
-        static constexpr T slope_num = constants< T >::pi * 2;
-        static constexpr T slope_den = (
-              constants< T >::circle_degrees
-            * constants< T >::hour_minutes
-            * constants< T >::minute_seconds
-        );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::pi * 2;
+            static constexpr T slope_den = (
+                  constants< T >::circle_degrees
+                * constants< T >::hour_minutes
+                * constants< T >::minute_seconds
+            );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        radian_traits,
-        revolution_traits,
-        T
-    >
+    radians_arcseconds_linear_relation units_linear_relation_lookup(
+        radian_traits&&,
+        arcsecond_traits&&
+    );
+    
+    struct radians_revolutions_linear_relation
     {
-        static constexpr T slope_num = constants< T >::pi * 2;
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::pi * 2;
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
+    radians_revolutions_linear_relation units_linear_relation_lookup(
+        radian_traits&&,
+        revolution_traits&&
+    );
     
     // Arcminutes <-> X ////////////////////////////////////////////////////////
-    template< typename T > struct internal::traits_linear_relation<
-        arcminute_traits,
-        arcsecond_traits,
-        T
-    >
+    
+    struct arcminutes_arcseconds_linear_relation
     {
-        static constexpr T slope_num = static_cast< T >( 1 );
-        static constexpr T slope_den = constants< T >::minute_seconds;
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = static_cast< T >( 1 );
+            static constexpr T slope_den = constants< T >::minute_seconds;
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        arcminute_traits,
-        revolution_traits,
-        T
-    >
+    arcminutes_arcseconds_linear_relation units_linear_relation_lookup(
+        arcminute_traits&&,
+        arcsecond_traits&&
+    );
+    
+    struct arcminutes_revolutions_linear_relation
     {
-        static constexpr T slope_num = (
-              constants< T >::circle_degrees
-            * constants< T >::hour_minutes
-        );
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                  constants< T >::circle_degrees
+                * constants< T >::hour_minutes
+            );
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
+    arcminutes_revolutions_linear_relation units_linear_relation_lookup(
+        arcminute_traits&&,
+        revolution_traits&&
+    );
     
     // Arcseconds <-> X ////////////////////////////////////////////////////////
-    template< typename T > struct internal::traits_linear_relation<
-        arcsecond_traits,
-        revolution_traits,
-        T
-    >
+    
+    struct arcseconds_revolutions_linear_relation
     {
-        static constexpr T slope_num = (
-              constants< T >::circle_degrees
-            * constants< T >::hour_minutes
-            * constants< T >::minute_seconds
-        );
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                  constants< T >::circle_degrees
+                * constants< T >::hour_minutes
+                * constants< T >::minute_seconds
+            );
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
+    arcseconds_revolutions_linear_relation units_linear_relation_lookup(
+        arcsecond_traits&&,
+        revolution_traits&&
+    );
 } }
 
 

@@ -3,8 +3,8 @@
 #define JM_UNITS_TEMPORAL_HPP
 
 
-#include "core/define_unit.hpp"
 #include "core/constants.hpp"
+#include "core/define_unit.hpp"
 
 #include <chrono>
 
@@ -25,39 +25,50 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
 
 namespace JadeMatrix { namespace units
 {
-    template< typename T > struct internal::traits_linear_relation<
-        second_traits,
-        minute_traits,
-        T
-    >
+    struct seconds_minutes_linear_relation
     {
-        static constexpr T slope_num = constants< T >::minute_seconds;
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::minute_seconds;
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        second_traits,
-        hour_traits,
-        T
-    >
+    seconds_minutes_linear_relation units_linear_relation_lookup(
+        second_traits&&,
+        minute_traits&&
+    );
+    
+    struct seconds_hours_linear_relation
     {
-        static constexpr T slope_num = (
-              constants< T >::minute_seconds
-            * constants< T >::minute_seconds
-        );
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = (
+                  constants< T >::minute_seconds
+                * constants< T >::minute_seconds
+            );
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
-    template< typename T > struct internal::traits_linear_relation<
-        minute_traits,
-        hour_traits,
-        T
-    >
+    seconds_hours_linear_relation units_linear_relation_lookup(
+        second_traits&&,
+        hour_traits&&
+    );
+    
+    struct minutes_hours_linear_relation
     {
-        static constexpr T slope_num = constants< T >::minute_seconds;
-        static constexpr T slope_den = static_cast< T >( 1 );
-        static constexpr T intercept = static_cast< T >( 0 );
+        template< typename T > struct values
+        {
+            static constexpr T slope_num = constants< T >::minute_seconds;
+            static constexpr T slope_den = static_cast< T >( 1 );
+            static constexpr T intercept = static_cast< T >( 0 );
+        };
     };
+    minutes_hours_linear_relation units_linear_relation_lookup(
+        minute_traits&&,
+        hour_traits&&
+    );
 } }
 
 

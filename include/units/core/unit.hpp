@@ -32,30 +32,18 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
     protected:
         value_type _value;
         
-        template<
-            typename Other_Traits,
-            typename Other_Scale,
-            typename O
-        > static constexpr value_type from(
-            const unit< Other_Traits, Other_Scale, O >& o
-        )
-        {
-            using convert = internal::traits_convert< traits_type, T >;
-            using scale   = std::ratio_divide< scale_type, Other_Scale >;
-            return convert::template from< Other_Traits >(
-                static_cast< O >( o ) * scale::den
-            ) / scale::num;
-        }
+        using convert = internal::conversion< unit_type >;
         
     public:
         constexpr unit() {}
         constexpr unit( const value_type& v ) : _value{ v } {}
         template<
-            typename Other_Traits,
-            typename Other_Scale,
-            typename O
-        > constexpr unit( const unit< Other_Traits, Other_Scale, O >& o ) :
-            _value{ from( o ) }
+            typename O,
+            typename = typename std::enable_if<
+                internal::is_unit< O >::value
+            >::type
+        > constexpr unit( const O& o ) :
+            _value{ convert::from( o ) }
         {}
         
         template<
@@ -90,6 +78,7 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
 } }
 
 
+#if 0
 namespace JadeMatrix { namespace units // Basic binary operators ///////////////
 {
     #define DEFINE_OPERATORS_FOR_BINARY_OPERAND_NONUNIT( OPERAND ) \
@@ -409,6 +398,7 @@ namespace JadeMatrix { namespace units // Unary operators //////////////////////
     
     #undef DEFINE_OPERATORS_FOR_UNARY_OPERAND
 } }
+#endif
 
 
 #endif
