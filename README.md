@@ -96,8 +96,9 @@ All unit types have versions for all the [SI prefixes](https://en.wikipedia.org/
 Creating custom units is generally very simple, consisting of a traits/tag type, two macros to define prefixed `unit` aliases and strings, and a number of relationships representing unit conversions.  For example, the units `inches` and `feet` are defined basically as:
 
 ```cpp
+#include <units/core/constants.hpp>
 // This header contains includes of all the necessary headers for defining
-// custom units
+// custom units (except constants)
 #include <units/core/define_unit.hpp>
 
 struct inch_traits {};
@@ -109,17 +110,19 @@ DEFINE_ALL_PREFIXES_FOR_UNIT(   feet, foot_traits )
 DEFINE_ALL_STRINGS_FOR_UNIT( inch_traits, "inches", "in" )
 DEFINE_ALL_STRINGS_FOR_UNIT( foot_traits,   "feet", "ft" )
 
-template< typename T >
-struct ::JadeMatrix::units::internal::traits_linear_relation<
-    inch_traits,
-    foot_traits,
-    T
->
+struct inches_feet_linear_relation
 {
-    static constexpr T slope_num = constants< T >::foot_inches;
-    static constexpr T slope_den = static_cast< T >( 1 );
-    static constexpr T intercept = static_cast< T >( 0 );
+    template< typename T > struct values
+    {
+        static constexpr T slope_num = units::constants< T >::foot_inches;
+        static constexpr T slope_den = static_cast< T >( 1 );
+        static constexpr T intercept = static_cast< T >( 0 );
+    };
 };
+inches_feet_linear_relation units_linear_relation_lookkup(
+    inch_traits&&,
+    foot_traits&&
+);
 ```
 
 In this case a partial specialization of `traits_linear_relation< A, B, T >` represents how much of type A there is in type B — that is,
