@@ -4,7 +4,8 @@
 
 
 #include "core_types.hpp"
-#include "utils.hpp"
+
+#include <type_traits>  // conditional
 
 
 namespace JadeMatrix { namespace units { namespace internal // Unit list ///////
@@ -152,7 +153,7 @@ namespace JadeMatrix { namespace units { namespace internal // Remove from list
             unit_list< RestInList... >
         >;
         
-        using type = typename if_else<
+        using type = typename std::conditional<
             _same_as_first,
             unit_list< RestInList... >,
             typename unit_list_cat<
@@ -204,14 +205,14 @@ namespace JadeMatrix { namespace units { namespace internal // Simplify lists //
         >;
         using _simplify_rest = simplify<
             unit_list< FirstRestUnits... >,
-            typename if_else<
+            typename std::conditional<
                 _removal::removed,
                 typename _removal::type,
                 unit_list< SecondUnits... >
             >::type
         >;
         
-        using first_list = typename if_else<
+        using first_list = typename std::conditional<
             _removal::removed,
             typename _simplify_rest::first_list,
             typename unit_list_cat<

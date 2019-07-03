@@ -18,47 +18,4 @@ namespace JadeMatrix { namespace units { namespace internal // void_t //////////
 } } }
 
 
-namespace JadeMatrix { namespace units { namespace internal // If/else /////////
-{
-    // If `Condition` is `true`, member `type` is an alias to type `A`;
-    // otherwise it is an alias to type `B`.  Note that both `A` and `B` need to
-    // be valid types; this just permits a simple switch between the two.
-    
-    template<
-        bool Condition,
-        typename A,
-        typename B,
-        typename = void
-    > struct if_else;
-    
-    template<
-        bool Condition,
-        typename A,
-        typename B
-    > struct if_else<
-        Condition,
-        A,
-        B,
-        typename std::enable_if< Condition >::type
-    >
-    {
-        using type = A;
-    };
-    
-    template<
-        bool Condition,
-        typename A,
-        typename B
-    > struct if_else<
-        Condition,
-        A,
-        B,
-        typename std::enable_if< !Condition >::type
-    >
-    {
-        using type = B;
-    };
-} } }
-
-
 #endif
