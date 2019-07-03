@@ -216,12 +216,8 @@ namespace JadeMatrix { namespace units { namespace internal // Full conversion /
                     // Assuming the scale type is `std::ratio`, the types of the
                     // scale's `num`/`den` will always be `std::intmax_t`, which
                     // may otherwise poison the resulting type with widening.
-                    static_cast< O >(
-                        static_cast< O >( o )
-                        * scale::den
-                        / scale::num
-                    )
-                )
+                    static_cast< O >( static_cast< O >( o ) * scale::den )
+                ) / scale::num
             );
         }
     };
