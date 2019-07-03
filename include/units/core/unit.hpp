@@ -32,21 +32,26 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
     protected:
         value_type _value;
         
-        using convert = internal::conversion< unit_type >;
+        template<
+            template< typename > class OtherUnit
+        > using convert_from = internal::conversion< unit_type, OtherUnit >;
         
     public:
         constexpr unit() {}
         constexpr unit( const value_type& v ) : _value{ v } {}
+        // Copy/move constructors defaulted mostly for documentation purposes
+        constexpr unit( const unit&  ) = default;
+        constexpr unit(       unit&& ) = default;
         
         // Implicit conversion from convertible units of the same storage type
         template<
             typename O,
             typename = typename std::enable_if<
-                internal::is_unit< O >::value
+                convert_from< O::template unit_type >::exists
                 && std::is_same< value_type, typename O::value_type >::value
             >::type
         > constexpr unit( const O& o ) :
-            _value{ convert::from( o ) }
+            _value{ convert_from< O::template unit_type >::apply( o ) }
         {}
         // Explicit conversion from convertible units of a different storage
         // type; two 'enable' template parameters so its template signature is
@@ -54,13 +59,15 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
         template<
             typename O,
             typename = typename std::enable_if<
-                internal::is_unit< O >::value
+                convert_from< O::template unit_type >::exists
             >::type,
             typename = typename std::enable_if<
                 !std::is_same< value_type, typename O::value_type >::value
             >::type
         > explicit constexpr unit( const O& o ) :
-            _value{ static_cast< value_type >( convert::from( o ) ) }
+            _value{ static_cast< value_type >(
+                convert_from< O::template unit_type >::apply( o )
+            ) }
         {}
         
         template<

@@ -6,177 +6,199 @@
 #include "core_type_detection.hpp"
 #include "core_types.hpp"
 #include "linear_relation.hpp"
+#include "reduce.hpp"
+#include "utils.hpp"    // remove_cvref_t
 
 #include <functional>   // forward
 #include <utility>      // declval
-#include <ratio>        // ratio_divide
+#include <ratio>
 #include <type_traits>  // enable_if, is_same
 
 
-namespace JadeMatrix { namespace units { namespace internal // Basic conversion
+namespace JadeMatrix { namespace units { namespace internal // Conversion switch
 {
     template<
-        typename Traits,
-        typename OtherTraits,
+        template< typename > class To,
+        template< typename > class From,
         typename = void
-    > struct basic_conversion;
+    > struct convertible
+    {
+        constexpr static auto is_fully = false;
+    };
     
     template<
-        typename Traits,
-        typename OtherTraits
-    > struct basic_conversion<
-        Traits,
-        OtherTraits,
+        template< typename > class To,
+        template< typename > class From
+    > struct convertible<
+        To,
+        From,
         typename std::enable_if< std::is_same<
-            Traits,
-            OtherTraits
+            typename To  < void >::traits_type,
+            typename From< void >::traits_type
         >::value >::type
     >
     {
-        template< typename T > static constexpr T value( T&& v )
+        constexpr static auto is_fully = true;
+        
+        template< typename T > static constexpr T&& apply( T&& v )
         {
             return std::forward< T >( v );
         }
     };
     
     template<
-        typename Traits,
-        typename OtherTraits
-    > struct basic_conversion<
-        Traits,
-        OtherTraits,
-        typename std::enable_if< 
-            !std::is_same< Traits, OtherTraits >::value
-            && linear_relation_exists< Traits, OtherTraits >::value
+        template< typename > class To,
+        template< typename > class From
+    > struct convertible<
+        To,
+        From,
+        typename std::enable_if<
+            !std::is_same<
+                typename To  < void >::traits_type,
+                typename From< void >::traits_type
+            >::value
+            && linear_relation_exists<
+                typename To  < void >::traits_type,
+                typename From< void >::traits_type
+            >::value
         >::type
     >
     {
-        template< typename T > using relvals = typename linear_relation<
-            Traits,
-            OtherTraits
-        >::template values< T >;
-        template< typename T > using common_type = typename std::common_type<
-            decltype( relvals< T >::slope_num ),
-            decltype( relvals< T >::slope_den ),
-            decltype( relvals< T >::intercept ),
-            T
-        >::type;
+        constexpr static auto is_fully = true;
         
-        template< typename T > static constexpr common_type< T > value( T&& v )
+        using _relation = linear_relation<
+            typename To  < void >::traits_type,
+            typename From< void >::traits_type
+        >;
+        
+        template< typename T > static constexpr auto apply( T&& v ) ->
+            decltype( _relation::apply( std::forward< T >( v ) ) )
         {
-            using ct = common_type< T >;
-            return (
-                  static_cast< ct >( v                       )
-                * static_cast< ct >( relvals< T >::slope_num )
-                / static_cast< ct >( relvals< T >::slope_den )
-                + static_cast< ct >( relvals< T >::intercept )
-            );
+            return _relation::apply( std::forward< T >( v ) );
         }
     };
     
-    template<
-        typename Traits,
-        typename OtherTraits
-    > struct basic_conversion<
-        Traits,
-        OtherTraits,
-        typename std::enable_if< 
-            !std::is_same< Traits, OtherTraits >::value
-            && linear_relation_exists< OtherTraits, Traits >::value
-        >::type
-    >
+    template<> struct convertible< ratio, ratio >
     {
-        template< typename T > using relvals = typename linear_relation<
-            OtherTraits,
-            Traits
-        >::template values< T >;
-        template< typename T > using common_type = typename std::common_type<
-            decltype( relvals< T >::slope_num ),
-            decltype( relvals< T >::slope_den ),
-            decltype( relvals< T >::intercept ),
-            T
-        >::type;
+        constexpr static auto is_fully = true;
         
-        template< typename T > static constexpr common_type< T > value( T&& v )
+        template< typename T > static constexpr T&& apply( T&& v )
         {
-            using ct = common_type< T >;
-            return (
-                (
-                      static_cast< ct >( v                       )
-                    - static_cast< ct >( relvals< T >::intercept )
-                )
-                * static_cast< ct >( relvals< T >::slope_den )
-                / static_cast< ct >( relvals< T >::slope_num )
-            );
+            return std::forward< T >( v );
         }
     };
 } } }
 
 
+namespace JadeMatrix { namespace units { namespace internal // Scaling /////////
+{
+    template<
+        template< typename > class To,
+        template< typename > class From,
+        typename = void
+    > struct scale : std::ratio< 1 > {};
+    
+    template<
+        template< typename > class To,
+        template< typename > class From
+    > struct scale<
+        To,
+        From,
+        typename std::enable_if<
+                is_basic_unit<   To< void > >::value
+            && !is_basic_unit< From< void > >::value
+        >::type
+    > : To< void >::scale_type {};
+    
+    template<
+        template< typename > class To,
+        template< typename > class From
+    > struct scale<
+        To,
+        From,
+        typename std::enable_if<
+              !is_basic_unit<   To< void > >::value
+            && is_basic_unit< From< void > >::value
+        >::type
+    > : std::ratio_divide<
+        std::ratio< 1 >,
+        typename From< void >::scale_type
+    > {};
+    
+    template<
+        template< typename > class To,
+        template< typename > class From
+    > struct scale<
+        To,
+        From,
+        typename std::enable_if<
+               is_basic_unit<   To< void > >::value
+            && is_basic_unit< From< void > >::value
+        >::type
+    > : std::ratio_divide<
+        typename   To< void >::scale_type,
+        typename From< void >::scale_type
+    > {};
+} } }
+
+
 namespace JadeMatrix { namespace units { namespace internal // Full conversion /
 {
-    template< template< typename > class Unit > struct conversion
+    template<
+        template< typename > class To,
+        template< typename > class From/*,
+        typename = void*/
+    > struct conversion
     {
-        template<
-            template< typename > class OtherUnit
-        > using _convert_from = basic_conversion<
-            typename      Unit< void >::traits_type,
-            typename OtherUnit< void >::traits_type
-        >;
-        template<
-            template< typename > class OtherUnit
-        > using _scale = std::ratio_divide<
-            typename      Unit< void >::scale_type,
-            typename OtherUnit< void >::scale_type
-        >;
+        using   to_reduced = reduced<   To< void > >;
+        using from_reduced = reduced< From< void > >;
         
-        // Only supports basic units for now
-        template<
-            typename OtherTraits,
-            typename OtherScale
-        > struct _other_basic_unit
+        using _convertible = convertible<
+              to_reduced::template unit_type,
+            from_reduced::template unit_type
+        >;
+        static constexpr auto exists = _convertible::is_fully;
+        
+        template< typename T > using _result = remove_cvref_t< decltype(
+            _convertible::apply(
+                static_cast< T >(
+                    std::declval< T >()
+                )
+            )
+        ) >;
+        
+        // TODO: use this to support move semantics
+        template< typename T > static constexpr auto apply( const From< T >& f )
+            -> typename std::enable_if<
+                exists && std::ratio_equal<
+                    scale< To, From >,
+                    std::ratio< 1 >
+                >::value,
+                _result< T >
+            >::type
         {
-            template< typename T > using type = typename unit<
-                OtherTraits,
-                OtherScale,
-                void
-            >::template unit_type< T >;
-            
-            template< typename T > using resulting_type = decltype(
-                _convert_from< type >::value( std::declval< T >() )
-            );
+            return _convertible::apply( static_cast< T >( f ) );
         };
-        template<
-            typename OtherTraits,
-            typename OtherScale,
-            typename O
-        > static constexpr auto from(
-            const unit< OtherTraits, OtherScale, O >& o
-        ) -> typename _other_basic_unit<
-            OtherTraits,
-            OtherScale
-        >::template resulting_type< O >
+        
+        template< typename T > static constexpr auto apply( const From< T >& f )
+            -> typename std::enable_if<
+                exists && !std::ratio_equal<
+                    scale< To, From >,
+                    std::ratio< 1 >
+                >::value,
+                _result< T >
+            >::type
         {
-            using scale = _scale< _other_basic_unit<
-                OtherTraits,
-                OtherScale
-            >::template type >;
-            
-            return static_cast< typename _other_basic_unit<
-                OtherTraits,
-                OtherScale
-            >::template resulting_type< O > >(
-                _convert_from< _other_basic_unit<
-                    OtherTraits,
-                    OtherScale
-                >::template type >::value(
-                    // Assuming the scale type is `std::ratio`, the types of the
-                    // scale's `num`/`den` will always be `std::intmax_t`, which
-                    // may otherwise poison the resulting type with widening.
-                    static_cast< O >( static_cast< O >( o ) * scale::den )
-                ) / scale::num
-            );
-        }
+            return _convertible::apply(
+                // Assuming the scale type is `std::ratio`, the types of the
+                // scale's `num`/`den` will always be `std::intmax_t`, which may
+                // otherwise poison the resulting type with widening.
+                static_cast< T >(
+                    static_cast< T >( f )
+                    * scale< To, From >::den
+                )
+            ) / scale< To, From >::num;
+        };
     };
 } } }
 
