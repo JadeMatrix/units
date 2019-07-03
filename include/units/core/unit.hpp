@@ -3,9 +3,9 @@
 #define JM_UNITS_CORE_UNIT_HPP
 
 
+#include "internal/convert.hpp"
 #include "internal/core_type_detection.hpp"
 #include "internal/core_types.hpp"
-#include "internal/linear_relation.hpp"
 #include "internal/reduce.hpp"
 
 #include <type_traits>  // enable_if, is_same

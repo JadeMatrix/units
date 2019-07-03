@@ -3,9 +3,9 @@
 #define JM_UNITS_CORE_OPERATORS_HPP
 
 
+#include "internal/convert.hpp"
 #include "internal/core_type_detection.hpp"
 #include "internal/core_types.hpp"
-#include "internal/linear_relation.hpp"
 #include "internal/utils.hpp"   // remove_cvref_t
 #include "internal/reduce.hpp"
 
