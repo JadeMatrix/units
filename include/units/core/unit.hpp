@@ -37,6 +37,8 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
     public:
         constexpr unit() {}
         constexpr unit( const value_type& v ) : _value{ v } {}
+        
+        // Implicit conversion from convertible units of the same storage type
         template<
             typename O,
             typename = typename std::enable_if<
@@ -46,7 +48,8 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
         > constexpr unit( const O& o ) :
             _value{ convert::from( o ) }
         {}
-        // Two 'enable' template parameters so its template signature is
+        // Explicit conversion from convertible units of a different storage
+        // type; two 'enable' template parameters so its template signature is
         // different than the implicit version
         template<
             typename O,
