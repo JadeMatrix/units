@@ -5,6 +5,7 @@
 
 #include "internal/core_type_detection.hpp"
 #include "internal/core_types.hpp"
+#include "internal/reduce.hpp"
 
 #include <type_traits>  // enable_if
 
