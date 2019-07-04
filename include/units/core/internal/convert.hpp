@@ -178,7 +178,7 @@ namespace JadeMatrix { namespace units { namespace internal // Full conversion /
             >::type
         {
             return _convertible::apply( static_cast< T >( f ) );
-        };
+        }
         
         template< typename T > static constexpr auto apply( const From< T >& f )
             -> typename std::enable_if<
@@ -198,7 +198,7 @@ namespace JadeMatrix { namespace units { namespace internal // Full conversion /
                     * scale< To, From >::den
                 )
             ) / scale< To, From >::num;
-        };
+        }
     };
 } } }
 
