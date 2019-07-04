@@ -45,7 +45,7 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
                 convert_from< O::template unit_type >::exists
             >::type
         > constexpr unit( const O& o ) :
-            _value{ convert_from< O::template unit_type >::apply( o ) }
+            _value( convert_from< O::template unit_type >::apply( o ) )
         {}
         
         template<
