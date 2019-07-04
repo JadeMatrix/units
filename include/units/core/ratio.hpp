@@ -23,12 +23,15 @@ namespace JadeMatrix { namespace units // Dimensionless values /////////////////
     public:
         constexpr ratio() {}
         constexpr ratio( const value_type& v ) : _value{ v } {}
-        // Implicit conversion from unit/unit of same unit
+        
+        // TODO: copy vs. move versions (needs template friend ratio)
         template<
-            template< typename > class Unit,
-            typename O
-        > constexpr ratio( const per< Unit, Unit, O >& o ) :
-            _value{ static_cast< O >( o ) }
+            typename O,
+            typename = typename std::enable_if<
+                internal::is_ratio< internal::reduced< O > >::value
+            >::type
+        > constexpr ratio( const O& o ) :
+            _value{ static_cast< typename O::value_type >( o ) }
         {}
         
         // Ratio can be implicitly converted to its base type
