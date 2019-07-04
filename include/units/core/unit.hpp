@@ -6,7 +6,6 @@
 #include "internal/convert.hpp"
 #include "internal/core_type_detection.hpp"
 #include "internal/core_types.hpp"
-#include "internal/reduce.hpp"
 
 #include <type_traits>  // enable_if, is_same
 
@@ -39,35 +38,14 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
     public:
         constexpr unit() {}
         constexpr unit( const value_type& v ) : _value{ v } {}
-        // Copy/move constructors defaulted mostly for documentation purposes
-        constexpr unit( const unit&  ) = default;
-        constexpr unit(       unit&& ) = default;
         
-        // Implicit conversion from convertible units of the same storage type
         template<
             typename O,
             typename = typename std::enable_if<
                 convert_from< O::template unit_type >::exists
-                && std::is_same< value_type, typename O::value_type >::value
             >::type
         > constexpr unit( const O& o ) :
             _value{ convert_from< O::template unit_type >::apply( o ) }
-        {}
-        // Explicit conversion from convertible units of a different storage
-        // type; two 'enable' template parameters so its template signature is
-        // different than the implicit version
-        template<
-            typename O,
-            typename = typename std::enable_if<
-                convert_from< O::template unit_type >::exists
-            >::type,
-            typename = typename std::enable_if<
-                !std::is_same< value_type, typename O::value_type >::value
-            >::type
-        > explicit constexpr unit( const O& o ) :
-            _value{ static_cast< value_type >(
-                convert_from< O::template unit_type >::apply( o )
-            ) }
         {}
         
         template<
