@@ -20,12 +20,15 @@ IF(
         "-Wunused"
         "-Woverloaded-virtual"
         "-Wpedantic"
-        "-Wconversion"
-        "-Wsign-conversion"
         "-Wnull-dereference"
-        "-Wdouble-promotion"
         "-Wformat=2"
     )
+    SET( UNITS_COMPILE_OPTIONS_CONVERSION
+        "-Wconversion"
+        "-Wsign-conversion"
+        "-Wdouble-promotion"
+    )
+    
     IF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         SET( UNITS_COMPILE_OPTIONS
             "-Wduplicated-cond"
@@ -40,6 +43,7 @@ ELSEIF( "${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC" )
         "/WX"
         "/Wall"
     )
+    SET( UNITS_COMPILE_OPTIONS_CONVERSION #[[ TODO ]] )
 ENDIF()
 
 
@@ -50,6 +54,7 @@ ENDIF()
 #       [ WILL_FAIL ]
 #       [ FILE <filename> ]
 #       [ NAME <name> ]
+#       [ COMPILE_OPTIONS <option> ... ]
 #       [ DEPENDS_TARGETS <target> ... ]
 #   )
 # Defaults:
@@ -59,34 +64,33 @@ FUNCTION( UNITS_ADD_COMPILE_TEST BASENAME )
     CMAKE_PARSE_ARGUMENTS( TEST
         "WILL_FAIL"
         "FILE;NAME"
-        "DEPENDS_TARGETS"
+        "COMPILE_OPTIONS;DEPENDS_TARGETS"
         ${ARGN}
     )
     
     IF( NOT TEST_FILE )
         SET( TEST_FILE "compile/${BASENAME}.cpp" )
     ENDIF()
-    
-    # Add library because we aren't testing failure to link; OBJECT because it
-    # has the least semantics; EXCLUDE_FROM_ALL is important in case WILL_FAIL
-    # is set on this test
-    ADD_LIBRARY( ${BASENAME}_compile_test
-        OBJECT
-        EXCLUDE_FROM_ALL
-        "${TEST_FILE}"
-    )
-    TARGET_LINK_LIBRARIES( ${BASENAME}_compile_test PRIVATE units )
-    TARGET_COMPILE_OPTIONS( ${BASENAME}_compile_test
-        PRIVATE ${UNITS_COMPILE_OPTIONS}
-    )
-    
     IF( NOT TEST_NAME )
         SET( TEST_NAME "${BASENAME}_compile_test" )
     ENDIF()
     
+    # Add library because we aren't testing failure to link; OBJECT because it
+    # has the least semantics; EXCLUDE_FROM_ALL is important in case WILL_FAIL
+    # is set on this test
+    ADD_LIBRARY( ${TEST_NAME}_compile_test
+        OBJECT
+        EXCLUDE_FROM_ALL
+        "${TEST_FILE}"
+    )
+    TARGET_LINK_LIBRARIES( ${TEST_NAME}_compile_test PRIVATE units )
+    TARGET_COMPILE_OPTIONS( ${TEST_NAME}_compile_test
+        PRIVATE ${TEST_COMPILE_OPTIONS}
+    )
+    
     SET( DEPENDS_TESTS )
     FOREACH( DEPENDS_TARGET IN LISTS DEPENDS_TARGETS )
-        SET( DEPENDS_TEST_NAME "${BASENAME}_compile_test_${DEPENDS_TARGET}" )
+        SET( DEPENDS_TEST_NAME "${TEST_NAME}_compile_test_${DEPENDS_TARGET}" )
         ADD_TEST(
             NAME ${DEPENDS_TEST_NAME}
             COMMAND "${CMAKE_COMMAND}"
@@ -102,7 +106,7 @@ FUNCTION( UNITS_ADD_COMPILE_TEST BASENAME )
         NAME "${TEST_NAME}"
         COMMAND "${CMAKE_COMMAND}"
             --build "${CMAKE_BINARY_DIR}"
-            --target "${BASENAME}_compile_test"
+            --target "${TEST_NAME}_compile_test"
         WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
     )
     SET_TESTS_PROPERTIES( "${TEST_NAME}"
@@ -133,15 +137,21 @@ ADD_CUSTOM_TARGET( readme_source
 )
 UNITS_ADD_COMPILE_TEST( readme
     FILE "${CMAKE_CURRENT_BINARY_DIR}/compile/readme_tests.cpp"
+    COMPILE_OPTIONS
+        ${UNITS_COMPILE_OPTIONS}
     DEPENDS_TARGETS readme_source
 )
 
 
 # Positive compile tests
 FOREACH( COMPILE IN ITEMS
-    # 
+    "ratio_conversion"
 )
-    UNITS_ADD_COMPILE_TEST( "${COMPILE}" )
+    UNITS_ADD_COMPILE_TEST( "${COMPILE}"
+        COMPILE_OPTIONS
+            ${UNITS_COMPILE_OPTIONS}
+            ${UNITS_COMPILE_OPTIONS_CONVERSION}
+    )
 ENDFOREACH()
 
 
@@ -149,8 +159,31 @@ ENDFOREACH()
 FOREACH( COMPILE IN ITEMS
     "incompatible_unit_conversion"
 )
-    UNITS_ADD_COMPILE_TEST( "${COMPILE}" WILL_FAIL )
+    UNITS_ADD_COMPILE_TEST( "${COMPILE}"
+        WILL_FAIL
+        COMPILE_OPTIONS
+            ${UNITS_COMPILE_OPTIONS}
+            ${UNITS_COMPILE_OPTIONS_CONVERSION}
+    )
 ENDFOREACH()
+
+
+# Compiler-specific tests (unfortunately)
+IF(
+       "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"
+    OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang"
+)
+    UNITS_ADD_COMPILE_TEST( "implicit_storage_conversion"
+        COMPILE_OPTIONS ${UNITS_COMPILE_OPTIONS}
+    )
+    UNITS_ADD_COMPILE_TEST( "implicit_storage_conversion"
+        WILL_FAIL
+        NAME "implicit_storage_conversion_warn"
+        COMPILE_OPTIONS
+            ${UNITS_COMPILE_OPTIONS}
+            ${UNITS_COMPILE_OPTIONS_CONVERSION}
+    )
+ENDIF()
 
 
 # Regular runnable unit tests
@@ -180,7 +213,11 @@ FOREACH( SUITE IN ITEMS
     ENDIF()
     
     TARGET_LINK_LIBRARIES(  ${SUITE}_tests PRIVATE units doctest::doctest   )
-    TARGET_COMPILE_OPTIONS( ${SUITE}_tests PRIVATE ${UNITS_COMPILE_OPTIONS} )
+    TARGET_COMPILE_OPTIONS( ${SUITE}_tests
+        PRIVATE
+            ${UNITS_COMPILE_OPTIONS}
+            ${UNITS_COMPILE_OPTIONS_CONVERSION}
+    )
     
     ADD_DEPENDENCIES( tests ${SUITE}_tests )
     DOCTEST_DISCOVER_TESTS( ${SUITE}_tests )
