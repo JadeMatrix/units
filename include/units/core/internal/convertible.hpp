@@ -81,7 +81,20 @@ namespace JadeMatrix { namespace units { namespace internal // Conversion switch
         }
     };
     
-    template<> struct convertible< ratio, ratio >
+    // Can't use basic template specialization on `ratio` as both GCC and Clang
+    // fail to match aliased `ratio`s in some cases (known issue caused by
+    // ambiguous wording in the standard)
+    template<
+        template< typename > class To,
+        template< typename > class From
+    > struct convertible<
+        To,
+        From,
+        typename std::enable_if<
+               is_ratio<   To< void > >::value
+            && is_ratio< From< void > >::value
+        >::type
+    >
     {
         constexpr static auto is_fully = true;
         
