@@ -6,7 +6,9 @@
 #include "convertible.hpp"
 #include "core_type_detection.hpp"
 #include "unit_list.hpp"
+#include "scale.hpp"
 
+#include <ratio>
 #include <type_traits>  // is_same
 
 
@@ -39,7 +41,9 @@ namespace JadeMatrix { namespace units { namespace internal // Reduction compare
          FirstUnit< void >,
         SecondUnit< void >
     >
-    {};
+    {
+        using additional_scale = std::ratio< 1 >;
+    };
     
     template<
         template< typename > class  FirstUnit,
@@ -50,6 +54,8 @@ namespace JadeMatrix { namespace units { namespace internal // Reduction compare
              FirstUnit,
             SecondUnit
         >::is_fully;
+        
+        using additional_scale = scale< FirstUnit, SecondUnit >;
     };
 } } }
 
@@ -84,6 +90,7 @@ namespace JadeMatrix { namespace units { namespace internal // Reduce //////////
     >
     {
         template< typename T > using unit_type = Unit< T >;
+        using additional_scale = std::ratio< 1 >;
     };
     
     template<
@@ -111,6 +118,8 @@ namespace JadeMatrix { namespace units { namespace internal // Reduce //////////
             typename _simplified:: first_list,
             typename _simplified::second_list
         >::template unit_type< T >;
+        
+        using additional_scale = typename _simplified::additional_scale;
     };
     
     template<

@@ -23,10 +23,19 @@ namespace JadeMatrix { namespace units { namespace internal // Full conversion /
     > struct conversion
     {
         using _convertible = convertible<
-            reduced<   To< void > >::template unit_type,
-            reduced< From< void > >::template unit_type
+            full_reduce<   To >::template unit_type,
+            full_reduce< From >::template unit_type
         >;
         static constexpr auto exists = _convertible::is_fully;
+        
+        using _additional_scale = std::ratio_divide<
+            typename full_reduce< From >::additional_scale,
+            typename full_reduce<   To >::additional_scale
+        >;
+        using final_scale = std::ratio_divide<
+            scale< To, From >,
+            _additional_scale
+        >;
         
         template< typename T > using _result = remove_cvref_t< decltype(
             _convertible::apply(
@@ -40,7 +49,7 @@ namespace JadeMatrix { namespace units { namespace internal // Full conversion /
         template< typename T > static constexpr auto apply( const From< T >& f )
             -> typename std::enable_if<
                 exists && std::ratio_equal<
-                    scale< To, From >,
+                    final_scale,
                     std::ratio< 1 >
                 >::value,
                 _result< T >
@@ -52,7 +61,7 @@ namespace JadeMatrix { namespace units { namespace internal // Full conversion /
         template< typename T > static constexpr auto apply( const From< T >& f )
             -> typename std::enable_if<
                 exists && !std::ratio_equal<
-                    scale< To, From >,
+                    final_scale,
                     std::ratio< 1 >
                 >::value,
                 _result< T >
@@ -64,9 +73,9 @@ namespace JadeMatrix { namespace units { namespace internal // Full conversion /
                 // otherwise poison the resulting type with widening.
                 static_cast< T >(
                     static_cast< T >( f )
-                    * scale< To, From >::den
+                    * final_scale::den
                 )
-            ) / scale< To, From >::num;
+            ) / final_scale::num;
         }
     };
 } } }

@@ -5,6 +5,7 @@
 
 #include "core_types.hpp"
 
+#include <ratio>
 #include <type_traits>  // conditional
 
 
@@ -165,6 +166,12 @@ namespace JadeMatrix { namespace units { namespace internal // Remove from list
             Compare
         >;
         
+        using additional_scale = typename std::conditional<
+            _same_as_first,
+            typename _compare         ::additional_scale,
+            typename _remove_from_rest::additional_scale
+        >::type;
+        
         using type = typename std::conditional<
             _same_as_first,
             unit_list< RestInList... >,
@@ -189,6 +196,7 @@ namespace JadeMatrix { namespace units { namespace internal // Remove from list
     {
         using type = unit_list<>;
         static constexpr auto removed = false;
+        using additional_scale = std::ratio< 1 >;
     };
 } } }
 
@@ -251,6 +259,14 @@ namespace JadeMatrix { namespace units { namespace internal // Simplify lists //
             >::type
         >::type;
         using second_list = typename _simplify_rest::second_list;
+        using additional_scale = std::ratio_multiply<
+            typename std::conditional<
+                _removal::removed,
+                typename _removal::additional_scale,
+                std::ratio< 1 >
+            >::type,
+            typename _simplify_rest::additional_scale
+        >;
     };
     
     template<
@@ -268,6 +284,7 @@ namespace JadeMatrix { namespace units { namespace internal // Simplify lists //
     {
         using  first_list = unit_list<>;
         using second_list = unit_list< SecondFirstUnit, SecondRestUnits... >;
+        using additional_scale = std::ratio< 1 >;
     };
     
     template<
@@ -285,6 +302,7 @@ namespace JadeMatrix { namespace units { namespace internal // Simplify lists //
     {
         using  first_list = unit_list< FirstFirstUnit, FirstRestUnits... >;
         using second_list = unit_list<>;
+        using additional_scale = std::ratio< 1 >;
     };
     
     template<
@@ -300,6 +318,7 @@ namespace JadeMatrix { namespace units { namespace internal // Simplify lists //
     {
         using  first_list = unit_list<>;
         using second_list = unit_list<>;
+        using additional_scale = std::ratio< 1 >;
     };
 } } }
 

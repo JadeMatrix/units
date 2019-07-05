@@ -3,9 +3,9 @@
 #define JM_UNITS_CORE_RATIO_HPP
 
 
+#include "internal/conversion.hpp"
 #include "internal/core_type_detection.hpp"
 #include "internal/core_types.hpp"
-#include "internal/reduce.hpp"
 
 #include <type_traits>  // enable_if
 
@@ -21,18 +21,21 @@ namespace JadeMatrix { namespace units // Dimensionless values /////////////////
     protected:
         value_type _value;
         
+        template<
+            template< typename > class OtherUnit
+        > using convert_from = internal::conversion< unit_type, OtherUnit >;
+        
     public:
         constexpr ratio() {}
         constexpr ratio( const value_type& v ) : _value{ v } {}
         
-        // TODO: copy vs. move versions (needs template friend ratio)
         template<
             typename O,
             typename = typename std::enable_if<
-                internal::is_ratio< internal::reduced< O > >::value
+                convert_from< O::template unit_type >::exists
             >::type
         > constexpr ratio( const O& o ) :
-            _value{ static_cast< typename O::value_type >( o ) }
+            _value( convert_from< O::template unit_type >::apply( o ) )
         {}
         
         // Ratio can be implicitly converted to its base type
