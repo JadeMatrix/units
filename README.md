@@ -119,9 +119,17 @@ struct inches_feet_linear_relation
         static constexpr T intercept = static_cast< T >( 0 );
     };
 };
-inches_feet_linear_relation units_linear_relation_lookkup(
+inches_feet_linear_relation units_linear_relation_lookup(
     inch_traits&&,
     foot_traits&&
+);
+
+// Test that the units were defined correctly
+#include <type_traits>
+static_assert(
+       std::is_convertible< megafeet< float >, centiinches< float > >::value
+    && std::is_convertible< dozen_inches< float >, bifeet< float > >::value,
+    "feet & inches not mutually convertible"
 );
 ```
 
