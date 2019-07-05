@@ -3,6 +3,7 @@
 #define JM_UNITS_CORE_PER_HPP
 
 
+#include "internal/conversion.hpp"
 #include "internal/core_type_detection.hpp"
 #include "internal/core_types.hpp"
 
@@ -30,24 +31,21 @@ namespace JadeMatrix { namespace units // Unit divided by another //////////////
     protected:
         value_type _value;
         
+        template<
+            template< typename > class OtherUnit
+        > using convert_from = internal::conversion< unit_type, OtherUnit >;
+        
     public:
         constexpr per() {}
         constexpr per( const value_type& v ) : _value{ v } {}
+        
         template<
-            template< typename > class Other_Numer_Unit,
-            template< typename > class Other_Denom_Unit,
-            typename O
-        > constexpr per( const per<
-            Other_Numer_Unit,
-            Other_Denom_Unit,
-            O
-        >& o ) : _value{
-            static_cast< O >( numer_unit< O >{
-                Other_Numer_Unit< O >{ static_cast< O >( o ) }
-            } ) / static_cast< O >( denom_unit< O >{
-                Other_Denom_Unit< O >{ static_cast< O >( 1 ) }
-            } )
-        }
+            typename O,
+            typename = typename std::enable_if<
+                convert_from< O::template unit_type >::exists
+            >::type
+        > constexpr per( const O& o ) :
+            _value( convert_from< O::template unit_type >::apply( o ) )
         {}
         
         template<
