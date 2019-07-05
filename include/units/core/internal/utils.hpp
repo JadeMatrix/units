@@ -3,10 +3,10 @@
 #define JM_UNITS_CORE_INTERNAL_UTILS_HPP
 
 
-#include <type_traits>  // enable_if, remove_cv, remove_reference
+#include <type_traits>  // remove_cv, remove_reference
 
 
-namespace JadeMatrix { namespace units { namespace internal // void_t //////////
+namespace JadeMatrix { namespace units { namespace internal // Future //////////
 {
     // `std::void_t` available in C++17
     template< typename... T > using void_t = void;
