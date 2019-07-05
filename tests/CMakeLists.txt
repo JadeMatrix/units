@@ -194,6 +194,7 @@ FOREACH( SUITE IN ITEMS
     "linear_imperial"
     "linear_metric"
     "linear_nautical"
+    "ratio"
     "temporal"
 )
     ADD_EXECUTABLE( ${SUITE}_tests )
