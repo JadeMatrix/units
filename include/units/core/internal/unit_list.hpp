@@ -133,24 +133,36 @@ namespace JadeMatrix { namespace units { namespace internal // Remove from list
     
     template<
         template< typename > class Unit,
-        typename List
+        typename List,
+        template<
+            template< typename > class,
+            template< typename > class
+        > class Compare
     > struct remove_from_list;
     
     template<
         template< typename > class Unit,
         template< typename > class   FirstInList,
-        template< typename > class... RestInList
-    > struct remove_from_list< Unit, unit_list< FirstInList, RestInList... > >
+        template< typename > class... RestInList,
+        template<
+            template< typename > class,
+            template< typename > class
+        > class Compare
+    > struct remove_from_list<
+        Unit,
+        unit_list< FirstInList, RestInList... >,
+        Compare
+    >
     {
-        static constexpr auto _same_as_first = std::is_same<
-            // WATCHME: may need a wrapper for this as `std::is_same` does not
-            // fully resolve type through aliases with some compilers
-            Unit< void >,
-            FirstInList< void >
-        >::value;
+        using _compare = Compare<
+            Unit,
+            FirstInList
+        >;
+        static constexpr auto _same_as_first = _compare::value;
         using _remove_from_rest = remove_from_list<
             Unit,
-            unit_list< RestInList... >
+            unit_list< RestInList... >,
+            Compare
         >;
         
         using type = typename std::conditional<
@@ -168,8 +180,12 @@ namespace JadeMatrix { namespace units { namespace internal // Remove from list
     };
     
     template<
-        template< typename > class Unit
-    > struct remove_from_list< Unit, unit_list<> >
+        template< typename > class Unit,
+        template<
+            template< typename > class,
+            template< typename > class
+        > class Compare
+    > struct remove_from_list< Unit, unit_list<>, Compare >
     {
         using type = unit_list<>;
         static constexpr auto removed = false;
@@ -188,20 +204,33 @@ namespace JadeMatrix { namespace units { namespace internal // Simplify lists //
     // Members `first_list` and `second_list` are aliased to the two
     // (potentially) modified lists, respectively.
     
-    template< typename, typename > struct simplify;
+    template<
+        typename NumerList,
+        typename DenomList,
+        template<
+            template< typename > class,
+            template< typename > class
+        > class Compare
+    > struct simplify;
     
     template<
         template< typename > class FirstFirstUnit,
         template< typename > class... FirstRestUnits,
-        template< typename > class... SecondUnits
+        template< typename > class... SecondUnits,
+        template<
+            template< typename > class,
+            template< typename > class
+        > class Compare
     > struct simplify<
         unit_list< FirstFirstUnit, FirstRestUnits... >,
-        unit_list< SecondUnits... >
+        unit_list< SecondUnits... >,
+        Compare
     >
     {
         using _removal = remove_from_list<
             FirstFirstUnit,
-            unit_list< SecondUnits... >
+            unit_list< SecondUnits... >,
+            Compare
         >;
         using _simplify_rest = simplify<
             unit_list< FirstRestUnits... >,
@@ -209,7 +238,8 @@ namespace JadeMatrix { namespace units { namespace internal // Simplify lists //
                 _removal::removed,
                 typename _removal::type,
                 unit_list< SecondUnits... >
-            >::type
+            >::type,
+            Compare
         >;
         
         using first_list = typename std::conditional<
@@ -225,10 +255,15 @@ namespace JadeMatrix { namespace units { namespace internal // Simplify lists //
     
     template<
         template< typename > class SecondFirstUnit,
-        template< typename > class... SecondRestUnits
+        template< typename > class... SecondRestUnits,
+        template<
+            template< typename > class,
+            template< typename > class
+        > class Compare
     > struct simplify<
         unit_list<>,
-        unit_list< SecondFirstUnit, SecondRestUnits... >
+        unit_list< SecondFirstUnit, SecondRestUnits... >,
+        Compare
     >
     {
         using  first_list = unit_list<>;
@@ -237,19 +272,30 @@ namespace JadeMatrix { namespace units { namespace internal // Simplify lists //
     
     template<
         template< typename > class FirstFirstUnit,
-        template< typename > class... FirstRestUnits
+        template< typename > class... FirstRestUnits,
+        template<
+            template< typename > class,
+            template< typename > class
+        > class Compare
     > struct simplify<
         unit_list< FirstFirstUnit, FirstRestUnits... >,
-        unit_list<>
+        unit_list<>,
+        Compare
     >
     {
         using  first_list = unit_list< FirstFirstUnit, FirstRestUnits... >;
         using second_list = unit_list<>;
     };
     
-    template<> struct simplify<
+    template<
+        template<
+            template< typename > class,
+            template< typename > class
+        > class Compare
+    > struct simplify<
         unit_list<>,
-        unit_list<>
+        unit_list<>,
+        Compare
     >
     {
         using  first_list = unit_list<>;
