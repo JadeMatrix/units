@@ -18,9 +18,21 @@ namespace JadeMatrix { namespace units { namespace internal // Full conversion /
 {
     template<
         template< typename > class To,
-        template< typename > class From/*,
-        typename = void*/
-    > struct conversion
+        template< typename > class From,
+        typename = void
+    > struct conversion;
+    
+    template<
+        template< typename > class To,
+        template< typename > class From
+    > struct conversion<
+        To,
+        From,
+        typename std::enable_if< convertible<
+            full_reduce<   To >::template unit_type,
+            full_reduce< From >::template unit_type
+        >::is_fully >::type
+    >
     {
         using _convertible = convertible<
             full_reduce<   To >::template unit_type,
@@ -48,10 +60,7 @@ namespace JadeMatrix { namespace units { namespace internal // Full conversion /
         // TODO: use this to support move semantics
         template< typename T > static constexpr auto apply( const From< T >& f )
             -> typename std::enable_if<
-                exists && std::ratio_equal<
-                    final_scale,
-                    std::ratio< 1 >
-                >::value,
+                std::ratio_equal< final_scale, std::ratio< 1 > >::value,
                 _result< T >
             >::type
         {
@@ -60,10 +69,7 @@ namespace JadeMatrix { namespace units { namespace internal // Full conversion /
         
         template< typename T > static constexpr auto apply( const From< T >& f )
             -> typename std::enable_if<
-                exists && !std::ratio_equal<
-                    final_scale,
-                    std::ratio< 1 >
-                >::value,
+                !std::ratio_equal< final_scale, std::ratio< 1 > >::value,
                 _result< T >
             >::type
         {
