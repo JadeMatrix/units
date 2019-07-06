@@ -303,24 +303,6 @@ namespace JadeMatrix { namespace units { namespace internal // Simplify lists //
     };
     
     template<
-        template< typename > class FirstFirstUnit,
-        template< typename > class... FirstRestUnits,
-        template<
-            template< typename > class,
-            template< typename > class
-        > class Compare
-    > struct simplify<
-        unit_list< FirstFirstUnit, FirstRestUnits... >,
-        unit_list<>,
-        Compare
-    >
-    {
-        using  first_list = unit_list< FirstFirstUnit, FirstRestUnits... >;
-        using second_list = unit_list<>;
-        using additional_scale = std::ratio< 1 >;
-    };
-    
-    template<
         template<
             template< typename > class,
             template< typename > class
