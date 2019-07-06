@@ -146,6 +146,7 @@ UNITS_ADD_COMPILE_TEST( readme
 # Positive compile tests
 FOREACH( COMPILE IN ITEMS
     "ratio_conversion"
+    "per_conversion"
 )
     UNITS_ADD_COMPILE_TEST( "${COMPILE}"
         COMPILE_OPTIONS
