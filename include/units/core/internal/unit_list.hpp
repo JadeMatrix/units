@@ -193,6 +193,11 @@ namespace JadeMatrix { namespace units { namespace internal // Remove from list
             _compare::value
             || _remove_from_rest::removed
         );
+        template< typename T > using removed_unit = typename std::conditional<
+            _compare::value,
+            FirstInList< void >,
+            typename _remove_from_rest::template removed_unit< void >
+        >::type::template unit_type< T >;
     };
     
     template<
@@ -206,6 +211,7 @@ namespace JadeMatrix { namespace units { namespace internal // Remove from list
         using rest_list = unit_list<>;
         static constexpr auto removed = false;
         using additional_scale = std::ratio< 1 >;
+        template< typename T > using removed_unit = ratio< T >;
     };
 } } }
 
