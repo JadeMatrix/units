@@ -22,14 +22,6 @@ namespace JadeMatrix { namespace units { namespace internal // Conversion switch
     {
         constexpr static auto is_fully = false;
     };
-    // {
-    //     constexpr static auto is_partially = ...;
-    //     constexpr static auto is_fully     = ...;
-    //     // The part of From convertible to To, or `ratio`
-    //     template< typename T > using unit_type = ...;
-    //     // The part of From not convertible to To, or `ratio`
-    //     template< typename T > using rest_type = ...;
-    // };
     
     // Reduction comparison to check for convertibility
     template<
@@ -44,6 +36,11 @@ namespace JadeMatrix { namespace units { namespace internal // Conversion switch
         
         using additional_scale = scale< FirstUnit, SecondUnit >;
     };
+} } }
+
+
+namespace JadeMatrix { namespace units { namespace internal // Convert `unit`s /
+{
     // Basic `unit`, same traits
     template<
         template< typename > class To,
@@ -91,17 +88,23 @@ namespace JadeMatrix { namespace units { namespace internal // Conversion switch
             typename From< void >::traits_type
         >;
         
-        template< typename T > static constexpr auto apply( T&& v ) ->
-            decltype( _relation::apply( std::forward< T >( v ) ) )
+        template< typename T > static constexpr auto apply( T&& v )
+            -> decltype( _relation::apply( std::forward< T >( v ) ) )
         {
             return _relation::apply( std::forward< T >( v ) );
         }
     };
-    
-    // `by`
-    // TODO:
-    
-    // `per`
+} } }
+
+
+namespace JadeMatrix { namespace units { namespace internal // Convert `by`s ///
+{
+    // IMPLEMENT:
+} } }
+
+
+namespace JadeMatrix { namespace units { namespace internal // Convert `per`s //
+{
     template<
         template< typename > class To,
         template< typename > class From
@@ -144,8 +147,11 @@ namespace JadeMatrix { namespace units { namespace internal // Conversion switch
             );
         }
     };
-    
-    // `ratio`
+} } }
+
+
+namespace JadeMatrix { namespace units { namespace internal // Convert `ratio`s
+{
     template<
         template< typename > class To,
         template< typename > class From
