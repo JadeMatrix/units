@@ -181,12 +181,12 @@ namespace JadeMatrix { namespace units { namespace internal // Remove from list
             typename _remove_from_rest::additional_scale
         >::type;
         
-        using type = typename std::conditional<
+        using rest_list = typename std::conditional<
             _compare::value,
             unit_list< RestInList... >,
             typename unit_list_cat<
                 unit_list< FirstInList >,
-                typename _remove_from_rest::type
+                typename _remove_from_rest::rest_list
             >::type
         >::type;
         static constexpr auto removed = (
@@ -203,7 +203,7 @@ namespace JadeMatrix { namespace units { namespace internal // Remove from list
         > class Compare
     > struct remove_from_list< Unit, unit_list<>, Compare >
     {
-        using type = unit_list<>;
+        using rest_list = unit_list<>;
         static constexpr auto removed = false;
         using additional_scale = std::ratio< 1 >;
     };
@@ -253,7 +253,7 @@ namespace JadeMatrix { namespace units { namespace internal // Simplify lists //
             unit_list< FirstRestUnits... >,
             typename std::conditional<
                 _removal::removed,
-                typename _removal::type,
+                typename _removal::rest_list,
                 unit_list< SecondUnits... >
             >::type,
             Compare
