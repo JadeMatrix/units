@@ -25,6 +25,8 @@ namespace JadeMatrix { namespace units { namespace internal // Unit list ///////
         using rest_type = unit_list< RestUnits... >;
     };
     
+    template<> struct unit_list<> {};
+    
     template< typename, typename > struct unit_list_cat;
     template<
         template< typename > class...  FirstUnits,
@@ -36,8 +38,6 @@ namespace JadeMatrix { namespace units { namespace internal // Unit list ///////
     {
         using type = unit_list< FirstUnits..., SecondUnits... >;
     };
-    
-    template<> struct unit_list<> {};
 } } }
 
 
