@@ -32,4 +32,4 @@ FOREACH( README_SOURCE ${README_SOURCES} )
 ENDFOREACH()
 
 # Write concatenated code segments to test source file
-FILE( WRITE "${BINARY_DIR}/compile/readme_tests.cpp" "${JOINED_SOURCES}" )
+FILE( WRITE "${BINARY_DIR}/readme_tests.cpp" "${JOINED_SOURCES}" )
