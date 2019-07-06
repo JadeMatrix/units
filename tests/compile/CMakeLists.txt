@@ -100,6 +100,7 @@ FOREACH( COMPILE IN ITEMS
     "per_conversion"
 )
     UNITS_ADD_COMPILE_TEST( "${COMPILE}"
+        FILE "pass/${COMPILE}.cpp"
         COMPILE_OPTIONS
             ${UNITS_COMPILE_OPTIONS}
             ${UNITS_COMPILE_OPTIONS_CONVERSION}
@@ -112,6 +113,7 @@ FOREACH( COMPILE IN ITEMS
     "incompatible_unit_conversion"
 )
     UNITS_ADD_COMPILE_TEST( "${COMPILE}"
+        FILE "fail/${COMPILE}.cpp"
         WILL_FAIL
         COMPILE_OPTIONS
             ${UNITS_COMPILE_OPTIONS}
