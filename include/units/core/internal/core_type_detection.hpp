@@ -4,9 +4,10 @@
 
 
 #include "core_types.hpp"
-#include "utils.hpp"        // void_t
+#include "utils.hpp"    // void_t
 
-#include <type_traits>      // true_type, false_type, enable_if
+#include <type_traits>  // true_type, false_type, enable_if
+#include <ratio>        // ratio_equal
 
 
 namespace JadeMatrix { namespace units { namespace internal // Type detection //
@@ -74,6 +75,91 @@ namespace JadeMatrix { namespace units { namespace internal // Type detection //
             || is_by        < T >::value
             || is_ratio     < T >::value
         ) >::type
+    > : std::true_type {};
+} } }
+
+
+namespace JadeMatrix { namespace units { namespace internal // Type comparison /
+{
+    // A way to check if two units are the same, as using `std::is_same` with
+    // the `void` specializations of unit template types is unreliable
+    
+    template<
+        template< typename > class  FirstUnit,
+        template< typename > class SecondUnit,
+        typename = void
+    > struct is_same_unit : std::false_type {};
+    
+    template<
+        template< typename > class  FirstUnit,
+        template< typename > class SecondUnit
+    > struct is_same_unit<
+         FirstUnit,
+        SecondUnit,
+        typename std::enable_if<
+               is_ratio<  FirstUnit< void > >::value
+            && is_ratio< SecondUnit< void > >::value
+        >::type
+    > : std::true_type {};
+    
+    template<
+        template< typename > class  FirstUnit,
+        template< typename > class SecondUnit
+    > struct is_same_unit<
+         FirstUnit,
+        SecondUnit,
+        typename std::enable_if<
+               is_basic_unit<  FirstUnit< void > >::value
+            && is_basic_unit< SecondUnit< void > >::value
+            && std::is_same<
+                typename  FirstUnit< void >::traits_type,
+                typename SecondUnit< void >::traits_type
+            >::value
+            && std::ratio_equal<
+                typename  FirstUnit< void >::scale_type,
+                typename SecondUnit< void >::scale_type
+            >::value
+        >::type
+    > : std::true_type {};
+    
+    template<
+        template< typename > class  FirstUnit,
+        template< typename > class SecondUnit
+    > struct is_same_unit<
+         FirstUnit,
+        SecondUnit,
+        typename std::enable_if<
+               is_per<  FirstUnit< void > >::value
+            && is_per< SecondUnit< void > >::value
+            && is_same_unit<
+                 FirstUnit< void >::template numer_unit,
+                SecondUnit< void >::template numer_unit
+            >::value
+            && is_same_unit<
+                 FirstUnit< void >::template denom_unit,
+                SecondUnit< void >::template denom_unit
+            >::value
+        >::type
+    > : std::true_type {};
+    
+    template<
+        template< typename > class  FirstUnit,
+        template< typename > class SecondUnit
+    > struct is_same_unit<
+         FirstUnit,
+        SecondUnit,
+        typename std::enable_if<
+               is_by<  FirstUnit< void > >::value
+            && is_by< SecondUnit< void > >::value
+            && is_same_unit<
+                 FirstUnit< void >::template first_unit,
+                SecondUnit< void >::template first_unit
+            >::value
+            && is_same_unit<
+                 FirstUnit< void >::template second_unit,
+                SecondUnit< void >::template second_unit
+            >::value
+        >::type
     > : std::true_type {};
 } } }
 
