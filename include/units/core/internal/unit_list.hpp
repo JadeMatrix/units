@@ -3,6 +3,7 @@
 #define JM_UNITS_CORE_INTERNAL_UNIT_LIST_HPP
 
 
+#include "core_type_detection.hpp"
 #include "core_types.hpp"
 
 #include <ratio>
@@ -132,13 +133,22 @@ namespace JadeMatrix { namespace units { namespace internal // Remove from list
     // from the list.  Member `type` is an alias to the (potentially) modified
     // unit list.
     
+    // Reduction comparison that simply checks that two units are the same
+    template<
+        template< typename > class  FirstUnit,
+        template< typename > class SecondUnit
+    > struct compare_is_same : is_same_unit< FirstUnit, SecondUnit >
+    {
+        using additional_scale = std::ratio< 1 >;
+    };
+    
     template<
         template< typename > class Unit,
         typename List,
         template<
             template< typename > class,
             template< typename > class
-        > class Compare
+        > class Compare = compare_is_same
     > struct remove_from_list;
     
     template<
@@ -218,7 +228,7 @@ namespace JadeMatrix { namespace units { namespace internal // Simplify lists //
         template<
             template< typename > class,
             template< typename > class
-        > class Compare
+        > class Compare = compare_is_same
     > struct simplify;
     
     template<

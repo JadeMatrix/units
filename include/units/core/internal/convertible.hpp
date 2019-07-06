@@ -6,6 +6,7 @@
 #include "core_types.hpp"
 #include "linear_relation.hpp"
 #include "utils.hpp"    // remove_cvref_t
+#include "scale.hpp"
 
 #include <functional>   // forward
 #include <type_traits>  // enable_if, is_same
@@ -30,6 +31,19 @@ namespace JadeMatrix { namespace units { namespace internal // Conversion switch
     //     template< typename T > using rest_type = ...;
     // };
     
+    // Reduction comparison to check for convertibility
+    template<
+        template< typename > class  FirstUnit,
+        template< typename > class SecondUnit
+    > struct compare_is_convertible
+    {
+        static constexpr auto value = convertible<
+             FirstUnit,
+            SecondUnit
+        >::is_fully;
+        
+        using additional_scale = scale< FirstUnit, SecondUnit >;
+    };
     // Basic `unit`, same traits
     template<
         template< typename > class To,

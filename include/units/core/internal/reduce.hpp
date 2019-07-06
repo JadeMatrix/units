@@ -3,10 +3,9 @@
 #define JM_UNITS_CORE_INTERNAL_REDUCE_HPP
 
 
-#include "convertible.hpp"
+#include "convertible.hpp"  // convertible, compare_is_convertible
 #include "core_type_detection.hpp"
-#include "unit_list.hpp"
-#include "scale.hpp"
+#include "unit_list.hpp"    // simplify, take_numer, take_denom, compare_is_same
 
 #include <ratio>
 #include <type_traits>  // is_same
@@ -28,36 +27,6 @@ Okay, here's the plan...
 5.  Voila, reduced; enjoy your compile times.
 
 */
-
-
-namespace JadeMatrix { namespace units { namespace internal // Reduction compare
-{
-    template<
-        template< typename > class  FirstUnit,
-        template< typename > class SecondUnit
-    > struct compare_is_same : std::is_same<
-        // WATCHME: may need a wrapper for this as `std::is_same` does not fully
-        // resolve type through aliases with some compilers
-         FirstUnit< void >,
-        SecondUnit< void >
-    >
-    {
-        using additional_scale = std::ratio< 1 >;
-    };
-    
-    template<
-        template< typename > class  FirstUnit,
-        template< typename > class SecondUnit
-    > struct compare_is_convertible
-    {
-        static constexpr auto value = convertible<
-             FirstUnit,
-            SecondUnit
-        >::is_fully;
-        
-        using additional_scale = scale< FirstUnit, SecondUnit >;
-    };
-} } }
 
 
 namespace JadeMatrix { namespace units { namespace internal // Reduce //////////
