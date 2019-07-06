@@ -26,7 +26,7 @@ IF(
     )
     
     IF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-        SET( UNITS_COMPILE_OPTIONS
+        LIST( APPEND UNITS_COMPILE_OPTIONS
             "-Wduplicated-cond"
             "-Wduplicated-branches"
             "-Wlogical-op"

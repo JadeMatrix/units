@@ -120,19 +120,14 @@ FOREACH( COMPILE IN ITEMS
 ENDFOREACH()
 
 
-# Compiler-specific tests (unfortunately)
-IF(
-       "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"
-    OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang"
+# Test for warn on narrowing conversions
+UNITS_ADD_COMPILE_TEST( "implicit_storage_conversion"
+    COMPILE_OPTIONS ${UNITS_COMPILE_OPTIONS}
 )
-    UNITS_ADD_COMPILE_TEST( "implicit_storage_conversion"
-        COMPILE_OPTIONS ${UNITS_COMPILE_OPTIONS}
-    )
-    UNITS_ADD_COMPILE_TEST( "implicit_storage_conversion"
-        WILL_FAIL
-        NAME "implicit_storage_conversion_compiles_warn"
-        COMPILE_OPTIONS
-            ${UNITS_COMPILE_OPTIONS}
-            ${UNITS_COMPILE_OPTIONS_CONVERSION}
-    )
-ENDIF()
+UNITS_ADD_COMPILE_TEST( "implicit_storage_conversion"
+    WILL_FAIL
+    NAME "implicit_storage_conversion_compiles_warn"
+    COMPILE_OPTIONS
+        ${UNITS_COMPILE_OPTIONS}
+        ${UNITS_COMPILE_OPTIONS_CONVERSION}
+)
