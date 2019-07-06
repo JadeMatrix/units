@@ -338,6 +338,97 @@ namespace JadeMatrix { namespace units { namespace internal // Simplify lists //
 } } }
 
 
+namespace JadeMatrix { namespace units { namespace internal // Sort lists //////
+{
+    // Sort two unit lists relative to each other; requires the lists to be the
+    // same length
+    
+    template<
+        typename  FirstList,
+        typename SecondList,
+        template<
+            template< typename > class,
+            template< typename > class
+        > class Compare = compare_is_same,
+        typename = void
+    > struct sort;
+    
+    // Separate implementation of `sort` to reduce duplicate code in the
+    // template specialization signature
+    template<
+        template<
+            template< typename > class,
+            template< typename > class
+        > class Compare,
+        template< typename > class FirstFirstUnit,
+        typename FirstRestUnitsList,
+        typename SecondUnitsList,
+        typename Removal = remove_from_list<
+            FirstFirstUnit,
+            SecondUnitsList,
+            Compare
+        >,
+        typename SortRest = sort<
+            FirstRestUnitsList,
+            typename Removal::rest_list,
+            Compare
+        >,
+        typename = typename std::enable_if<
+            Removal::removed && SortRest::possible
+        >::type
+    > struct sort_implementation
+    {
+        static constexpr auto possible = (
+            Removal::removed && SortRest::possible
+        );
+        
+        using first_list = typename unit_list_cat<
+            unit_list< FirstFirstUnit >,
+            typename SortRest::first_list
+        >::type;
+        using second_list = typename unit_list_cat<
+            unit_list< Removal::template removed_unit >,
+            typename SortRest::second_list
+        >::type;
+    };
+    
+    template<
+        template< typename > class FirstFirstUnit,
+        template< typename > class... FirstRestUnits,
+        template< typename > class... SecondUnits,
+        template<
+            template< typename > class,
+            template< typename > class
+        > class Compare
+    > struct sort<
+        unit_list< FirstFirstUnit, FirstRestUnits... >,
+        unit_list< SecondUnits... >,
+        Compare,
+        typename std::enable_if<
+               sizeof...( FirstRestUnits ) + 1
+            == sizeof...( SecondUnits    )
+        >::type
+    > : sort_implementation<
+        Compare,
+        FirstFirstUnit,
+        unit_list< FirstRestUnits... >,
+        unit_list< SecondUnits... >
+    > {};
+    
+    template<
+        template<
+            template< typename > class,
+            template< typename > class
+        > class Compare
+    > struct sort< unit_list<>, unit_list<>, Compare >
+    {
+        static constexpr auto possible = true;
+        using  first_list = unit_list<>;
+        using second_list = unit_list<>;
+    };
+} } }
+
+
 namespace JadeMatrix { namespace units { namespace internal // List to unit ////
 {
     // Convert a unit list to an appropriate template unit type.  A list of two
