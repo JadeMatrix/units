@@ -19,7 +19,7 @@ make all test install
 Then, to use `units` in your own CMake project, add the `lib/cmake` under your `units` install location to your project's [`CMAKE_PREFIX_PATH`](https://cmake.org/cmake/help/latest/variable/CMAKE_PREFIX_PATH.html) variable.  Then, in your project's `CMakeLists.txt`:
 
 ```cmake
-FIND_PACKAGE( JadeMatrix::units 0.2 REQUIRED COMPONENTS units )
+FIND_PACKAGE( JadeMatrix-units 0.2 REQUIRED COMPONENTS units )
 ```
 
 There will now be an imported target by the name `JadeMatrix::units::units` which you can pass to [`TARGET_LINK_LIBRARIES()`](https://cmake.org/cmake/help/latest/command/target_link_libraries.html).
