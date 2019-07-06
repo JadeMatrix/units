@@ -5,8 +5,9 @@
 
 #include "core_types.hpp"
 #include "linear_relation.hpp"
-#include "utils.hpp"    // remove_cvref_t
 #include "scale.hpp"
+#include "unit_list.hpp"    // sort, take_numer
+#include "utils.hpp"        // remove_cvref_t
 
 #include <functional>   // forward
 #include <type_traits>  // enable_if, is_same
@@ -99,7 +100,83 @@ namespace JadeMatrix { namespace units { namespace internal // Convert `unit`s /
 
 namespace JadeMatrix { namespace units { namespace internal // Convert `by`s ///
 {
-    // IMPLEMENT:
+    template<
+        typename   ToList,
+        typename FromList
+    > struct convertible_by_impl_applier
+    {
+        using _first_convertible = convertible<
+              ToList::template first_unit,
+            FromList::template first_unit
+        >;
+        template< typename T > static constexpr auto apply( T&& v )
+            -> decltype(
+                _first_convertible::apply(
+                    static_cast< remove_cvref_t< T > >( 1 )
+                ) * convertible_by_impl_applier<
+                    typename   ToList::rest_type,
+                    typename FromList::rest_type
+                >::apply( std::forward< T >( v ) )
+            )
+        {
+            return (
+                _first_convertible::apply(
+                    static_cast< remove_cvref_t< T > >( 1 )
+                ) * convertible_by_impl_applier<
+                    typename   ToList::rest_type,
+                    typename FromList::rest_type
+                >::apply( std::forward< T >( v ) )
+            );
+        }
+    };
+    
+    template<> struct convertible_by_impl_applier< unit_list<>, unit_list<> >
+    {
+        template< typename T > static constexpr T&& apply( T&& v )
+        {
+            return std::forward< T >( v );
+        }
+    };
+    
+    template<
+        template< typename > class To,
+        template< typename > class From,
+        typename   ToList = typename take_numer<   To >::type,
+        typename FromList = typename take_numer< From >::type,
+        // Assume that the `by`s are already reduced halves of a `per` if fully-
+        // reduced-conversion behavior is desired
+        typename Sorted = sort< ToList, FromList, compare_is_convertible >,
+        typename = typename std::enable_if< Sorted::possible >::type
+    > struct convertible_by_impl
+    {
+        constexpr static auto is_fully = Sorted::possible;
+        
+        template< typename T > static constexpr auto apply( T&& v )
+            -> decltype( convertible_by_impl_applier<
+                typename Sorted:: first_list,
+                typename Sorted::second_list
+            >::apply( std::forward< T >( v ) ) )
+        {
+            return convertible_by_impl_applier<
+                typename Sorted:: first_list,
+                typename Sorted::second_list
+            >::apply( std::forward< T >( v ) );
+        }
+    };
+    
+    template<
+        template< typename > class To,
+        template< typename > class From
+    > struct convertible<
+        To,
+        From,
+        typename std::enable_if<
+            // Make the assumption that there will be no `unit`s directly
+            // convertible to & from `by`s
+               is_by<   To< void > >::value
+            && is_by< From< void > >::value
+        >::type
+    > : convertible_by_impl< To, From > {};
 } } }
 
 

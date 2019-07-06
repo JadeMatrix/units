@@ -30,24 +30,22 @@ namespace JadeMatrix { namespace units // Unit multiplied by another ///////////
     protected:
         value_type _value;
         
+        template<
+            template< typename > class OtherUnit
+        > using convert_from = internal::conversion< unit_type, OtherUnit >;
+        
     public:
         constexpr by() {}
         constexpr by( const T& v ) : _value{ v } {}
+        
         template<
-            template< typename > class Other_First_Unit,
-            template< typename > class Other_Second_Unit,
-            typename O
-        > constexpr by( const by<
-            Other_First_Unit,
-            Other_Second_Unit,
-            O
-        >& o ) : _value{
-            static_cast< O >( first_unit< O >{
-                Other_First_Unit< O >{ static_cast< O >( o ) }
-            } ) * static_cast< O >( second_unit< O >{
-                Other_Second_Unit< O >{ static_cast< O >( 1 ) }
-            } )
-        } {}
+            typename O,
+            typename = typename std::enable_if<
+                convert_from< O::template unit_type >::exists
+            >::type
+        > constexpr by( const O& o ) :
+            _value( convert_from< O::template unit_type >::apply( o ) )
+        {}
         
         template<
             typename O = value_type,
