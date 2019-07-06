@@ -59,7 +59,7 @@ ENDIF()
 #   )
 # Defaults:
 #   FILE    "compile/${BASENAME}.cpp"
-#   NAME    "${BASENAME}_compile_test"
+#   NAME    "${BASENAME}_compiles"
 FUNCTION( UNITS_ADD_COMPILE_TEST BASENAME )
     CMAKE_PARSE_ARGUMENTS( TEST
         "WILL_FAIL"
@@ -72,25 +72,25 @@ FUNCTION( UNITS_ADD_COMPILE_TEST BASENAME )
         SET( TEST_FILE "compile/${BASENAME}.cpp" )
     ENDIF()
     IF( NOT TEST_NAME )
-        SET( TEST_NAME "${BASENAME}_compile_test" )
+        SET( TEST_NAME "${BASENAME}" )
     ENDIF()
     
     # Add library because we aren't testing failure to link; OBJECT because it
     # has the least semantics; EXCLUDE_FROM_ALL is important in case WILL_FAIL
     # is set on this test
-    ADD_LIBRARY( ${TEST_NAME}_compile_test
+    ADD_LIBRARY( ${TEST_NAME}_compiles
         OBJECT
         EXCLUDE_FROM_ALL
         "${TEST_FILE}"
     )
-    TARGET_LINK_LIBRARIES( ${TEST_NAME}_compile_test PRIVATE units )
-    TARGET_COMPILE_OPTIONS( ${TEST_NAME}_compile_test
+    TARGET_LINK_LIBRARIES( ${TEST_NAME}_compiles PRIVATE units )
+    TARGET_COMPILE_OPTIONS( ${TEST_NAME}_compiles
         PRIVATE ${TEST_COMPILE_OPTIONS}
     )
     
     SET( DEPENDS_TESTS )
     FOREACH( DEPENDS_TARGET IN LISTS DEPENDS_TARGETS )
-        SET( DEPENDS_TEST_NAME "${TEST_NAME}_compile_test_${DEPENDS_TARGET}" )
+        SET( DEPENDS_TEST_NAME "${TEST_NAME}_compiles_${DEPENDS_TARGET}" )
         ADD_TEST(
             NAME ${DEPENDS_TEST_NAME}
             COMMAND "${CMAKE_COMMAND}"
@@ -106,7 +106,7 @@ FUNCTION( UNITS_ADD_COMPILE_TEST BASENAME )
         NAME "${TEST_NAME}"
         COMMAND "${CMAKE_COMMAND}"
             --build "${CMAKE_BINARY_DIR}"
-            --target "${TEST_NAME}_compile_test"
+            --target "${TEST_NAME}_compiles"
         WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
     )
     SET_TESTS_PROPERTIES( "${TEST_NAME}"
@@ -178,7 +178,7 @@ IF(
     )
     UNITS_ADD_COMPILE_TEST( "implicit_storage_conversion"
         WILL_FAIL
-        NAME "implicit_storage_conversion_warn"
+        NAME "implicit_storage_conversion_compiles_warn"
         COMPILE_OPTIONS
             ${UNITS_COMPILE_OPTIONS}
             ${UNITS_COMPILE_OPTIONS_CONVERSION}
