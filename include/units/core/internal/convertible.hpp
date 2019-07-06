@@ -129,19 +129,26 @@ namespace JadeMatrix { namespace units { namespace internal // Convert `per`s //
     {
         constexpr static auto is_fully = true;
         
-        template< typename T > static constexpr T&& apply( T&& v )
+        using _numer_convertible = convertible<
+              To< void >::template numer_unit,
+            From< void >::template numer_unit
+        >;
+        using _denom_convertible = convertible<
+              To< void >::template denom_unit,
+            From< void >::template denom_unit
+        >;
+        
+        template< typename T > static constexpr auto apply( T&& v )
+            -> decltype(
+                  _numer_convertible::apply( std::forward< T >( v ) )
+                / _denom_convertible::apply( static_cast<
+                    remove_cvref_t< T >
+                >( 1 ) )
+            )
         {
-            using numer_convertible = convertible<
-                  To< void >::template numer_unit,
-                From< void >::template numer_unit
-            >;
-            using denom_convertible = convertible<
-                  To< void >::template denom_unit,
-                From< void >::template denom_unit
-            >;
             return (
-                  numer_convertible::apply( std::forward< T >( v ) )
-                / denom_convertible::apply( static_cast<
+                  _numer_convertible::apply( std::forward< T >( v ) )
+                / _denom_convertible::apply( static_cast<
                     remove_cvref_t< T >
                 >( 1 ) )
             );
