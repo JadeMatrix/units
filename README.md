@@ -114,9 +114,10 @@ struct inches_feet_linear_relation
 {
     template< typename T > struct values
     {
+        // Default `slope_num` of 1 used if not defined
         static constexpr auto slope_num = units::constants::foot_inches< T >::value;
-        static constexpr auto slope_den = 1;
-        static constexpr auto intercept = 0;
+        // Default `slope_den` of 1 used if not defined
+        // Default `intercept` of 0 used if not defined
     };
 };
 inches_feet_linear_relation units_linear_relation_lookup(

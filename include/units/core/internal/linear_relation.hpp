@@ -11,6 +11,37 @@
 #include <type_traits>  // true_type, false_type
 
 
+namespace JadeMatrix { namespace units { namespace internal // Constants lookup
+{
+    // Default values & types of numerator, denominator, and intercept if they
+    // don't exist in the given relationship
+    
+    #define DEFINE_DEFAULT_RELATION_FIELD( FIELD, DEFAULT ) \
+    template< \
+        typename Relation, \
+        typename T, \
+        typename = void \
+    > struct FIELD##_of \
+    { \
+        static constexpr unsigned char value = DEFAULT; \
+    }; \
+    template< typename Relation, typename T > struct FIELD##_of< \
+        Relation, \
+        T, \
+        void_t< decltype( Relation::template values< T >::FIELD ) > \
+    > \
+    { \
+        static constexpr auto value = Relation::template values< T >::FIELD; \
+    };
+    
+    DEFINE_DEFAULT_RELATION_FIELD( slope_num, 1 )
+    DEFINE_DEFAULT_RELATION_FIELD( slope_den, 1 )
+    DEFINE_DEFAULT_RELATION_FIELD( intercept, 0 )
+    
+    #undef DEFINE_DEFAULT_RELATION_FIELD
+} } }
+
+
 namespace JadeMatrix { namespace units { namespace internal // One-way /////////
 {
     template<
@@ -39,25 +70,29 @@ namespace JadeMatrix { namespace units { namespace internal // One-way /////////
             std::declval< YTraits >(),
             std::declval< XTraits >()
         ) );
+        template< typename T > struct _values
+        {
+            static constexpr auto slope_num = slope_num_of< _lookup, T >::value;
+            static constexpr auto slope_den = slope_den_of< _lookup, T >::value;
+            static constexpr auto intercept = intercept_of< _lookup, T >::value;
+        };
         
         // In most cases this will just be T
         template< typename T > using _common_type = typename std::common_type<
             remove_cvref_t< T >,
-            decltype( _lookup::template values< T >::slope_num ),
-            decltype( _lookup::template values< T >::slope_den ),
-            // TODO: Implement intercept of 0 if not in `_lookup`
-            decltype( _lookup::template values< T >::intercept )
+            decltype( _values< T >::slope_num ),
+            decltype( _values< T >::slope_den ),
+            decltype( _values< T >::intercept )
         >::type;
         
         template< typename T > static constexpr _common_type< T > apply( T&& v )
         {
             using ct = _common_type< T >;
-            using values = typename _lookup::template values< T >;
             return (
                   static_cast< ct >( v )
-                * static_cast< ct >( values::slope_num )
-                / static_cast< ct >( values::slope_den )
-                + static_cast< ct >( values::intercept )
+                * static_cast< ct >( _values< T >::slope_num )
+                / static_cast< ct >( _values< T >::slope_den )
+                + static_cast< ct >( _values< T >::intercept )
             );
         }
     };
@@ -120,23 +155,24 @@ namespace JadeMatrix { namespace units { namespace internal // Two-way /////////
         using exists_type = void;
         
         using _inverse = one_way_linear_relation< XTraits, YTraits >;
-        using _lookup  = typename _inverse::_lookup;
         
         template<
             typename T
         > using _common_type = typename _inverse::template _common_type< T >;
+        template<
+            typename T
+        > using _values = typename _inverse::template _values< T >;
         
         template< typename T > static constexpr _common_type< T > apply( T&& v )
         {
             using ct = _common_type< T >;
-            using values = typename _lookup::template values< T >;
             return (
                 (
                       static_cast< ct >( v )
-                    - static_cast< ct >( values::intercept )
+                    - static_cast< ct >( _values< T >::intercept )
                 )
-                * static_cast< ct >( values::slope_den )
-                / static_cast< ct >( values::slope_num )
+                * static_cast< ct >( _values< T >::slope_den )
+                / static_cast< ct >( _values< T >::slope_num )
             );
         }
     };
