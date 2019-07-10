@@ -29,9 +29,9 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::minute_seconds;
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_num = constants::minute_seconds< T >::value;
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     seconds_minutes_linear_relation units_linear_relation_lookup(
@@ -43,12 +43,12 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                  constants< T >::minute_seconds
-                * constants< T >::minute_seconds
+            static constexpr auto slope_num = (
+                  constants::minute_seconds< T >::value
+                * constants::minute_seconds< T >::value
             );
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     seconds_hours_linear_relation units_linear_relation_lookup(
@@ -60,9 +60,9 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::minute_seconds;
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_num = constants::minute_seconds< T >::value;
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     minutes_hours_linear_relation units_linear_relation_lookup(

@@ -37,12 +37,12 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                constants< T >::circle_degrees
-                / static_cast< T >( 2 )
+            static constexpr auto slope_num = (
+                constants::circle_degrees< T >::value
+                / /*static_cast< T >*/( 2 )
             );
-            static constexpr T slope_den = constants< T >::pi;
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_den = constants::pi< T >::value;
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     degrees_radians_linear_relation units_linear_relation_lookup(
@@ -54,9 +54,9 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = static_cast< T >( 1 );
-            static constexpr T slope_den = constants< T >::hour_minutes;
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char slope_num = /*static_cast< T >*/( 1 );
+            static constexpr auto slope_den = constants::hour_minutes< T >::value;
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     degrees_arcminutes_linear_relation units_linear_relation_lookup(
@@ -68,12 +68,12 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = static_cast< T >( 1 );
-            static constexpr T slope_den = (
-                  constants< T >::hour_minutes
-                * constants< T >::minute_seconds
+            static constexpr unsigned char slope_num = /*static_cast< T >*/( 1 );
+            static constexpr auto slope_den = (
+                  constants::hour_minutes< T >::value
+                * constants::minute_seconds< T >::value
             );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     degrees_arcseconds_linear_relation units_linear_relation_lookup(
@@ -85,9 +85,9 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::circle_degrees;
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_num = constants::circle_degrees< T >::value;
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     degrees_revolutions_linear_relation units_linear_relation_lookup(
@@ -101,12 +101,12 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::pi * 2;
-            static constexpr T slope_den = (
-                  constants< T >::circle_degrees
-                * constants< T >::hour_minutes
+            static constexpr auto slope_num = constants::pi< T >::value * 2;
+            static constexpr auto slope_den = (
+                  constants::circle_degrees< T >::value
+                * constants::hour_minutes< T >::value
             );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     radians_arcminutes_linear_relation units_linear_relation_lookup(
@@ -118,13 +118,13 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::pi * 2;
-            static constexpr T slope_den = (
-                  constants< T >::circle_degrees
-                * constants< T >::hour_minutes
-                * constants< T >::minute_seconds
+            static constexpr auto slope_num = constants::pi< T >::value * 2;
+            static constexpr auto slope_den = (
+                  constants::circle_degrees< T >::value
+                * constants::hour_minutes< T >::value
+                * constants::minute_seconds< T >::value
             );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     radians_arcseconds_linear_relation units_linear_relation_lookup(
@@ -136,9 +136,9 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::pi * 2;
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_num = constants::pi< T >::value * 2;
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     radians_revolutions_linear_relation units_linear_relation_lookup(
@@ -152,9 +152,9 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = static_cast< T >( 1 );
-            static constexpr T slope_den = constants< T >::minute_seconds;
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char slope_num = /*static_cast< T >*/( 1 );
+            static constexpr auto slope_den = constants::minute_seconds< T >::value;
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     arcminutes_arcseconds_linear_relation units_linear_relation_lookup(
@@ -166,12 +166,12 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                  constants< T >::circle_degrees
-                * constants< T >::hour_minutes
+            static constexpr auto slope_num = (
+                  constants::circle_degrees< T >::value
+                * constants::hour_minutes< T >::value
             );
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     arcminutes_revolutions_linear_relation units_linear_relation_lookup(
@@ -185,13 +185,13 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                  constants< T >::circle_degrees
-                * constants< T >::hour_minutes
-                * constants< T >::minute_seconds
+            static constexpr auto slope_num = (
+                  constants::circle_degrees< T >::value
+                * constants::hour_minutes< T >::value
+                * constants::minute_seconds< T >::value
             );
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     arcseconds_revolutions_linear_relation units_linear_relation_lookup(

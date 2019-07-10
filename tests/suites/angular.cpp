@@ -8,100 +8,91 @@
 namespace units = ::JadeMatrix::units;
 
 
+// Tests use `long double` values as these are only checking for numerically
+// correct conversions (not type semantics preservation)
 
 TEST_CASE( "radians to degrees" )
 {
-    units::radians< double > radians{ 7 };
-    units::degrees< double > degrees{ radians };
-    REQUIRE( static_cast< double >( degrees ) == (
-        7.0 * 180.0 / units::constants< double >::pi
+    units::radians< long double > radians{ 7 };
+    units::degrees< long double > degrees{ radians };
+    REQUIRE( static_cast< long double >( degrees ) == (
+        7.0L * 180.0L / units::constants::pi< long double >::value
     ) );
 }
-
 TEST_CASE( "radians to arcminutes" )
 {
-    units::radians< double > radians{ 7 };
-    units::arcminutes< double > arcminutes{ radians };
-    REQUIRE( static_cast< double >( arcminutes ) == (
-        7.0 * 10800.0 / units::constants< double >::pi
+    units::radians< long double > radians{ 7 };
+    units::arcminutes< long double > arcminutes{ radians };
+    REQUIRE( static_cast< long double >( arcminutes ) == (
+        7.0L * 10800.0L / units::constants::pi< long double >::value
     ) );
 }
-
 TEST_CASE( "degrees to arcminutes" )
 {
-    units::degrees< double > degrees{ 7 };
-    units::arcminutes< double > arcminutes{ degrees };
-    REQUIRE( static_cast< double >( arcminutes ) == 420.0 );
+    units::degrees< long double > degrees{ 7 };
+    units::arcminutes< long double > arcminutes{ degrees };
+    REQUIRE( static_cast< long double >( arcminutes ) == 420.0L );
 }
-
 
 TEST_CASE( "degrees to radians" )
 {
-    units::degrees< double > degrees{ 7 };
-    units::radians< double > radians{ degrees };
-    REQUIRE( static_cast< double >( radians ) == (
-        7.0 * units::constants< double >::pi / 180.0
+    units::degrees< long double > degrees{ 7 };
+    units::radians< long double > radians{ degrees };
+    REQUIRE( static_cast< long double >( radians ) == (
+        7.0L * units::constants::pi< long double >::value / 180.0L
     ) );
 }
-
 TEST_CASE( "arcminutes to radians" )
 {
-    units::arcminutes< double > arcminutes{ 7 };
-    units::radians< double > radians{ arcminutes };
-    REQUIRE( static_cast< double >( radians ) == (
-        7.0 * units::constants< double >::pi / 10800.0
+    units::arcminutes< long double > arcminutes{ 7 };
+    units::radians< long double > radians{ arcminutes };
+    REQUIRE( static_cast< long double >( radians ) == (
+        7.0L * units::constants::pi< long double >::value / 10800.0L
     ) );
 }
-
 TEST_CASE( "arcminutes to degrees" )
 {
-    units::arcminutes< double > arcminutes{ 7 };
-    units::degrees< double > degrees{ arcminutes };
-    REQUIRE( static_cast< double >( degrees ) == 7.0 / 60.0 );
+    units::arcminutes< long double > arcminutes{ 7 };
+    units::degrees< long double > degrees{ arcminutes };
+    REQUIRE( static_cast< long double >( degrees ) == 7.0L / 60.0L );
 }
-
 
 TEST_CASE( "arcminutes to arcseconds" )
 {
-    units::arcminutes< double > arcminutes{ 7 };
-    units::arcseconds< double > arcseconds{ arcminutes };
-    REQUIRE( static_cast< double >( arcseconds ) == 420.0 );
+    units::arcminutes< long double > arcminutes{ 7 };
+    units::arcseconds< long double > arcseconds{ arcminutes };
+    REQUIRE( static_cast< long double >( arcseconds ) == 420.0L );
 }
-
 TEST_CASE( "arcseconds to arcminutes" )
 {
-    units::arcseconds< double > arcseconds{ 7 };
-    units::arcminutes< double > arcminutes{ arcseconds };
-    REQUIRE( static_cast< double >( arcminutes ) == 7.0 / 60.0 );
+    units::arcseconds< long double > arcseconds{ 7 };
+    units::arcminutes< long double > arcminutes{ arcseconds };
+    REQUIRE( static_cast< long double >( arcminutes ) == 7.0L / 60.0L );
 }
-
 
 TEST_CASE( "revolutions to degrees" )
 {
-    units::revolutions< double > revolutions{ 7 };
-    units::degrees< double > degrees{ revolutions };
-    REQUIRE( static_cast< double >( degrees ) == 2520.0 );
+    units::revolutions< long double > revolutions{ 7 };
+    units::degrees< long double > degrees{ revolutions };
+    REQUIRE( static_cast< long double >( degrees ) == 2520.0L );
 }
-
 TEST_CASE( "revolutions to radians" )
 {
-    units::revolutions< double > revolutions{ 7 };
-    units::radians< double > radians{ revolutions };
-    REQUIRE( static_cast< double >( radians ) == (
-        14.0 * units::constants< double >::pi
+    units::revolutions< long double > revolutions{ 7 };
+    units::radians< long double > radians{ revolutions };
+    REQUIRE( static_cast< long double >( radians ) == (
+        14.0L * units::constants::pi< long double >::value
     ) );
 }
-
 TEST_CASE( "revolutions to arcminutes" )
 {
-    units::revolutions< double > revolutions{ 7 };
-    units::arcminutes< double > arcminutes{ revolutions };
-    REQUIRE( static_cast< double >( arcminutes ) == 151200.0 );
+    units::revolutions< long double > revolutions{ 7 };
+    units::arcminutes< long double > arcminutes{ revolutions };
+    REQUIRE( static_cast< long double >( arcminutes ) == 151200.0L );
 }
-
 TEST_CASE( "revolutions to arcseconds" )
 {
-    units::revolutions< double > revolutions{ 7 };
-    units::arcseconds< double > arcseconds{ revolutions };
-    REQUIRE( static_cast< double >( arcseconds ) == 9072000.0 );
+    units::revolutions< long double > revolutions{ 7 };
+    units::arcseconds< long double > arcseconds{ revolutions };
+    REQUIRE( static_cast< long double >( arcseconds ) == 9072000.0L );
 }

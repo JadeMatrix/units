@@ -48,9 +48,9 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::foot_inches;
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_num = constants::foot_inches< T >::value;
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     inches_feet_linear_relation units_linear_relation_lookup(
@@ -62,12 +62,12 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                  constants< T >::foot_inches
-                * constants< T >::yard_feet
+            static constexpr auto slope_num = (
+                  constants::foot_inches< T >::value
+                * constants::yard_feet< T >::value
             );
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     inches_yards_linear_relation units_linear_relation_lookup(
@@ -79,12 +79,12 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                  constants< T >::foot_inches
-                * constants< T >::mile_feet
+            static constexpr auto slope_num = (
+                  constants::foot_inches< T >::value
+                * constants::mile_feet< T >::value
             );
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     inches_miles_linear_relation units_linear_relation_lookup(
@@ -96,9 +96,9 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::meter_cms;
-            static constexpr T slope_den = constants< T >::inch_cms;
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_num = constants::meter_cms< T >::value;
+            static constexpr auto slope_den = constants::inch_cms< T >::value;
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     inches_meters_linear_relation units_linear_relation_lookup(
@@ -110,13 +110,13 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                  constants< T >::foot_inches
-                * constants< T >::yard_feet
-                * constants< T >::fathom_yards
+            static constexpr auto slope_num = (
+                  constants::foot_inches< T >::value
+                * constants::yard_feet< T >::value
+                * constants::fathom_yards< T >::value
             );
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     inches_fathoms_linear_relation units_linear_relation_lookup(
@@ -128,12 +128,12 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                  constants< T >::meter_cms
-                * constants< T >::nautical_mile_meters
+            static constexpr auto slope_num = (
+                  constants::meter_cms< T >::value
+                * constants::nautical_mile_meters< T >::value
             );
-            static constexpr T slope_den = constants< T >::inch_cms;
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_den = constants::inch_cms< T >::value;
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     inches_nautical_miles_linear_relation units_linear_relation_lookup(
@@ -147,9 +147,9 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::yard_feet;
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_num = constants::yard_feet< T >::value;
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     feet_yards_linear_relation units_linear_relation_lookup(
@@ -161,9 +161,9 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::mile_feet;
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_num = constants::mile_feet< T >::value;
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     feet_miles_linear_relation units_linear_relation_lookup(
@@ -175,12 +175,12 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::meter_cms;
-            static constexpr T slope_den = (
-                  constants< T >::inch_cms
-                * constants< T >::foot_inches
+            static constexpr auto slope_num = constants::meter_cms< T >::value;
+            static constexpr auto slope_den = (
+                  constants::inch_cms< T >::value
+                * constants::foot_inches< T >::value
             );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     feet_meters_linear_relation units_linear_relation_lookup(
@@ -192,12 +192,12 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                  constants< T >::yard_feet
-                * constants< T >::fathom_yards
+            static constexpr auto slope_num = (
+                  constants::yard_feet< T >::value
+                * constants::fathom_yards< T >::value
             );
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     feet_fathoms_linear_relation units_linear_relation_lookup(
@@ -209,15 +209,15 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                  constants< T >::meter_cms
-                * constants< T >::nautical_mile_meters
+            static constexpr auto slope_num = (
+                  constants::meter_cms< T >::value
+                * constants::nautical_mile_meters< T >::value
             );
-            static constexpr T slope_den = (
-                  constants< T >::inch_cms
-                * constants< T >::foot_inches
+            static constexpr auto slope_den = (
+                  constants::inch_cms< T >::value
+                * constants::foot_inches< T >::value
             );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     feet_nautical_miles_linear_relation units_linear_relation_lookup(
@@ -231,9 +231,9 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::mile_feet;
-            static constexpr T slope_den = constants< T >::yard_feet;
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_num = constants::mile_feet< T >::value;
+            static constexpr auto slope_den = constants::yard_feet< T >::value;
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     yards_miles_linear_relation units_linear_relation_lookup(
@@ -245,13 +245,13 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::meter_cms;
-            static constexpr T slope_den = (
-                  constants< T >::inch_cms
-                * constants< T >::foot_inches
-                * constants< T >::yard_feet
+            static constexpr auto slope_num = constants::meter_cms< T >::value;
+            static constexpr auto slope_den = (
+                  constants::inch_cms< T >::value
+                * constants::foot_inches< T >::value
+                * constants::yard_feet< T >::value
             );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     yards_meters_linear_relation units_linear_relation_lookup(
@@ -263,9 +263,9 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::fathom_yards;
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_num = constants::fathom_yards< T >::value;
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     yards_fathoms_linear_relation units_linear_relation_lookup(
@@ -277,16 +277,16 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                  constants< T >::meter_cms
-                * constants< T >::nautical_mile_meters
+            static constexpr auto slope_num = (
+                  constants::meter_cms< T >::value
+                * constants::nautical_mile_meters< T >::value
             );
-            static constexpr T slope_den = (
-                  constants< T >::inch_cms
-                * constants< T >::foot_inches
-                * constants< T >::yard_feet
+            static constexpr auto slope_den = (
+                  constants::inch_cms< T >::value
+                * constants::foot_inches< T >::value
+                * constants::yard_feet< T >::value
             );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     yards_nautical_miles_linear_relation units_linear_relation_lookup(
@@ -300,13 +300,13 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::meter_cms;
-            static constexpr T slope_den = (
-                  constants< T >::inch_cms
-                * constants< T >::foot_inches
-                * constants< T >::mile_feet
+            static constexpr auto slope_num = constants::meter_cms< T >::value;
+            static constexpr auto slope_den = (
+                  constants::inch_cms< T >::value
+                * constants::foot_inches< T >::value
+                * constants::mile_feet< T >::value
             );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     miles_meters_linear_relation units_linear_relation_lookup(
@@ -318,12 +318,12 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                  constants< T >::yard_feet
-                * constants< T >::fathom_yards
+            static constexpr auto slope_num = (
+                  constants::yard_feet< T >::value
+                * constants::fathom_yards< T >::value
             );
-            static constexpr T slope_den = constants< T >::mile_feet;
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_den = constants::mile_feet< T >::value;
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     miles_fathoms_linear_relation units_linear_relation_lookup(
@@ -335,17 +335,17 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                  constants< T >::meter_cms
-                * constants< T >::nautical_mile_meters
+            static constexpr auto slope_num = (
+                  constants::meter_cms< T >::value
+                * constants::nautical_mile_meters< T >::value
             );
-            static constexpr T slope_den = (
-                  constants< T >::inch_cms
-                * constants< T >::foot_inches
-                * constants< T >::yard_feet
-                * constants< T >::mile_feet
+            static constexpr auto slope_den = (
+                  constants::inch_cms< T >::value
+                * constants::foot_inches< T >::value
+                * constants::yard_feet< T >::value
+                * constants::mile_feet< T >::value
             );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     miles_nautical_miles_linear_relation units_linear_relation_lookup(
@@ -359,14 +359,14 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                  constants< T >::inch_cms
-                * constants< T >::foot_inches
-                * constants< T >::yard_feet
-                * constants< T >::fathom_yards
+            static constexpr auto slope_num = (
+                  constants::inch_cms< T >::value
+                * constants::foot_inches< T >::value
+                * constants::yard_feet< T >::value
+                * constants::fathom_yards< T >::value
             );
-            static constexpr T slope_den = constants< T >::meter_cms;
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_den = constants::meter_cms< T >::value;
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     meters_fathoms_linear_relation units_linear_relation_lookup(
@@ -378,9 +378,9 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = constants< T >::nautical_mile_meters;
-            static constexpr T slope_den = static_cast< T >( 1 );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr auto slope_num = constants::nautical_mile_meters< T >::value;
+            static constexpr unsigned char slope_den = /*static_cast< T >*/( 1 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     meters_nautical_miles_linear_relation units_linear_relation_lookup(
@@ -394,17 +394,17 @@ namespace JadeMatrix { namespace units
     {
         template< typename T > struct values
         {
-            static constexpr T slope_num = (
-                  constants< T >::meter_cms
-                * constants< T >::nautical_mile_meters
+            static constexpr auto slope_num = (
+                  constants::meter_cms< T >::value
+                * constants::nautical_mile_meters< T >::value
             );
-            static constexpr T slope_den = (
-                  constants< T >::inch_cms
-                * constants< T >::foot_inches
-                * constants< T >::yard_feet
-                * constants< T >::fathom_yards
+            static constexpr auto slope_den = (
+                  constants::inch_cms< T >::value
+                * constants::foot_inches< T >::value
+                * constants::yard_feet< T >::value
+                * constants::fathom_yards< T >::value
             );
-            static constexpr T intercept = static_cast< T >( 0 );
+            static constexpr unsigned char intercept = /*static_cast< T >*/( 0 );
         };
     };
     fathoms_nautical_miles_linear_relation units_linear_relation_lookup(
