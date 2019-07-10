@@ -97,39 +97,48 @@ Creating custom units is generally very simple, consisting of a traits/tag type,
 
 ```cpp
 #include <units/core/constants.hpp>
-// This header contains includes of all the necessary headers for defining
+// This header contains includes of all the necessary utilities for defining
 // custom units (except constants)
 #include <units/core/define_unit.hpp>
 
-struct inch_traits {};
-struct foot_traits {};
-
-DEFINE_ALL_PREFIXES_FOR_UNIT( inches, inch_traits )
-DEFINE_ALL_PREFIXES_FOR_UNIT(   feet, foot_traits )
-
-DEFINE_ALL_STRINGS_FOR_UNIT( inch_traits, "inches", "in" )
-DEFINE_ALL_STRINGS_FOR_UNIT( foot_traits,   "feet", "ft" )
-
-struct inches_feet_linear_relation
+namespace custom
 {
-    template< typename T > struct values
+    struct inch_traits {};
+    struct foot_traits {};
+
+    DEFINE_ALL_PREFIXES_FOR_UNIT( inches, inch_traits )
+    DEFINE_ALL_PREFIXES_FOR_UNIT(   feet, foot_traits )
+
+    DEFINE_ALL_STRINGS_FOR_UNIT( inch_traits, "inches", "in" )
+    DEFINE_ALL_STRINGS_FOR_UNIT( foot_traits,   "feet", "ft" )
+
+    struct inches_feet_linear_relation
     {
-        // Default `slope_num` of 1 used if not defined
-        static constexpr auto slope_num = units::constants::foot_inches< T >::value;
-        // Default `slope_den` of 1 used if not defined
-        // Default `intercept` of 0 used if not defined
+        template< typename T > struct values
+        {
+            // Default `slope_num` of 1 used if not defined
+            static constexpr auto slope_num = units::constants::foot_inches< T >::value;
+            // Default `slope_den` of 1 used if not defined
+            // Default `intercept` of 0 used if not defined
+        };
     };
-};
-inches_feet_linear_relation units_linear_relation_lookup(
-    inch_traits&&,
-    foot_traits&&
-);
+    inches_feet_linear_relation units_linear_relation_lookup(
+        inch_traits&&,
+        foot_traits&&
+    );
+}
 
 // Test that the units were defined correctly
 #include <type_traits>
 static_assert(
-       std::is_convertible< megafeet< float >, centiinches< float > >::value
-    && std::is_convertible< dozen_inches< float >, bifeet< float > >::value,
+    std::is_convertible<
+        custom::megafeet< float >,
+        custom::centiinches< float >
+    >::value
+    && std::is_convertible<
+        custom::dozen_inches< float >,
+        custom::bifeet< float >
+    >::value,
     "feet & inches not mutually convertible"
 );
 ```
