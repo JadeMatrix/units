@@ -9,7 +9,7 @@
 #include "internal/utils.hpp"   // remove_cvref_t
 #include "internal/reduce.hpp"
 
-#include <type_traits>          // enable_if, is_constructible
+#include <type_traits>          // enable_if, is_convertible
 #include <utility>              // declval
 
 
@@ -57,10 +57,17 @@ namespace JadeMatrix { namespace units // Modulo ///////////////////////////////
     > constexpr auto operator %(
         const LHS& lhs,
         const RHS& rhs
-    ) -> typename LHS::template unit_type< decltype(
-          static_cast< typename LHS::value_type >( lhs )
-        % static_cast< typename RHS::value_type >( rhs )
-    ) >
+    ) -> typename std::enable_if<
+        (
+               internal::is_unit< LHS >::value
+            && internal::is_unit< RHS >::value
+            && std::is_convertible< LHS, RHS >::value
+        ),
+        typename LHS::template unit_type< internal::remove_cvref_t< decltype(
+              static_cast< typename LHS::value_type >( lhs )
+            % static_cast< typename RHS::value_type >( rhs )
+        ) > >
+    >::type
     {
         return (
               static_cast< typename LHS::value_type >( lhs )
@@ -85,21 +92,20 @@ namespace JadeMatrix { namespace units // Addition & subtration ////////////////
     > constexpr auto operator OPERATOR( \
         const LHS& lhs, \
         const RHS& rhs \
-    ) -> typename std::enable_if< ( \
+    ) -> typename std::enable_if< \
         ( \
                internal::is_unit< LHS >::value \
-            || internal::is_unit< RHS >::value \
-        ) \
-        && std::is_constructible< LHS, RHS >::value \
-    ), typename LHS::template unit_type< \
-        internal::remove_cvref_t< \
-            decltype( \
+            && internal::is_unit< RHS >::value \
+            && std::is_convertible< LHS, RHS >::value \
+        ), \
+        typename LHS::template unit_type< \
+            internal::remove_cvref_t< decltype( \
                 static_cast< typename LHS::value_type >( lhs ) \
                 OPERATOR \
                 static_cast< typename RHS::value_type >( rhs ) \
-            ) \
+            ) > \
         > \
-    > >::type \
+    >::type \
     { \
         return ( \
             static_cast< typename LHS::value_type >( lhs ) \
@@ -130,14 +136,18 @@ namespace JadeMatrix { namespace units // Comparison ///////////////////////////
     > constexpr auto operator OPERATOR( \
         const LHS& lhs, \
         const RHS& rhs \
-    ) -> typename std::enable_if< ( \
-           internal::is_unit< LHS >::value \
-        || internal::is_unit< RHS >::value \
-    ), decltype( \
-        static_cast< typename LHS::value_type >( lhs ) \
-        OPERATOR \
-        static_cast< typename RHS::value_type >( rhs ) \
-    ) >::type \
+    ) -> typename std::enable_if< \
+        ( \
+               internal::is_unit< LHS >::value \
+            && internal::is_unit< RHS >::value \
+            && std::is_convertible< LHS, RHS >::value \
+        ), \
+        internal::remove_cvref_t< decltype( \
+            static_cast< typename LHS::value_type >( lhs ) \
+            OPERATOR \
+            static_cast< typename RHS::value_type >( rhs ) \
+        ) > \
+    >::type \
     { \
         return ( \
             static_cast< typename LHS::value_type >( lhs ) \
@@ -165,6 +175,7 @@ namespace JadeMatrix { namespace units // Comparison ///////////////////////////
 
 namespace JadeMatrix { namespace units // Assignment ///////////////////////////
 {
+    // TODO: `internal::is_unit< RHS >::value` for stronger type safety
     #define DEFINE_UNIT_OPERATORS_ASSIGN( OPERATOR ) \
     template< \
         typename LHS, \
@@ -172,10 +183,13 @@ namespace JadeMatrix { namespace units // Assignment ///////////////////////////
     > constexpr auto operator OPERATOR##=( \
               LHS& lhs, \
         const RHS& rhs \
-    ) -> typename std::enable_if< ( \
-        internal::is_unit< LHS >::value \
-        && std::is_constructible< LHS, RHS >::value \
-    ), LHS& >::type \
+    ) -> typename std::enable_if< \
+        ( \
+            internal::is_unit< LHS >::value \
+            && std::is_convertible< LHS, RHS >::value \
+        ), \
+        LHS& \
+    >::type \
     { \
         return ( lhs = ( lhs OPERATOR rhs ), lhs ); \
     }
