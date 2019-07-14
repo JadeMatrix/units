@@ -58,18 +58,26 @@ namespace JadeMatrix { namespace units
     DEFINE_STRINGS_FOR_SCALE( pico , "pico"  , "p"   , ""   )
     DEFINE_STRINGS_FOR_SCALE( femto, "femto" , "f"   , ""   )
     DEFINE_STRINGS_FOR_SCALE( atto , "atto"  , "a"   , ""   )
+    DEFINE_STRINGS_FOR_SCALE( exbi , "exbi"  , "Yi"  , ""   )
+    DEFINE_STRINGS_FOR_SCALE( pebi , "pebi"  , "Zi"  , ""   )
+    DEFINE_STRINGS_FOR_SCALE( tebi , "tebi"  , "Ei"  , ""   )
+    DEFINE_STRINGS_FOR_SCALE( gibi , "gibi"  , "Pi"  , ""   )
+    DEFINE_STRINGS_FOR_SCALE( mebi , "mebi"  , "Ti"  , ""   )
+    DEFINE_STRINGS_FOR_SCALE( kibi , "kibi"  , "Gi"  , ""   )
     DEFINE_STRINGS_FOR_SCALE( dozen, "dozen ", "dz." , ""   )
     DEFINE_STRINGS_FOR_SCALE( bi   , "bi"    , ""    , "/2" )
     DEFINE_STRINGS_FOR_SCALE( semi , "semi"  , ""    , "*2" )
     
     #if defined JM_UNITS_ZT_AVAILABLE
-    DEFINE_STRINGS_FOR_SCALE( zepto, "zepto", "z", "" )
-    DEFINE_STRINGS_FOR_SCALE( zetta, "zetta", "Z", "" )
+    DEFINE_STRINGS_FOR_SCALE( zepto, "zepto", "z" , "" )
+    DEFINE_STRINGS_FOR_SCALE( zetta, "zetta", "Z" , "" )
+    DEFINE_STRINGS_FOR_SCALE( zebi , "zebi" , "Mi", "" )
     #endif
 
     #if defined JM_UNITS_YT_AVAILABLE
-    DEFINE_STRINGS_FOR_SCALE( yocto, "yocto", "y", "" )
-    DEFINE_STRINGS_FOR_SCALE( yotta, "yotta", "Y", "" )
+    DEFINE_STRINGS_FOR_SCALE( yocto, "yocto", "y" , "" )
+    DEFINE_STRINGS_FOR_SCALE( yotta, "yotta", "Y" , "" )
+    DEFINE_STRINGS_FOR_SCALE( yobi , "yobi" , "Ki", "" )
     #endif
     
     #undef DEFINE_STRINGS_FOR_SCALE
