@@ -41,6 +41,11 @@ namespace JadeMatrix { namespace units
         } \
     };
     
+    DEFINE_STRINGS_FOR_SCALE( unit , ""      , ""    , ""   )
+    DEFINE_STRINGS_FOR_SCALE( dozen, "dozen ", "dz." , ""   )
+    DEFINE_STRINGS_FOR_SCALE( bi   , "bi"    , ""    , "/2" )
+    DEFINE_STRINGS_FOR_SCALE( semi , "semi"  , ""    , "*2" )
+    
     DEFINE_STRINGS_FOR_SCALE( exa  , "exa"   , "E"   , ""   )
     DEFINE_STRINGS_FOR_SCALE( peta , "peta"  , "P"   , ""   )
     DEFINE_STRINGS_FOR_SCALE( tera , "tera"  , "T"   , ""   )
@@ -49,7 +54,7 @@ namespace JadeMatrix { namespace units
     DEFINE_STRINGS_FOR_SCALE( kilo , "kilo"  , "k"   , ""   )
     DEFINE_STRINGS_FOR_SCALE( hecto, "hecto" , "h"   , ""   )
     DEFINE_STRINGS_FOR_SCALE( deca , "deca"  , "da"  , ""   )
-    DEFINE_STRINGS_FOR_SCALE( unit , ""      , ""    , ""   )
+    
     DEFINE_STRINGS_FOR_SCALE( deci , "deci"  , "d"   , ""   )
     DEFINE_STRINGS_FOR_SCALE( centi, "centi" , "c"   , ""   )
     DEFINE_STRINGS_FOR_SCALE( milli, "milli" , "m"   , ""   )
@@ -58,15 +63,13 @@ namespace JadeMatrix { namespace units
     DEFINE_STRINGS_FOR_SCALE( pico , "pico"  , "p"   , ""   )
     DEFINE_STRINGS_FOR_SCALE( femto, "femto" , "f"   , ""   )
     DEFINE_STRINGS_FOR_SCALE( atto , "atto"  , "a"   , ""   )
+    
     DEFINE_STRINGS_FOR_SCALE( exbi , "exbi"  , "Yi"  , ""   )
     DEFINE_STRINGS_FOR_SCALE( pebi , "pebi"  , "Zi"  , ""   )
     DEFINE_STRINGS_FOR_SCALE( tebi , "tebi"  , "Ei"  , ""   )
     DEFINE_STRINGS_FOR_SCALE( gibi , "gibi"  , "Pi"  , ""   )
     DEFINE_STRINGS_FOR_SCALE( mebi , "mebi"  , "Ti"  , ""   )
     DEFINE_STRINGS_FOR_SCALE( kibi , "kibi"  , "Gi"  , ""   )
-    DEFINE_STRINGS_FOR_SCALE( dozen, "dozen ", "dz." , ""   )
-    DEFINE_STRINGS_FOR_SCALE( bi   , "bi"    , ""    , "/2" )
-    DEFINE_STRINGS_FOR_SCALE( semi , "semi"  , ""    , "*2" )
     
     #if defined JM_UNITS_ZT_AVAILABLE
     DEFINE_STRINGS_FOR_SCALE( zepto, "zepto", "z" , "" )
