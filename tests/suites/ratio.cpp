@@ -4,7 +4,7 @@
 #include <units/angular.hpp>
 #include <units/linear.hpp>
 #include <units/temporal.hpp>
-#include <units/core/stream_format.hpp>
+#include <units/stringify/ostream.hpp>
 
 
 namespace units = ::JadeMatrix::units;

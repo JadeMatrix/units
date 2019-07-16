@@ -2,7 +2,7 @@
 #include <doctest/doctest.h>
 
 #include <units/core/constants.hpp>
-#include <units/core/stream_format.hpp>
+#include <units/stringify/ostream.hpp>
 #include <units/temporal.hpp>
 
 #include <sstream>

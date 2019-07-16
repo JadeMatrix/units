@@ -2,9 +2,8 @@
 #include <doctest/doctest.h>
 
 #include <units/core/define_unit.hpp>
-#include <units/core/stream_format.hpp>
 
-#include <sstream>
+#include <units/stringify/to_string.hpp>
 
 
 namespace units = ::JadeMatrix::units;
