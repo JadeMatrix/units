@@ -264,6 +264,8 @@ namespace custom
         }
         
         #undef DEFINE_ASSIGN_OPERATOR
+        
+        long double value() const { return _value; }
     };
     
     constexpr auto nan = std::numeric_limits< long double >::has_quiet_NaN
