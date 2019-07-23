@@ -54,7 +54,7 @@ constexpr units::ratio< T > sin( const units::degrees< T >& r )
 
 ```cpp
 #include <units/linear.hpp>
-#include <units/core/stream_format.hpp>
+#include <units/stringify/ostream.hpp>
 #include <iostream>
 
 void print_kiloyards_in_feet( units::kiloyards< int > kyd )
