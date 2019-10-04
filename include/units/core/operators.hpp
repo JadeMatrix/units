@@ -15,11 +15,11 @@
 
 namespace JadeMatrix { namespace units // Multiplication & division ////////////
 {
-    #define DEFINE_UNIT_OPERATORS_MULTDIV( OPERATOR, COMBINE ) \
+    #define DEFINE_UNIT_OPERATORS_MULTDIV( OPERAND, COMBINE ) \
     template< \
         typename LHS, \
         typename RHS \
-    > constexpr auto operator OPERATOR( \
+    > constexpr auto operator OPERAND( \
         const LHS& lhs, \
         const RHS& rhs \
     ) -> internal::reduced< COMBINE< \
@@ -27,7 +27,7 @@ namespace JadeMatrix { namespace units // Multiplication & division ////////////
             RHS::template unit_type, \
             internal::remove_cvref_t< decltype( \
                 static_cast< typename LHS::value_type >( lhs ) \
-                OPERATOR \
+                OPERAND \
                 static_cast< typename RHS::value_type >( rhs ) \
             ) > \
         > \
@@ -35,14 +35,14 @@ namespace JadeMatrix { namespace units // Multiplication & division ////////////
     { \
         return ( \
             static_cast< typename LHS::value_type >( lhs ) \
-            OPERATOR \
+            OPERAND \
             static_cast< typename RHS::value_type >( rhs ) \
         ); \
     } \
     template< \
         typename LHS, \
         typename RHS \
-    > constexpr auto operator OPERATOR( \
+    > constexpr auto operator OPERAND( \
         const LHS& lhs, \
         const RHS& rhs \
     ) -> typename std::enable_if< ( \
@@ -50,20 +50,20 @@ namespace JadeMatrix { namespace units // Multiplication & division ////////////
         && !internal::is_unit< RHS >::value \
     ), typename LHS::template unit_type< decltype( \
         std::declval< typename LHS::value_type >() \
-        OPERATOR \
+        OPERAND \
         std::declval< RHS >() \
     ) > >::type \
     { \
         return ( \
             static_cast< typename LHS::value_type >( lhs ) \
-            OPERATOR \
+            OPERAND \
             rhs \
         ); \
     } \
     template< \
         typename LHS, \
         typename RHS \
-    > constexpr auto operator OPERATOR( \
+    > constexpr auto operator OPERAND( \
         const LHS& lhs, \
         const RHS& rhs \
     ) -> typename std::enable_if< ( \
@@ -71,13 +71,13 @@ namespace JadeMatrix { namespace units // Multiplication & division ////////////
         &&  internal::is_unit< RHS >::value \
     ), typename RHS::template unit_type< decltype( \
         std::declval< LHS >() \
-        OPERATOR \
+        OPERAND \
         std::declval< typename RHS::value_type >() \
     ) > >::type \
     { \
         return ( \
             lhs \
-            OPERATOR \
+            OPERAND \
             static_cast< typename RHS::value_type >( rhs ) \
         ); \
     }
@@ -127,11 +127,11 @@ namespace JadeMatrix { namespace units // Modulo ///////////////////////////////
 
 namespace JadeMatrix { namespace units // Addition & subtration ////////////////
 {
-    #define DEFINE_UNIT_OPERATORS_ADDSUB( OPERATOR ) \
+    #define DEFINE_UNIT_OPERATORS_ADDSUB( OPERAND ) \
     template< \
         typename LHS, \
         typename RHS \
-    > constexpr auto operator OPERATOR( \
+    > constexpr auto operator OPERAND( \
         const LHS& lhs, \
         const RHS& rhs \
     ) -> typename std::enable_if< \
@@ -143,7 +143,7 @@ namespace JadeMatrix { namespace units // Addition & subtration ////////////////
         typename LHS::template unit_type< \
             internal::remove_cvref_t< decltype( \
                 static_cast< typename LHS::value_type >( lhs ) \
-                OPERATOR \
+                OPERAND \
                 static_cast< typename RHS::value_type >( rhs ) \
             ) > \
         > \
@@ -151,7 +151,7 @@ namespace JadeMatrix { namespace units // Addition & subtration ////////////////
     { \
         return ( \
             static_cast< typename LHS::value_type >( lhs ) \
-            OPERATOR \
+            OPERAND \
             static_cast< typename RHS::value_type >( \
                 static_cast< \
                     typename LHS::template unit_type< \
@@ -171,11 +171,11 @@ namespace JadeMatrix { namespace units // Addition & subtration ////////////////
 
 namespace JadeMatrix { namespace units // Comparison ///////////////////////////
 {
-    #define DEFINE_UNIT_OPERATORS_COMPARISON( OPERATOR ) \
+    #define DEFINE_UNIT_OPERATORS_COMPARISON( OPERAND ) \
     template< \
         typename LHS, \
         typename RHS \
-    > constexpr auto operator OPERATOR( \
+    > constexpr auto operator OPERAND( \
         const LHS& lhs, \
         const RHS& rhs \
     ) -> typename std::enable_if< \
@@ -186,14 +186,14 @@ namespace JadeMatrix { namespace units // Comparison ///////////////////////////
         ), \
         internal::remove_cvref_t< decltype( \
             static_cast< typename LHS::value_type >( lhs ) \
-            OPERATOR \
+            OPERAND \
             static_cast< typename RHS::value_type >( rhs ) \
         ) > \
     >::type \
     { \
         return ( \
             static_cast< typename LHS::value_type >( lhs ) \
-            OPERATOR \
+            OPERAND \
             static_cast< typename RHS::value_type >( \
                 static_cast< \
                     typename LHS::template unit_type< \
@@ -218,11 +218,11 @@ namespace JadeMatrix { namespace units // Comparison ///////////////////////////
 namespace JadeMatrix { namespace units // Assignment ///////////////////////////
 {
     // TODO: `internal::is_unit< RHS >::value` for stronger type safety
-    #define DEFINE_UNIT_OPERATORS_ASSIGN( OPERATOR ) \
+    #define DEFINE_UNIT_OPERATORS_ASSIGN( OPERAND ) \
     template< \
         typename LHS, \
         typename RHS \
-    > constexpr auto operator OPERATOR##=( \
+    > constexpr auto operator OPERAND##=( \
               LHS& lhs, \
         const RHS& rhs \
     ) -> typename std::enable_if< \
@@ -233,7 +233,7 @@ namespace JadeMatrix { namespace units // Assignment ///////////////////////////
         LHS& \
     >::type \
     { \
-        return ( lhs = ( lhs OPERATOR rhs ), lhs ); \
+        return ( lhs = ( lhs OPERAND rhs ), lhs ); \
     }
     
     DEFINE_UNIT_OPERATORS_ASSIGN( + )
