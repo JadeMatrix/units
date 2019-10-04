@@ -38,6 +38,48 @@ namespace JadeMatrix { namespace units // Multiplication & division ////////////
             OPERATOR \
             static_cast< typename RHS::value_type >( rhs ) \
         ); \
+    } \
+    template< \
+        typename LHS, \
+        typename RHS \
+    > constexpr auto operator OPERATOR( \
+        const LHS& lhs, \
+        const RHS& rhs \
+    ) -> typename std::enable_if< ( \
+            internal::is_unit< LHS >::value \
+        && !internal::is_unit< RHS >::value \
+    ), typename LHS::template unit_type< decltype( \
+        std::declval< typename LHS::value_type >() \
+        OPERATOR \
+        std::declval< RHS >() \
+    ) > >::type \
+    { \
+        return ( \
+            static_cast< typename LHS::value_type >( lhs ) \
+            OPERATOR \
+            rhs \
+        ); \
+    } \
+    template< \
+        typename LHS, \
+        typename RHS \
+    > constexpr auto operator OPERATOR( \
+        const LHS& lhs, \
+        const RHS& rhs \
+    ) -> typename std::enable_if< ( \
+           !internal::is_unit< LHS >::value \
+        &&  internal::is_unit< RHS >::value \
+    ), typename RHS::template unit_type< decltype( \
+        std::declval< LHS >() \
+        OPERATOR \
+        std::declval< typename RHS::value_type >() \
+    ) > >::type \
+    { \
+        return ( \
+            lhs \
+            OPERATOR \
+            static_cast< typename RHS::value_type >( rhs ) \
+        ); \
     }
     
     DEFINE_UNIT_OPERATORS_MULTDIV( *, by  )
