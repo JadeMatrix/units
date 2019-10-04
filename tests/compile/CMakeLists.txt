@@ -96,6 +96,7 @@ UNITS_ADD_COMPILE_TEST( readme
 
 # Positive compile tests
 FOREACH( COMPILE IN ITEMS
+    "mult_div_promotion"
     "ratio_conversion"
     "per_conversion"
 )
