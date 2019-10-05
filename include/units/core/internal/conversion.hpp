@@ -57,7 +57,7 @@ namespace JadeMatrix { namespace units { namespace internal // Full conversion /
             )
         ) >;
         
-        // TODO: use this to support move semantics
+        // TODO: use this version to support move semantics
         template< typename T > static constexpr auto apply( const From< T >& f )
             -> typename std::enable_if<
                 std::ratio_equal< final_scale, std::ratio< 1 > >::value,

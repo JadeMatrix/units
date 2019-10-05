@@ -26,20 +26,20 @@ TEST_CASE( "tagged works" )
     auto t_t = t0 / t1;
     REQUIRE( std::is_same<
         decltype( t_t ),
-        ::custom::tagged< float, tag0 > >::value
-    );
+        ::custom::tagged< float, tag0 >
+    >::value );
     
     auto tt = t1 / t2;
     REQUIRE( std::is_same<
         decltype( tt ),
-        ::custom::tagged< float, tag1 > >::value
-    );
+        ::custom::tagged< float, tag1 >
+    >::value );
     
     auto tnt = t2 == t0;
     REQUIRE( std::is_same<
         decltype( tnt ),
-        ::custom::tagged< bool, tag2 > >::value
-    );
+        ::custom::tagged< bool, tag2 >
+    >::value );
 }
 
 TEST_CASE( "custom value type works" )
