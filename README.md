@@ -2,6 +2,15 @@
 
 This project aims to provide a type-safe, efficient, and easy-to-use C++11 library for representing real-world units.  It is similar to a more abstract version of `std::duration<>` available in the [C++ `<chrono>` header](https://en.cppreference.com/w/cpp/chrono).
 
+The requirements of this project are:
+
+* No common or preferred system of measure (e.g. storing everything as metric and converting as needed)
+* Respect the user's types
+    * No common, intermediate storage type (e.g. storing all numbers as `double`)
+    * All operations on units should preserve value types as if just the value types were used
+* Zero-cost abstraction
+    * Do nothing at runtime that can't be done at compile-time
+    * All unit conversions must result in the same value that would result from hand-coding a multiplication by a one-way conversion factor
 
 ## Installation & Integration
 
