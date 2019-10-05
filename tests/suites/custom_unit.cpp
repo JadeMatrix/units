@@ -17,7 +17,7 @@ TEST_CASE( "custom unit symbol string" )
 
 TEST_CASE( "custom unit to custom unit" )
 {
-    ::custom::foos< long int > fli{ 423 };
-    ::custom::foos< float > ffl{ fli };
-    REQUIRE( static_cast< float >( ffl ) == 423.0f );
+    ::custom::foos< int > fi{ 423 };
+    ::custom::foos< double > fd{ fi };
+    REQUIRE( static_cast< double >( fd ) == 423.0f );
 }
