@@ -29,8 +29,13 @@ FUNCTION( UNITS_ADD_COMPILE_TEST BASENAME )
     # Add library because we aren't testing failure to link; OBJECT because it
     # has the least semantics; EXCLUDE_FROM_ALL is important in case WILL_FAIL
     # is set on this test
+    IF( "${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.12" )
+        # Allowing OBJECT libraries to link against other things was only added
+        # in 3.12; else use the default library type
+        SET( COMPILE_TEST_LIB_TYPE OBJECT )
+    ENDIF()
     ADD_LIBRARY( ${TEST_NAME}_compiles
-        OBJECT
+        ${COMPILE_TEST_LIB_TYPE}
         EXCLUDE_FROM_ALL
         "${TEST_FILE}"
     )
