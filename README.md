@@ -12,6 +12,43 @@ The requirements of this project are:
     * Do nothing at runtime that can't be done at compile-time
     * All unit conversions must result in the same value that would result from hand-coding a multiplication by a one-way conversion factor
 
+## Available Types
+
+Any real-world unit of measure that has a concrete definition or unambiguous meaning is welcome in this library (e.g. [pennyweight](https://en.wikipedia.org/wiki/Pennyweight) or [bytes](https://en.wikipedia.org/wiki/Byte), but not [cubits](https://en.wikipedia.org/wiki/Cubit)).  If one you know of is missing, please [create an issue](https://github.com/JadeMatrix/units/issues/new) or make a pull request.  In case your project needs a unit that wouldn't be appropriate for inclusion here, see [*Creating Custom Units*](#creating-custom-units).
+
+Currently, a few linear, angular, and temporal units are provided in their own headers; a full set of standard units are planned by v1.0.  The available units are:
+
+* Angular — `units/angular.hpp`
+    * `radians`
+    * `degrees`
+    * `arcminutes`
+    * `arcseconds`
+    * `revolutions`
+* Linear — `units/linear.hpp`
+    * `inches`
+    * `feet`
+    * `yards`
+    * `miles`
+    * `meters`
+    * `fathoms`
+    * `nautical_miles` (Note: prefixed versions follow the pattern `kilo_nautical_miles`, `dozen_nautical_miles`, etc.)
+* Temporal — `units/temporal.hpp` — these are also implicitly convertible to & from [`std::chrono::duration<>`s](https://en.cppreference.com/w/cpp/chrono/duration)
+    * `seconds`
+    * `minutes`
+    * `hours`
+
+All unit types have scaled versions for the following prefixes:
+
+* All the [SI prefixes](https://en.wikipedia.org/wiki/Metric_prefix)
+    * Everything from `atto*` to `exa*`
+    * `zepto*`/`zetta*` and `yocto*`/`yotta*` [if the platform `std::intmax_t` can represent them](https://en.cppreference.com/w/cpp/numeric/ratio/ratio)
+* All the [ISO/IEC 80000 binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix)
+    * Everything from `kibi*` to `exbi*`
+    * `zebi*` and `yobi*`, again only if the platform `std::intmax_t` can represent them
+* `dozen_*`
+* `bi*`
+* `semi*`
+
 ## Installation & Integration
 
 While primarily header-only, `units` uses modern (v3.0+) [CMake](https://cmake.org/) to build & run its unit tests, as well as export configuration for an `INTERFACE`-only library.  While CMake will attempt installation at the system level by default, that is not recommended as it may interfere with the system's package manager(s).  To install and use `units` from an arbitrary directory, run something similar to following:
@@ -85,43 +122,6 @@ void print_kiloyards_in_feet( units::kiloyards< int > kyd )
     ;
 }
 ```
-
-## Available Types
-
-Any real-world unit of measure that has a concrete definition or unambiguous meaning is welcome in this library (e.g. [pennyweight](https://en.wikipedia.org/wiki/Pennyweight) or [bytes](https://en.wikipedia.org/wiki/Byte), but not [cubits](https://en.wikipedia.org/wiki/Cubit)).  If one you know of is missing, please [create an issue](https://github.com/JadeMatrix/units/issues/new) or make a pull request.  In case your project needs a unit that wouldn't be appropriate for inclusion here, see [*Creating Custom Units*](#creating-custom-units).
-
-Currently, a few linear, angular, and temporal units are provided in their own headers; a full set of standard units are planned by v1.0.  The available units are:
-
-* Angular — `units/angular.hpp`
-    * `radians`
-    * `degrees`
-    * `arcminutes`
-    * `arcseconds`
-    * `revolutions`
-* Linear — `units/linear.hpp`
-    * `inches`
-    * `feet`
-    * `yards`
-    * `miles`
-    * `meters`
-    * `fathoms`
-    * `nautical_miles` (Note: prefixed versions follow the pattern `kilo_nautical_miles`, `dozen_nautical_miles`, etc.)
-* Temporal — `units/temporal.hpp` — these are also implicitly convertible to & from [`std::chrono::duration<>`s](https://en.cppreference.com/w/cpp/chrono/duration)
-    * `seconds`
-    * `minutes`
-    * `hours`
-
-All unit types have scaled versions for the following prefixes:
-
-* All the [SI prefixes](https://en.wikipedia.org/wiki/Metric_prefix)
-    * Everything from `atto*` to `exa*`
-    * `zepto*`/`zetta*` and `yocto*`/`yotta*` [if the platform `std::intmax_t` can represent them](https://en.cppreference.com/w/cpp/numeric/ratio/ratio)
-* All the [ISO/IEC 80000 binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix)
-    * Everything from `kibi*` to `exbi*`
-    * `zebi*` and `yobi*`, again only if the platform `std::intmax_t` can represent them
-* `dozen_*`
-* `bi*`
-* `semi*`
 
 ## Creating Custom Units
 
