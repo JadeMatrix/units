@@ -14,18 +14,25 @@ The requirements of this project are:
 
 ## Installation & Integration
 
-While primarily header-only, `units` uses modern [CMake](https://cmake.org/) (3.0+) to build & run its unit tests, as well as export configuration for an `INTERFACE`-only library.  While CMake will attempt installation at the system level by default, that is not recommended as it may interfere with the system's package manager(s).  To install to & use `units` from an arbitrary directory, run something similar to following:
+While primarily header-only, `units` uses modern (v3.0+) [CMake](https://cmake.org/) to build & run its unit tests, as well as export configuration for an `INTERFACE`-only library.  While CMake will attempt installation at the system level by default, that is not recommended as it may interfere with the system's package manager(s).  To install and use `units` from an arbitrary directory, run something similar to following:
 
 ```sh
-git clone https://github.com/JadeMatrix/units.git $SOURCE_DIRECTORY
-cd $BUILD_DIRECTORY
-cmake -D CMAKE_INSTALL_PREFIX=$INSTALL_DIRECTORY $SOURCE_DIRECTORY
+git clone https://github.com/JadeMatrix/units.git $UNIT_SOURCE
+cd $UNITS_BUILD
+cmake -D CMAKE_INSTALL_PREFIX=$UNITS_INSTALL $UNIT_SOURCE
 make all test install
 ```
 
-… where `$SOURCE_DIRECTORY`, `$BUILD_DIRECTORY`, and `$INSTALL_DIRECTORY` are the places where `units` is cloned, built, and installed to, respectively.  While these can all be the same location, this is not recommended as build and install outputs may interfere with (overwrite) the cloned source code.
+… where `$UNIT_SOURCE`, `$UNITS_BUILD`, and `$UNITS_INSTALL` are the places where `units` is cloned, built, and installed to, respectively.  While these can all be the same location, this is not recommended as build and install outputs may interfere with (overwrite) the cloned source code.
 
-Then, to use `units` in your own CMake project, add the `lib/cmake` under your `units` install location to your project's [`CMAKE_PREFIX_PATH`](https://cmake.org/cmake/help/latest/variable/CMAKE_PREFIX_PATH.html) variable.  Then, in your project's `CMakeLists.txt`:
+Then, to use `units` in your own CMake project, add the `lib/cmake` under your `units` install location to your project's [`CMAKE_PREFIX_PATH`](https://cmake.org/cmake/help/latest/variable/CMAKE_PREFIX_PATH.html) variable:
+
+```sh
+cd /your/build/dir/
+cmake -D CMAKE_PREFIX_PATH=$UNITS_INSTALL/lib/cmake/ /your/project/source/
+```
+
+Then, in your project's `CMakeLists.txt`:
 
 ```cmake
 FIND_PACKAGE( JadeMatrix-units 0.2 REQUIRED COMPONENTS units )
@@ -35,7 +42,7 @@ There will now be an imported target by the name `JadeMatrix::units::units` whic
 
 ## Usage
 
-`units` follows the `<author>::<library>::` namespacing convention, which is intended to be aliased to simply `units::` in most cases but be unambiguous if required.  Currently, a few linear and angular units are provided in their own headers; a full set of standard units are planned by v1.0.
+`units` follows the `<author>::<library>::` namespacing convention, which is intended to be aliased to simply `units::` in most cases but permits disambiguation if required.
 
 ```cpp
 #include <units/angular.hpp>
@@ -66,6 +73,8 @@ constexpr units::ratio< T > sin( const units::degrees< T >& r )
 #include <units/stringify/ostream.hpp>
 #include <iostream>
 
+namespace units = ::JadeMatrix::units;
+
 void print_kiloyards_in_feet( units::kiloyards< int > kyd )
 {
     std::cout
@@ -78,6 +87,10 @@ void print_kiloyards_in_feet( units::kiloyards< int > kyd )
 ```
 
 ## Available Types
+
+Any real-world unit of measure that has a concrete definition or unambiguous meaning is welcome in this library (e.g. [pennyweight](https://en.wikipedia.org/wiki/Pennyweight) or [bytes](https://en.wikipedia.org/wiki/Byte), but not [cubits](https://en.wikipedia.org/wiki/Cubit)).  If one you know of is missing, please [create an issue](https://github.com/JadeMatrix/units/issues/new) or make a pull request.  In case your project needs a unit that wouldn't be appropriate for inclusion here, see [*Creating Custom Units*](#creating-custom-units).
+
+Currently, a few linear, angular, and temporal units are provided in their own headers; a full set of standard units are planned by v1.0.  The available units are:
 
 * Angular — `units/angular.hpp`
     * `radians`
@@ -98,7 +111,17 @@ void print_kiloyards_in_feet( units::kiloyards< int > kyd )
     * `minutes`
     * `hours`
 
-All unit types have versions for all the [SI prefixes](https://en.wikipedia.org/wiki/Metric_prefix) from `atto` to `exa`, `zepto`/`zetta` and `yocto`/`yotta` [if the platform `std::intmax_t` can represent them](https://en.cppreference.com/w/cpp/numeric/ratio/ratio), as well as `dozen_`, `bi`, and `semi`.
+All unit types have scaled versions for the following prefixes:
+
+* All the [SI prefixes](https://en.wikipedia.org/wiki/Metric_prefix)
+    * Everything from `atto*` to `exa*`
+    * `zepto*`/`zetta*` and `yocto*`/`yotta*` [if the platform `std::intmax_t` can represent them](https://en.cppreference.com/w/cpp/numeric/ratio/ratio)
+* All the [ISO/IEC 80000 binary prefixes](https://en.wikipedia.org/wiki/Binary_prefix)
+    * Everything from `kibi*` to `exbi*`
+    * `zebi*` and `yobi*`, again only if the platform `std::intmax_t` can represent them
+* `dozen_*`
+* `bi*`
+* `semi*`
 
 ## Creating Custom Units
 
