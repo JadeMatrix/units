@@ -1,4 +1,12 @@
-CMAKE_MINIMUM_REQUIRED( VERSION 3.11 )
+CMAKE_MINIMUM_REQUIRED( VERSION 3.11 #[[
+    Requiring 3.12+ (fallback exists):
+        ADD_LIBRARY( foo OBJECT ) TARGET_LINK_LIBRARIES( foo ... )
+    Requiring 3.11+:
+        WRITE_BASIC_PACKAGE_VERSION_FILE( ... SameMinorVersion ... )
+        ADD_*( foo ) ... TARGET_SOURCES( foo ... )
+    Requiring 3.10+:
+        INCLUDE( doctest )
+]] )
 
 PROJECT(
     "JadeMatrix-units"
