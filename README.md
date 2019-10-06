@@ -103,7 +103,12 @@ constexpr units::ratio< T > sin( const units::degrees< T >& r )
 }
 ```
 
-`units` also has an optional header providing stream format operators for unit types:
+`units` also has an optional headers providing stringification functionality, all of which use [argument-dependent lookup (ADL)](https://en.cppreference.com/w/cpp/language/adl) for value types:
+
+| Stringify method | Header |
+|---|---|
+| [`to_string()`](https://en.cppreference.com/w/cpp/string/basic_string/to_string) | `units/stringify/to_string.hpp` |
+| [Stream format operators](https://en.cppreference.com/w/cpp/named_req/FormattedOutputFunction) (`<<`) | `units/stringify/ostream.hpp` |
 
 ```cpp
 #include <units/linear.hpp>
@@ -157,7 +162,7 @@ namespace custom
     inches_feet_linear_relation units_linear_relation_lookup(
         inch_traits&&,
         foot_traits&&
-    );
+    ); // No definition for this function; used only for ADL logic
 }
 
 // Test that the units were defined correctly
