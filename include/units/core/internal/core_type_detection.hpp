@@ -18,11 +18,12 @@ namespace JadeMatrix { namespace units { namespace internal // Type detection //
     > struct is_basic_unit : std::false_type {};
     template< typename T > struct is_basic_unit<
         T,
-        void_t< unit<
+        void_t<
             typename T::traits_type,
             typename T::scale_type,
-            typename T::value_type
-        > >
+            typename T::value_type,
+            typename T::template unit_type< void >
+        >
     > : std::true_type {};
     
     template<
@@ -31,11 +32,12 @@ namespace JadeMatrix { namespace units { namespace internal // Type detection //
     > struct is_per : std::false_type {};
     template< typename T > struct is_per<
         T,
-        void_t< per<
-            T::template numer_unit,
-            T::template denom_unit,
-            typename T::value_type
-        > >
+        void_t<
+            typename T::template numer_unit< void >,
+            typename T::template denom_unit< void >,
+            typename T::value_type,
+            typename T::template unit_type< void >
+        >
     > : std::true_type {};
     
     template<
@@ -44,11 +46,12 @@ namespace JadeMatrix { namespace units { namespace internal // Type detection //
     > struct is_by : std::false_type {};
     template< typename T > struct is_by<
         T,
-        void_t< by<
-            T::template first_unit,
-            T::template second_unit,
-            typename T::value_type
-        > >
+        void_t<
+            typename T::template  first_unit< void >,
+            typename T::template second_unit< void >,
+            typename T::value_type,
+            typename T::template unit_type< void >
+        >
     > : std::true_type {};
     
     template<
@@ -58,8 +61,8 @@ namespace JadeMatrix { namespace units { namespace internal // Type detection //
     template< typename T > struct is_ratio<
         T,
         typename std::enable_if< std::is_same<
-            T,
-            ratio< typename T::value_type >
+            typename T::template unit_type< void >,
+            ratio< void >
         >::value >::type
     > : std::true_type {};
     
