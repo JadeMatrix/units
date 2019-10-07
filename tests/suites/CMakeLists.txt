@@ -7,6 +7,7 @@ ADD_CUSTOM_TARGET( tests ALL )
 
 FOREACH( SUITE IN ITEMS
     "angular"
+    "core_type_detection"
     "custom_unit"
     "custom_value_type"
     "linear_imperial"
