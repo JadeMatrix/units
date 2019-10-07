@@ -15,71 +15,119 @@
 
 namespace JadeMatrix { namespace units // Multiplication & division ////////////
 {
+    // This used to be elegant, but also incorrect, so welcome to this mess
     #define DEFINE_UNIT_OPERATORS_MULTDIV( OPERAND, COMBINE ) \
-    template< \
-        typename LHS, \
-        typename RHS \
-    > constexpr auto operator OPERAND( \
-        const LHS& lhs, \
-        const RHS& rhs \
-    ) -> internal::reduced< COMBINE< \
-            LHS::template unit_type, \
-            RHS::template unit_type, \
-            internal::remove_cvref_t< decltype( \
-                static_cast< typename LHS::value_type >( lhs ) \
-                OPERAND \
-                static_cast< typename RHS::value_type >( rhs ) \
-            ) > \
+    namespace internal \
+    { \
+        template< \
+            typename LHS, \
+            typename RHS, \
+            typename = void \
+        > struct operator_dispatch_to_##COMBINE; \
+         \
+        template< \
+            typename LHS, \
+            typename RHS \
+        > struct operator_dispatch_to_##COMBINE< \
+            LHS, \
+            RHS, \
+            typename std::enable_if< ( \
+                   internal::is_unit< LHS >::value \
+                && internal::is_unit< RHS >::value \
+            ) >::type \
         > \
-    > \
-    { \
-        return ( \
-            static_cast< typename LHS::value_type >( lhs ) \
-            OPERAND \
-            static_cast< typename RHS::value_type >( rhs ) \
-        ); \
+        { \
+            static constexpr auto value( \
+                const LHS& lhs, \
+                const RHS& rhs \
+            ) -> internal::reduced< COMBINE< \
+                LHS::template unit_type, \
+                RHS::template unit_type, \
+                internal::remove_cvref_t< decltype( \
+                    static_cast< typename LHS::value_type >( lhs ) \
+                    OPERAND \
+                    static_cast< typename RHS::value_type >( rhs ) \
+                ) > \
+            > > \
+            { \
+                return ( \
+                    static_cast< typename LHS::value_type >( lhs ) \
+                    OPERAND \
+                    static_cast< typename RHS::value_type >( rhs ) \
+                ); \
+            } \
+        }; \
+         \
+        template< \
+            typename LHS, \
+            typename RHS \
+        > struct operator_dispatch_to_##COMBINE< \
+            LHS, \
+            RHS, \
+            typename std::enable_if< ( \
+                    internal::is_unit< LHS >::value \
+                && !internal::is_unit< RHS >::value \
+            ) >::type \
+        > \
+        { \
+            static constexpr auto value( \
+                const LHS& lhs, \
+                const RHS& rhs \
+            ) -> decltype( operator_dispatch_to_##COMBINE< \
+                LHS, \
+                ratio< RHS > \
+            >::value( lhs, rhs ) ) \
+            { \
+                return operator_dispatch_to_##COMBINE< \
+                    LHS, \
+                    ratio< RHS > \
+                >::value( lhs, rhs ); \
+            } \
+        }; \
+         \
+        template< \
+            typename LHS, \
+            typename RHS \
+        > struct operator_dispatch_to_##COMBINE< \
+            LHS, \
+            RHS, \
+            typename std::enable_if< ( \
+                   !internal::is_unit< LHS >::value \
+                &&  internal::is_unit< RHS >::value \
+            ) >::type \
+        > \
+        { \
+            static constexpr auto value( \
+                const LHS& lhs, \
+                const RHS& rhs \
+            ) -> decltype( operator_dispatch_to_##COMBINE< \
+                ratio< LHS >, \
+                RHS \
+            >::value( lhs, rhs ) ) \
+            { \
+                return operator_dispatch_to_##COMBINE< \
+                    ratio< LHS >, \
+                    RHS \
+                >::value( lhs, rhs ); \
+            } \
+        }; \
     } \
+     \
     template< \
         typename LHS, \
         typename RHS \
     > constexpr auto operator OPERAND( \
         const LHS& lhs, \
         const RHS& rhs \
-    ) -> typename std::enable_if< ( \
-            internal::is_unit< LHS >::value \
-        && !internal::is_unit< RHS >::value \
-    ), typename LHS::template unit_type< decltype( \
-        std::declval< typename LHS::value_type >() \
-        OPERAND \
-        std::declval< RHS >() \
-    ) > >::type \
+    ) -> decltype( internal::operator_dispatch_to_##COMBINE< \
+        LHS, \
+        RHS \
+    >::value( lhs, rhs ) ) \
     { \
-        return ( \
-            static_cast< typename LHS::value_type >( lhs ) \
-            OPERAND \
-            rhs \
-        ); \
-    } \
-    template< \
-        typename LHS, \
-        typename RHS \
-    > constexpr auto operator OPERAND( \
-        const LHS& lhs, \
-        const RHS& rhs \
-    ) -> typename std::enable_if< ( \
-           !internal::is_unit< LHS >::value \
-        &&  internal::is_unit< RHS >::value \
-    ), typename RHS::template unit_type< decltype( \
-        std::declval< LHS >() \
-        OPERAND \
-        std::declval< typename RHS::value_type >() \
-    ) > >::type \
-    { \
-        return ( \
-            lhs \
-            OPERAND \
-            static_cast< typename RHS::value_type >( rhs ) \
-        ); \
+        return internal::operator_dispatch_to_##COMBINE< \
+            LHS, \
+            RHS \
+        >::value( lhs, rhs ); \
     }
     
     DEFINE_UNIT_OPERATORS_MULTDIV( *, by  )
