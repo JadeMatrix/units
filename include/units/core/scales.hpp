@@ -85,20 +85,30 @@ namespace JadeMatrix { namespace units // Helper for defining prefixed units ///
     template< typename T > using   nano##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units:: nano_scale, T >; \
     template< typename T > using   pico##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units:: pico_scale, T >; \
     template< typename T > using  femto##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units::femto_scale, T >; \
-    template< typename T > using   atto##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units:: atto_scale, T >;
+    template< typename T > using   atto##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units:: atto_scale, T >; \
+     \
+    template< typename T > using   exbi##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units:: exbi_scale, T >; \
+    template< typename T > using   pebi##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units:: pebi_scale, T >; \
+    template< typename T > using   tebi##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units:: tebi_scale, T >; \
+    template< typename T > using   gibi##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units:: gibi_scale, T >; \
+    template< typename T > using   mebi##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units:: mebi_scale, T >; \
+    template< typename T > using   kibi##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units:: kibi_scale, T >;
     
     #if defined JM_UNITS_YT_AVAILABLE
         #define DEFINE_ALL_PREFIXES_FOR_UNIT( PLURAL, TRAITS ) \
         _DEFINE_MOST_PREFIXES_FOR_UNIT( PLURAL, TRAITS ) \
         template< typename T > using zepto##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units::zepto_scale, T >; \
         template< typename T > using zetta##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units::zetta_scale, T >; \
+        template< typename T > using  zebi##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units:: zebi_scale, T >; \
         template< typename T > using yocto##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units::yocto_scale, T >; \
-        template< typename T > using yotta##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units::yotta_scale, T >;
+        template< typename T > using yotta##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units::yotta_scale, T >; \
+        template< typename T > using  yobi##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units:: yobi_scale, T >;
     #elif defined JM_UNITS_ZT_AVAILABLE
         #define DEFINE_ALL_PREFIXES_FOR_UNIT( PLURAL, TRAITS ) \
         _DEFINE_MOST_PREFIXES_FOR_UNIT( PLURAL, TRAITS ) \
         template< typename T > using zepto##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units::zepto_scale, T >; \
-        template< typename T > using zetta##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units::zetta_scale, T >;
+        template< typename T > using zetta##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units::zetta_scale, T >; \
+        template< typename T > using  zebi##PLURAL = ::JadeMatrix::units::unit< TRAITS, ::JadeMatrix::units:: zebi_scale, T >;
     #else
         #define DEFINE_ALL_PREFIXES_FOR_UNIT( PLURAL, TRAITS ) \
         _DEFINE_MOST_PREFIXES_FOR_UNIT( PLURAL, TRAITS )
