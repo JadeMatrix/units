@@ -15,11 +15,25 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
     struct  arcsecond_traits {};
     struct revolution_traits {};
     
-    DEFINE_ALL_PREFIXES_FOR_UNIT(     degrees,     degree_traits )
-    DEFINE_ALL_PREFIXES_FOR_UNIT(     radians,     radian_traits )
-    DEFINE_ALL_PREFIXES_FOR_UNIT(  arcminutes,  arcminute_traits )
-    DEFINE_ALL_PREFIXES_FOR_UNIT(  arcseconds,  arcsecond_traits )
-    DEFINE_ALL_PREFIXES_FOR_UNIT( revolutions, revolution_traits )
+    
+    #define DEFINE_PREFIX_FOR_degrees(     PREFIX, SCALE ) template< typename T > using PREFIX##degrees     = unit<     degree_traits, SCALE, T >;
+    #define DEFINE_PREFIX_FOR_radians(     PREFIX, SCALE ) template< typename T > using PREFIX##radians     = unit<     radian_traits, SCALE, T >;
+    #define DEFINE_PREFIX_FOR_arcminutes(  PREFIX, SCALE ) template< typename T > using PREFIX##arcminutes  = unit<  arcminute_traits, SCALE, T >;
+    #define DEFINE_PREFIX_FOR_arcseconds(  PREFIX, SCALE ) template< typename T > using PREFIX##arcseconds  = unit<  arcsecond_traits, SCALE, T >;
+    #define DEFINE_PREFIX_FOR_revolutions( PREFIX, SCALE ) template< typename T > using PREFIX##revolutions = unit< revolution_traits, SCALE, T >;
+    
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_degrees     )
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_radians     )
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_arcminutes  )
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_arcseconds  )
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_revolutions )
+    
+    #undef DEFINE_PREFIX_FOR_degrees
+    #undef DEFINE_PREFIX_FOR_radians
+    #undef DEFINE_PREFIX_FOR_arcminutes
+    #undef DEFINE_PREFIX_FOR_arcseconds
+    #undef DEFINE_PREFIX_FOR_revolutions
+    
     
     DEFINE_ALL_STRINGS_FOR_UNIT(     degree_traits,     "degrees",   "°" )
     DEFINE_ALL_STRINGS_FOR_UNIT(     radian_traits,     "radians",   "r" )

@@ -10,8 +10,16 @@ namespace custom
 {
     struct foo_traits {};
     
+    #define DEFINE_PREFIX_FOR_foos( PREFIX, SCALE ) \
+        template< typename T > using PREFIX##foos = ::JadeMatrix::units::unit< \
+            foo_traits, \
+            SCALE, \
+            T \
+        >;
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_foos )
+    #undef DEFINE_PREFIX_FOR_foos
+    
     DEFINE_ALL_STRINGS_FOR_UNIT( foo_traits, "foos", "¿" )
-    DEFINE_ALL_PREFIXES_FOR_UNIT( foos, custom::foo_traits )
 }
 
 

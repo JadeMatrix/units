@@ -49,16 +49,12 @@ TEST_CASE( "`is_basic_unit` false for other types" )
 
 TEST_CASE( "`is_per` false for `unit`" )
 {
-    REQUIRE( !units::internal::is_per< units::semiflops< double > >::value );
+    REQUIRE( !units::internal::is_per< units::semibits< double > >::value );
 }
 
 TEST_CASE( "`is_per` true for `per`" )
 {
-    REQUIRE( units::internal::is_per< units::per<
-        units::decaflops,
-        units::biips,
-        char
-    > >::value );
+    REQUIRE( units::internal::is_per< units::decaflops< char > >::value );
 }
 
 TEST_CASE( "`is_per` false for `by`" )

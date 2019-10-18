@@ -135,7 +135,7 @@ void print_kiloyards_in_feet( units::kiloyards< int > kyd )
 
 ## Creating Custom Units
 
-Creating custom units is generally very simple, consisting of a traits/tag type, two macros to define prefixed `unit` aliases and strings, and a number of relationships representing unit conversions.  For example, the units `inches` and `feet` are defined basically as:
+Creating custom units is generally very straightforward, essentially consisting of a traits/tag type and a number of relationships representing unit conversions.  Some utility macros are also provided to define prefixed versions and add stringification support to new units.  For example, the units `inches` and `feet` are defined basically as:
 
 ```cpp
 #include <units/core/constants.hpp>
@@ -148,18 +148,15 @@ namespace custom
     struct inch_traits {};
     struct foot_traits {};
 
-    DEFINE_ALL_PREFIXES_FOR_UNIT( inches, inch_traits )
-    DEFINE_ALL_PREFIXES_FOR_UNIT(   feet, foot_traits )
-
-    DEFINE_ALL_STRINGS_FOR_UNIT( inch_traits, "inches", "in" )
-    DEFINE_ALL_STRINGS_FOR_UNIT( foot_traits,   "feet", "ft" )
+    // Conversion relationship /////////////////////////////////////////////////
 
     struct inches_feet_linear_relation
     {
         template< typename T > struct values
         {
             // Default `slope_num` of 1 used if not defined
-            static constexpr auto slope_num = units::constants::foot_inches< T >::value;
+            static constexpr auto slope_num = 
+                units::constants::foot_inches< T >::value;
             // Default `slope_den` of 1 used if not defined
             // Default `intercept` of 0 used if not defined
         };
@@ -168,6 +165,30 @@ namespace custom
         inch_traits&&,
         foot_traits&&
     ); // No definition for this function; used only for ADL logic
+
+    // Prefixes definition /////////////////////////////////////////////////////
+
+    #define DEFINE_PREFIX_FOR_inches( PREFIX, SCALE ) \
+        template< typename T > using PREFIX##inches = units::unit< \
+            inch_traits, \
+            SCALE, \
+            T \
+        >;
+    #define DEFINE_PREFIX_FOR_feet( PREFIX, SCALE ) \
+        template< typename T > using PREFIX##feet = units::unit< \
+            foot_traits, \
+            SCALE, \
+            T \
+        >;
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_inches )
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_feet   )
+    #undef DEFINE_PREFIX_FOR_inches
+    #undef DEFINE_PREFIX_FOR_feet
+
+    // Stringification support for all prefixes ////////////////////////////////
+
+    DEFINE_ALL_STRINGS_FOR_UNIT( inch_traits, "inches", "in" )
+    DEFINE_ALL_STRINGS_FOR_UNIT( foot_traits,   "feet", "ft" )
 }
 
 // Test that the units were defined correctly
