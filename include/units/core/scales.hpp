@@ -63,33 +63,37 @@ namespace JadeMatrix { namespace units
 
 namespace JadeMatrix { namespace units // Helper for defining prefixed units ///
 {
+    #define JM_UNITS_INTERNAL_FOREACH_SCALE_UNIT( MACRO ) \
+        MACRO( , ::JadeMatrix::units::unit_scale )
+    
+    #define JM_UNITS_INTERNAL_FOREACH_SCALE_UNDERSCORE( MACRO ) \
+        MACRO( dozen_, ::JadeMatrix::units::dozen_scale )
+    
     #define JM_UNITS_INTERNAL_FOREACH_SCALE_MOST( MACRO ) \
-        MACRO(       , ::JadeMatrix::units:: unit_scale ) \
-        MACRO( dozen_, ::JadeMatrix::units::dozen_scale ) \
-        MACRO(     bi, ::JadeMatrix::units::   bi_scale ) \
-        MACRO(   semi, ::JadeMatrix::units:: semi_scale ) \
-        MACRO(    exa, ::JadeMatrix::units::  exa_scale ) \
-        MACRO(   peta, ::JadeMatrix::units:: peta_scale ) \
-        MACRO(   tera, ::JadeMatrix::units:: tera_scale ) \
-        MACRO(   giga, ::JadeMatrix::units:: giga_scale ) \
-        MACRO(   mega, ::JadeMatrix::units:: mega_scale ) \
-        MACRO(   kilo, ::JadeMatrix::units:: kilo_scale ) \
-        MACRO(  hecto, ::JadeMatrix::units::hecto_scale ) \
-        MACRO(   deca, ::JadeMatrix::units:: deca_scale ) \
-        MACRO(   deci, ::JadeMatrix::units:: deci_scale ) \
-        MACRO(  centi, ::JadeMatrix::units::centi_scale ) \
-        MACRO(  milli, ::JadeMatrix::units::milli_scale ) \
-        MACRO(  micro, ::JadeMatrix::units::micro_scale ) \
-        MACRO(   nano, ::JadeMatrix::units:: nano_scale ) \
-        MACRO(   pico, ::JadeMatrix::units:: pico_scale ) \
-        MACRO(  femto, ::JadeMatrix::units::femto_scale ) \
-        MACRO(   atto, ::JadeMatrix::units:: atto_scale ) \
-        MACRO(   exbi, ::JadeMatrix::units:: exbi_scale ) \
-        MACRO(   pebi, ::JadeMatrix::units:: pebi_scale ) \
-        MACRO(   tebi, ::JadeMatrix::units:: tebi_scale ) \
-        MACRO(   gibi, ::JadeMatrix::units:: gibi_scale ) \
-        MACRO(   mebi, ::JadeMatrix::units:: mebi_scale ) \
-        MACRO(   kibi, ::JadeMatrix::units:: kibi_scale )
+        MACRO(    bi, ::JadeMatrix::units::   bi_scale ) \
+        MACRO(  semi, ::JadeMatrix::units:: semi_scale ) \
+        MACRO(   exa, ::JadeMatrix::units::  exa_scale ) \
+        MACRO(  peta, ::JadeMatrix::units:: peta_scale ) \
+        MACRO(  tera, ::JadeMatrix::units:: tera_scale ) \
+        MACRO(  giga, ::JadeMatrix::units:: giga_scale ) \
+        MACRO(  mega, ::JadeMatrix::units:: mega_scale ) \
+        MACRO(  kilo, ::JadeMatrix::units:: kilo_scale ) \
+        MACRO( hecto, ::JadeMatrix::units::hecto_scale ) \
+        MACRO(  deca, ::JadeMatrix::units:: deca_scale ) \
+        MACRO(  deci, ::JadeMatrix::units:: deci_scale ) \
+        MACRO( centi, ::JadeMatrix::units::centi_scale ) \
+        MACRO( milli, ::JadeMatrix::units::milli_scale ) \
+        MACRO( micro, ::JadeMatrix::units::micro_scale ) \
+        MACRO(  nano, ::JadeMatrix::units:: nano_scale ) \
+        MACRO(  pico, ::JadeMatrix::units:: pico_scale ) \
+        MACRO( femto, ::JadeMatrix::units::femto_scale ) \
+        MACRO(  atto, ::JadeMatrix::units:: atto_scale ) \
+        MACRO(  exbi, ::JadeMatrix::units:: exbi_scale ) \
+        MACRO(  pebi, ::JadeMatrix::units:: pebi_scale ) \
+        MACRO(  tebi, ::JadeMatrix::units:: tebi_scale ) \
+        MACRO(  gibi, ::JadeMatrix::units:: gibi_scale ) \
+        MACRO(  mebi, ::JadeMatrix::units:: mebi_scale ) \
+        MACRO(  kibi, ::JadeMatrix::units:: kibi_scale )
     
     #if defined JM_UNITS_YT_AVAILABLE
         #define JM_UNITS_INTERNAL_FOREACH_SCALE_YT( MACRO ) \
@@ -110,9 +114,11 @@ namespace JadeMatrix { namespace units // Helper for defining prefixed units ///
     #endif
     
     #define JM_UNITS_FOREACH_SCALE( MACRO ) \
-        JM_UNITS_INTERNAL_FOREACH_SCALE_MOST( MACRO ) \
-        JM_UNITS_INTERNAL_FOREACH_SCALE_YT  ( MACRO ) \
-        JM_UNITS_INTERNAL_FOREACH_SCALE_ZT  ( MACRO )
+        JM_UNITS_INTERNAL_FOREACH_SCALE_UNIT      ( MACRO ) \
+        JM_UNITS_INTERNAL_FOREACH_SCALE_UNDERSCORE( MACRO ) \
+        JM_UNITS_INTERNAL_FOREACH_SCALE_MOST      ( MACRO ) \
+        JM_UNITS_INTERNAL_FOREACH_SCALE_YT        ( MACRO ) \
+        JM_UNITS_INTERNAL_FOREACH_SCALE_ZT        ( MACRO )
 } }
 
 

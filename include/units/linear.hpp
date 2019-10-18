@@ -24,17 +24,22 @@ namespace JadeMatrix { namespace units
     #define DEFINE_PREFIX_FOR_miles(          PREFIX, SCALE ) template< typename T > using PREFIX##miles           = unit<          mile_traits, SCALE, T >;
     #define DEFINE_PREFIX_FOR_meters(         PREFIX, SCALE ) template< typename T > using PREFIX##meters          = unit<         meter_traits, SCALE, T >;
     #define DEFINE_PREFIX_FOR_fathoms(        PREFIX, SCALE ) template< typename T > using PREFIX##fathoms         = unit<        fathom_traits, SCALE, T >;
-    // FIXME: This will make the unit name string for `nautical_miles` be
-    // prefixed with a space -- need more granular control in macro
     #define DEFINE_PREFIX_FOR_nautical_miles( PREFIX, SCALE ) template< typename T > using PREFIX##_nautical_miles = unit< nautical_mile_traits, SCALE, T >;
     
-    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_inches         )
-    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_feet           )
-    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_yards          )
-    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_miles          )
-    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_meters         )
-    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_fathoms        )
-    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_nautical_miles )
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_inches  )
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_feet    )
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_yards   )
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_miles   )
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_meters  )
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_fathoms )
+    
+    // Define unit & underscored prefixes separately for nautical miles so as
+    // not to add excess underscores
+    template< typename T > using       nautical_miles = unit< nautical_mile_traits,  unit_scale, T >;
+    template< typename T > using dozen_nautical_miles = unit< nautical_mile_traits, dozen_scale, T >;
+    JM_UNITS_INTERNAL_FOREACH_SCALE_MOST( DEFINE_PREFIX_FOR_nautical_miles )
+    JM_UNITS_INTERNAL_FOREACH_SCALE_YT  ( DEFINE_PREFIX_FOR_nautical_miles )
+    JM_UNITS_INTERNAL_FOREACH_SCALE_ZT  ( DEFINE_PREFIX_FOR_nautical_miles )
     
     #undef DEFINE_PREFIX_FOR_inches
     #undef DEFINE_PREFIX_FOR_feet
@@ -43,9 +48,6 @@ namespace JadeMatrix { namespace units
     #undef DEFINE_PREFIX_FOR_meters
     #undef DEFINE_PREFIX_FOR_fathoms
     #undef DEFINE_PREFIX_FOR_nautical_miles
-    
-    template< typename T > using nautical_miles = _nautical_miles< T >;
-    template< typename T > using dozen_nautical_miles = dozen__nautical_miles< T >;
     
     
     DEFINE_ALL_STRINGS_FOR_UNIT(          inch_traits,          "inches", "in" )
