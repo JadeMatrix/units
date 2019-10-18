@@ -36,6 +36,11 @@ Currently, a few linear, angular, and temporal units are provided in their own h
     * `seconds`
     * `minutes`
     * `hours`
+* Digital — `units/digital.hpp`
+    * bits
+    * bytes
+    * [flops](https://en.wikipedia.org/wiki/FLOPS)
+    * [ips](https://en.wikipedia.org/wiki/Instructions_per_second)
 
 All unit types have scaled versions for the following prefixes:
 
