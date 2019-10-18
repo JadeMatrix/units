@@ -17,8 +17,9 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
         - There is no way of knowing the user's intention in using `bits`.  They
           may be using it to store the compressed size of some data that may not
           have a direct relationship to the bytes in which it is stored.  For
-          example, ASCII is a 7-bit character encoding commonly stored in 8-bit
-          bytes, with one bit unused.
+          example, a function to count the number of bits set to 1 in a word
+          could return a value as `bits` which would not be meaningful as some
+          number of `bytes`.
     */
     
     struct  bit_traits {};
