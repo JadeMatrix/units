@@ -5,6 +5,7 @@
 
 #include "core/constants.hpp"
 #include "core/define_unit.hpp"
+#include "temporal.hpp"
 
 
 namespace JadeMatrix { namespace units
@@ -25,6 +26,20 @@ namespace JadeMatrix { namespace units
     #define DEFINE_PREFIX_FOR_meters(         PREFIX, SCALE ) template< typename T > using PREFIX##meters          = unit<         meter_traits, SCALE, T >;
     #define DEFINE_PREFIX_FOR_fathoms(        PREFIX, SCALE ) template< typename T > using PREFIX##fathoms         = unit<        fathom_traits, SCALE, T >;
     #define DEFINE_PREFIX_FOR_nautical_miles( PREFIX, SCALE ) template< typename T > using PREFIX##_nautical_miles = unit< nautical_mile_traits, SCALE, T >;
+    #define DEFINE_PREFIX_FOR_knots(          PREFIX, SCALE ) template< typename T > using PREFIX##knots           = per< PREFIX##_nautical_miles, hours, T >;
+    
+    // Define unit & underscored prefixes separately for nautical miles so as
+    // not to add excess underscores (and knots as they rely on those aliases)
+    template< typename T > using       nautical_miles = unit< nautical_mile_traits,  unit_scale, T >;
+    template< typename T > using dozen_nautical_miles = unit< nautical_mile_traits, dozen_scale, T >;
+    JM_UNITS_INTERNAL_FOREACH_SCALE_MOST( DEFINE_PREFIX_FOR_nautical_miles )
+    JM_UNITS_INTERNAL_FOREACH_SCALE_YT  ( DEFINE_PREFIX_FOR_nautical_miles )
+    JM_UNITS_INTERNAL_FOREACH_SCALE_ZT  ( DEFINE_PREFIX_FOR_nautical_miles )
+    template< typename T > using       knots = per<       nautical_miles, hours, T >;
+    template< typename T > using dozen_knots = per< dozen_nautical_miles, hours, T >;
+    JM_UNITS_INTERNAL_FOREACH_SCALE_MOST( DEFINE_PREFIX_FOR_knots )
+    JM_UNITS_INTERNAL_FOREACH_SCALE_YT  ( DEFINE_PREFIX_FOR_knots )
+    JM_UNITS_INTERNAL_FOREACH_SCALE_ZT  ( DEFINE_PREFIX_FOR_knots )
     
     JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_inches  )
     JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_feet    )
@@ -33,14 +48,6 @@ namespace JadeMatrix { namespace units
     JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_meters  )
     JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_fathoms )
     
-    // Define unit & underscored prefixes separately for nautical miles so as
-    // not to add excess underscores
-    template< typename T > using       nautical_miles = unit< nautical_mile_traits,  unit_scale, T >;
-    template< typename T > using dozen_nautical_miles = unit< nautical_mile_traits, dozen_scale, T >;
-    JM_UNITS_INTERNAL_FOREACH_SCALE_MOST( DEFINE_PREFIX_FOR_nautical_miles )
-    JM_UNITS_INTERNAL_FOREACH_SCALE_YT  ( DEFINE_PREFIX_FOR_nautical_miles )
-    JM_UNITS_INTERNAL_FOREACH_SCALE_ZT  ( DEFINE_PREFIX_FOR_nautical_miles )
-    
     #undef DEFINE_PREFIX_FOR_inches
     #undef DEFINE_PREFIX_FOR_feet
     #undef DEFINE_PREFIX_FOR_yards
@@ -48,6 +55,7 @@ namespace JadeMatrix { namespace units
     #undef DEFINE_PREFIX_FOR_meters
     #undef DEFINE_PREFIX_FOR_fathoms
     #undef DEFINE_PREFIX_FOR_nautical_miles
+    #undef DEFINE_PREFIX_FOR_knots
     
     
     DEFINE_ALL_STRINGS_FOR_UNIT(          inch_traits,          "inches", "in" )
@@ -57,6 +65,20 @@ namespace JadeMatrix { namespace units
     DEFINE_ALL_STRINGS_FOR_UNIT(         meter_traits,          "meters",  "m" )
     DEFINE_ALL_STRINGS_FOR_UNIT(        fathom_traits,         "fathoms", "fm" )
     DEFINE_ALL_STRINGS_FOR_UNIT( nautical_mile_traits, " nautical miles",  "M" )
+    
+    template<> struct unit_strings< knots< void > >
+    {
+        static const std::string& name()
+        {
+            static const std::string s{ "knots" };
+            return s;
+        }
+        static const std::string& symbol()
+        {
+            static const std::string s{ "kt" };
+            return s;
+        }
+    };
 } }
 
 

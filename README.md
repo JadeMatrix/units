@@ -32,6 +32,7 @@ Currently, a few linear, angular, and temporal units are provided in their own h
     * `meters`
     * `fathoms`
     * `nautical_miles` (Note: prefixed versions follow the pattern `kilo_nautical_miles`, `dozen_nautical_miles`, etc.)
+    * `knots`
 * Temporal — `units/temporal.hpp` — these are also implicitly convertible to & from [`std::chrono::duration<>`s](https://en.cppreference.com/w/cpp/chrono/duration)
     * `seconds`
     * `minutes`
