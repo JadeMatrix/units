@@ -5,6 +5,7 @@
 
 #include "core/constants.hpp"
 #include "core/define_unit.hpp"
+#include "temporal.hpp"
 
 
 namespace JadeMatrix { namespace units // Declarations /////////////////////////
@@ -21,18 +22,21 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
     #define DEFINE_PREFIX_FOR_arcminutes(  PREFIX, SCALE ) template< typename T > using PREFIX##arcminutes  = unit<  arcminute_traits, SCALE, T >;
     #define DEFINE_PREFIX_FOR_arcseconds(  PREFIX, SCALE ) template< typename T > using PREFIX##arcseconds  = unit<  arcsecond_traits, SCALE, T >;
     #define DEFINE_PREFIX_FOR_revolutions( PREFIX, SCALE ) template< typename T > using PREFIX##revolutions = unit< revolution_traits, SCALE, T >;
+    #define DEFINE_PREFIX_FOR_rpm(         PREFIX, SCALE ) template< typename T > using PREFIX##rpm         = per< PREFIX##revolutions, minutes, T >;
     
     JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_degrees     )
     JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_radians     )
     JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_arcminutes  )
     JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_arcseconds  )
     JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_revolutions )
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_rpm         )
     
     #undef DEFINE_PREFIX_FOR_degrees
     #undef DEFINE_PREFIX_FOR_radians
     #undef DEFINE_PREFIX_FOR_arcminutes
     #undef DEFINE_PREFIX_FOR_arcseconds
     #undef DEFINE_PREFIX_FOR_revolutions
+    #undef DEFINE_PREFIX_FOR_rpm
     
     
     DEFINE_ALL_STRINGS_FOR_UNIT(     degree_traits,     "degrees",   "°" )
@@ -40,6 +44,19 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
     DEFINE_ALL_STRINGS_FOR_UNIT(  arcminute_traits,  "arcminutes", "moa" )
     DEFINE_ALL_STRINGS_FOR_UNIT(  arcsecond_traits,  "arcseconds", "soa" )
     DEFINE_ALL_STRINGS_FOR_UNIT( revolution_traits, "revolutions", "rev" )
+    
+    template<> struct unit_strings< rpm< void > >
+    {
+        static const std::string& name()
+        {
+            return unit_strings< rpm< void > >::name();
+        }
+        static const std::string& symbol()
+        {
+            static const std::string s{ "rpm" };
+            return s;
+        }
+    };
 } }
 
 

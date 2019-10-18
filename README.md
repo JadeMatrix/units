@@ -24,6 +24,7 @@ Currently, a few linear, angular, and temporal units are provided in their own h
     * `arcminutes`
     * `arcseconds`
     * `revolutions`
+    * `rpm`
 * Linear — `units/linear.hpp`
     * `inches`
     * `feet`
