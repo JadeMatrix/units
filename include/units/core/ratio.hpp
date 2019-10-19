@@ -44,7 +44,7 @@ namespace JadeMatrix { namespace units // Dimensionless values /////////////////
             return _value;
         }
         template<
-            typename O = value_type,
+            typename O,
             typename = typename std::enable_if<
                 !internal::is_unit< O >::value
             >::type

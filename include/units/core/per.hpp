@@ -49,7 +49,7 @@ namespace JadeMatrix { namespace units // Unit divided by another //////////////
         {}
         
         template<
-            typename O = value_type,
+            typename O,
             typename = typename std::enable_if<
                 !internal::is_unit< O >::value
             >::type
