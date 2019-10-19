@@ -56,32 +56,54 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
     JM_UNITS_DEFINE_STRINGS_FOR_TRAITS( instruction_traits, "instructions",  "inst" )
     
     
-    template<> struct unit_strings< flops< void > >
-    {
-        static const std::string& name()
-        {
-            static const std::string s{ "FLOPS" };
-            return s;
-        }
-        static const std::string& symbol()
-        {
-            static const std::string s{ "FLOPS" };
-            return s;
-        }
-    };
-    template<> struct unit_strings< ips< void > >
-    {
-        static const std::string& name()
-        {
-            static const std::string s{ "IPS" };
-            return s;
-        }
-        static const std::string& symbol()
-        {
-            static const std::string s{ "IPS" };
-            return s;
-        }
-    };
+    #define DEFINE_STRINGS_FOR_flops( PREFIX, SCALE ) \
+        template<> struct unit_strings< PREFIX##flops< void > > \
+        { \
+            static const std::string& name() \
+            { \
+                static const std::string s{ \
+                    scale_strings< SCALE >::prefix() \
+                    + "FLOPS" \
+                }; \
+                return s; \
+            } \
+            static const std::string& symbol() \
+            { \
+                static const std::string s{ \
+                      scale_strings< SCALE >::prefix_symbol() \
+                    + "FLOPS" \
+                    + scale_strings< SCALE >::suffix_symbol() \
+                }; \
+                return s; \
+            } \
+        };
+    #define DEFINE_STRINGS_FOR_ips( PREFIX, SCALE ) \
+        template<> struct unit_strings< PREFIX##ips< void > > \
+        { \
+            static const std::string& name() \
+            { \
+                static const std::string s{ \
+                    scale_strings< SCALE >::prefix() \
+                    + "IPS" \
+                }; \
+                return s; \
+            } \
+            static const std::string& symbol() \
+            { \
+                static const std::string s{ \
+                      scale_strings< SCALE >::prefix_symbol() \
+                    + "IPS" \
+                    + scale_strings< SCALE >::suffix_symbol() \
+                }; \
+                return s; \
+            } \
+        };
+    
+    JM_UNITS_FOREACH_SCALE( DEFINE_STRINGS_FOR_flops )
+    JM_UNITS_FOREACH_SCALE( DEFINE_STRINGS_FOR_ips )
+    
+    #undef DEFINE_STRINGS_FOR_flops
+    #undef DEFINE_STRINGS_FOR_ips
 } }
 
 

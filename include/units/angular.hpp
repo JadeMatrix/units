@@ -45,18 +45,32 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
     JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(  arcsecond_traits,  "arcseconds", "soa" )
     JM_UNITS_DEFINE_STRINGS_FOR_TRAITS( revolution_traits, "revolutions", "rev" )
     
-    template<> struct unit_strings< rpm< void > >
-    {
-        static const std::string& name()
-        {
-            return unit_strings< rpm< void > >::name();
-        }
-        static const std::string& symbol()
-        {
-            static const std::string s{ "rpm" };
-            return s;
-        }
-    };
+    #define DEFINE_STRINGS_FOR_rpm( PREFIX, SCALE ) \
+        template<> struct unit_strings< PREFIX##rpm< void > > \
+        { \
+            using unit_trait_strings = decltype( units_unit_strings_lookup( \
+                std::declval< revolution_traits >() \
+            ) ); \
+            static const std::string& name() \
+            { \
+                static const std::string s{ \
+                      scale_strings< SCALE >::prefix() \
+                    + unit_trait_strings::unit_name() \
+                }; \
+                return s; \
+            } \
+            static const std::string& symbol() \
+            { \
+                static const std::string s{ \
+                      scale_strings< SCALE >::prefix_symbol() \
+                    + "rpm" \
+                    + scale_strings< SCALE >::suffix_symbol() \
+                }; \
+                return s; \
+            } \
+        };
+    JM_UNITS_FOREACH_SCALE( DEFINE_STRINGS_FOR_rpm )
+    #undef DEFINE_STRINGS_FOR_rpm
 } }
 
 

@@ -66,19 +66,29 @@ namespace JadeMatrix { namespace units
     JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(        fathom_traits,         "fathoms", "fm" )
     JM_UNITS_DEFINE_STRINGS_FOR_TRAITS( nautical_mile_traits, " nautical miles",  "M" )
     
-    template<> struct unit_strings< knots< void > >
-    {
-        static const std::string& name()
-        {
-            static const std::string s{ "knots" };
-            return s;
-        }
-        static const std::string& symbol()
-        {
-            static const std::string s{ "kt" };
-            return s;
-        }
-    };
+    #define DEFINE_STRINGS_FOR_knots( PREFIX, SCALE ) \
+        template<> struct unit_strings< PREFIX##knots< void > > \
+        { \
+            static const std::string& name() \
+            { \
+                static const std::string s{ \
+                    scale_strings< SCALE >::prefix() \
+                    + "knots" \
+                }; \
+                return s; \
+            } \
+            static const std::string& symbol() \
+            { \
+                static const std::string s{ \
+                      scale_strings< SCALE >::prefix_symbol() \
+                    + "kt" \
+                    + scale_strings< SCALE >::suffix_symbol() \
+                }; \
+                return s; \
+            } \
+        };
+    JM_UNITS_FOREACH_SCALE( DEFINE_STRINGS_FOR_knots )
+    #undef DEFINE_STRINGS_FOR_knots
 } }
 
 
