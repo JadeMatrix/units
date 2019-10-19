@@ -2,6 +2,7 @@
 #include <doctest/doctest.h>
 
 #include <units/linear.hpp>
+#include <units/stringify/to_string.hpp>
 
 
 namespace units = ::JadeMatrix::units;
@@ -58,4 +59,10 @@ TEST_CASE( "meters to nautical miles" )
     units::meters< long double > meters{ 7 };
     units::nautical_miles< long double > nautical_miles{ meters };
     REQUIRE( static_cast< long double >( nautical_miles ) == 7.0L / 1852.0L );
+}
+
+TEST_CASE( "knots stringification specialization" )
+{
+    units::kiloknots< int > kkt{ 30 };
+    REQUIRE( to_string( kkt ) == "30kkt" );
 }

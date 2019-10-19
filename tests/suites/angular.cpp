@@ -3,6 +3,7 @@
 
 #include <units/core/constants.hpp>
 #include <units/angular.hpp>
+#include <units/stringify/to_string.hpp>
 
 
 namespace units = ::JadeMatrix::units;
@@ -95,4 +96,10 @@ TEST_CASE( "revolutions to arcseconds" )
     units::revolutions< long double > revolutions{ 7 };
     units::arcseconds< long double > arcseconds{ revolutions };
     REQUIRE( static_cast< long double >( arcseconds ) == 9072000.0L );
+}
+
+TEST_CASE( "rpm stringification specialization" )
+{
+    units::semirpm< int > srpm{ 5 };
+    REQUIRE( to_string( srpm ) == "5rpm*2" );
 }

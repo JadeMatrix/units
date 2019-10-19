@@ -10,6 +10,7 @@ FOREACH( SUITE IN ITEMS
     "core_type_detection"
     "custom_unit"
     "custom_value_type"
+    "digital"
     "linear_imperial"
     "linear_metric"
     "linear_nautical"
