@@ -49,16 +49,6 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
             > constexpr unit_impl( const O& o ) :
                 _value( convert_from< O::template unit_type >::apply( o ) )
             {}
-            
-            template<
-                typename O,
-                typename = typename std::enable_if<
-                    !internal::is_unit< O >::value
-                >::type
-            > explicit constexpr operator O () const
-            {
-                return static_cast< O >( _value );
-            }
         };
         
         template<
@@ -89,6 +79,18 @@ namespace JadeMatrix { namespace units // Basic unit class /////////////////////
     {
     public:
         using internal::unit_impl< Traits, Scale, T >::unit_impl;
+        
+        template<
+            typename O,
+            typename = typename std::enable_if<
+                !internal::is_unit< O >::value
+            >::type
+        > explicit constexpr operator O () const
+        {
+            return static_cast< O >(
+                internal::unit_impl< Traits, Scale, T >::_value
+            );
+        }
     };
 } }
 
