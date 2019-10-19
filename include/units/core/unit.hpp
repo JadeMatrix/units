@@ -12,70 +12,83 @@
 
 namespace JadeMatrix { namespace units // Basic unit class /////////////////////
 {
+    namespace internal
+    {
+        template<
+            typename Traits,
+            typename Scale,
+            typename T
+        > class unit_impl
+        {
+        public:
+            using traits_type = Traits;
+            using  scale_type = typename Scale::type;
+            using  value_type = T;
+            template< typename O > using unit_type = unit<
+                traits_type,
+                scale_type,
+                O
+            >;
+            
+        protected:
+            value_type _value;
+            
+            template<
+                template< typename > class OtherUnit
+            > using convert_from = internal::conversion< unit_type, OtherUnit >;
+            
+        public:
+            constexpr unit_impl() {}
+            constexpr unit_impl( const value_type& v ) : _value{ v } {}
+            
+            template<
+                typename O,
+                typename = typename std::enable_if<
+                    convert_from< O::template unit_type >::exists
+                >::type
+            > constexpr unit_impl( const O& o ) :
+                _value( convert_from< O::template unit_type >::apply( o ) )
+            {}
+            
+            template<
+                typename O = value_type,
+                typename = typename std::enable_if<
+                    !internal::is_unit< O >::value
+                >::type
+            > explicit constexpr operator O () const
+            {
+                return static_cast< O >( _value );
+            }
+        };
+        
+        template<
+            typename Traits,
+            typename Scale
+        > class unit_impl< Traits, Scale, void >
+        {
+        public:
+            using traits_type = Traits;
+            using  scale_type = typename Scale::type;
+            using  value_type = void;
+            template< typename O > using unit_type = unit<
+                traits_type,
+                scale_type,
+                O
+            >;
+            
+            unit_impl() = delete;
+            ~unit_impl() = delete;
+        };
+    }
+    
     template<
         typename Traits,
         typename Scale,
         typename T
-    > class unit
+    > class unit : public internal::unit_impl< Traits, Scale, T >
     {
     public:
-        using traits_type = Traits;
-        using  scale_type = typename Scale::type;
-        using  value_type = T;
-        template< typename O > using unit_type = unit<
-            traits_type,
-            scale_type,
-            O
-        >;
-        
-    protected:
-        value_type _value;
-        
-        template<
-            template< typename > class OtherUnit
-        > using convert_from = internal::conversion< unit_type, OtherUnit >;
-        
-    public:
-        constexpr unit() {}
-        constexpr unit( const value_type& v ) : _value{ v } {}
-        
-        template<
-            typename O,
-            typename = typename std::enable_if<
-                convert_from< O::template unit_type >::exists
-            >::type
-        > constexpr unit( const O& o ) :
-            _value( convert_from< O::template unit_type >::apply( o ) )
-        {}
-        
-        template<
-            typename O = value_type,
-            typename = typename std::enable_if<
-                !internal::is_unit< O >::value
-            >::type
-        > explicit constexpr operator O () const
-        {
-            return static_cast< O >( _value );
-        }
-    };
-    
-    template<
-        typename Traits,
-        typename Scale
-    > class unit< Traits, Scale, void >
-    {
-    public:
-        using traits_type = Traits;
-        using  scale_type = typename Scale::type;
-        using  value_type = void;
-        template< typename O > using unit_type = unit<
-            traits_type,
-            scale_type,
-            O
-        >;
-        
-        unit() = delete;
-        ~unit() = delete;
+        using internal::unit_impl< Traits, Scale, T >::unit_impl;
     };
 } }
 
