@@ -22,7 +22,9 @@ namespace JadeMatrix { namespace units // Stream formatting operators //////////
         using std::to_string;
         return (
             to_string( static_cast< typename Unit::value_type >( u ) )
-            + unit_strings< Unit >::symbol()
+            + unit_strings<
+                typename Unit::template unit_type< void >
+            >::symbol()
         );
     }
     
