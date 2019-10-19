@@ -39,11 +39,11 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
     #undef DEFINE_PREFIX_FOR_rpm
     
     
-    DEFINE_ALL_STRINGS_FOR_UNIT(     degree_traits,     "degrees",   "°" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(     radian_traits,     "radians",   "r" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(  arcminute_traits,  "arcminutes", "moa" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(  arcsecond_traits,  "arcseconds", "soa" )
-    DEFINE_ALL_STRINGS_FOR_UNIT( revolution_traits, "revolutions", "rev" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(     degree_traits,     "degrees",   "°" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(     radian_traits,     "radians",   "r" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(  arcminute_traits,  "arcminutes", "moa" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(  arcsecond_traits,  "arcseconds", "soa" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS( revolution_traits, "revolutions", "rev" )
     
     template<> struct unit_strings< rpm< void > >
     {

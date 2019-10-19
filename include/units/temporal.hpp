@@ -75,7 +75,7 @@ namespace JadeMatrix { namespace units
     // Create a subclass of `unit` to add implicit conversions to & from
     // `std::chrono::duration<>` types
     
-    #define _DEFINE_MOST_STRINGS_FOR_TEMPORAL_UNIT( \
+    #define JM_UNITS_INTERNAL_DEFINE_MOST_STRINGS_FOR_TEMPORAL_UNIT( \
         UNIT_PLURAL, \
         TRAITS, \
         RATIO, \
@@ -151,17 +151,17 @@ namespace JadeMatrix { namespace units
     template< typename T > using  femto##UNIT_PLURAL = _##UNIT_PLURAL##_unit< femto_scale, T >; \
     template< typename T > using   atto##UNIT_PLURAL = _##UNIT_PLURAL##_unit<  atto_scale, T >; \
      \
-    DEFINE_ALL_STRINGS_FOR_UNIT( TRAITS, UNIT_NAME_STR, UNIT_SYM_STR )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS( TRAITS, UNIT_NAME_STR, UNIT_SYM_STR )
     
     #if defined JM_UNITS_YT_AVAILABLE
-        #define DEFINE_ALL_STRINGS_FOR_TEMPORAL_UNIT( \
+        #define JM_UNITS_INTERNAL_DEFINE_STRINGS_FOR_TEMPORAL_UNIT( \
                 UNIT_PLURAL, \
                 TRAITS, \
                 RATIO, \
                 UNIT_NAME_STR, \
                 UNIT_SYM_STR \
             ) \
-        _DEFINE_MOST_STRINGS_FOR_TEMPORAL_UNIT( \
+        JM_UNITS_INTERNAL_DEFINE_MOST_STRINGS_FOR_TEMPORAL_UNIT( \
             UNIT_PLURAL, \
             TRAITS, \
             RATIO, \
@@ -173,14 +173,14 @@ namespace JadeMatrix { namespace units
         template< typename T > using yocto##UNIT_PLURAL = _##UNIT_PLURAL##_unit< yocto_scale, T >; \
         template< typename T > using yotta##UNIT_PLURAL = _##UNIT_PLURAL##_unit< yotta_scale, T >;
     #elif defined JM_UNITS_ZT_AVAILABLE
-        #define DEFINE_ALL_STRINGS_FOR_TEMPORAL_UNIT( \
+        #define JM_UNITS_INTERNAL_DEFINE_STRINGS_FOR_TEMPORAL_UNIT( \
                 UNIT_PLURAL, \
                 TRAITS, \
                 RATIO, \
                 UNIT_NAME_STR, \
                 UNIT_SYM_STR \
             ) \
-        _DEFINE_MOST_STRINGS_FOR_TEMPORAL_UNIT( \
+        JM_UNITS_INTERNAL_DEFINE_MOST_STRINGS_FOR_TEMPORAL_UNIT( \
             UNIT_PLURAL, \
             TRAITS, \
             RATIO, \
@@ -190,14 +190,14 @@ namespace JadeMatrix { namespace units
         template< typename T > using zepto##UNIT_PLURAL = _##UNIT_PLURAL##_unit< zepto_scale, T >; \
         template< typename T > using zetta##UNIT_PLURAL = _##UNIT_PLURAL##_unit< zetta_scale, T >;
     #else
-        #define DEFINE_ALL_STRINGS_FOR_TEMPORAL_UNIT( \
+        #define JM_UNITS_INTERNAL_DEFINE_STRINGS_FOR_TEMPORAL_UNIT( \
                 UNIT_PLURAL, \
                 TRAITS, \
                 RATIO, \
                 UNIT_NAME_STR, \
                 UNIT_SYM_STR \
             ) \
-        _DEFINE_MOST_STRINGS_FOR_TEMPORAL_UNIT( \
+        JM_UNITS_INTERNAL_DEFINE_MOST_STRINGS_FOR_TEMPORAL_UNIT( \
             UNIT_PLURAL, \
             TRAITS, \
             RATIO, \
@@ -206,9 +206,9 @@ namespace JadeMatrix { namespace units
         )
     #endif
     
-    DEFINE_ALL_STRINGS_FOR_TEMPORAL_UNIT( seconds, second_traits,         unit_scale, "seconds",   "s" )
-    DEFINE_ALL_STRINGS_FOR_TEMPORAL_UNIT( minutes, minute_traits, std::ratio<   60 >, "minutes", "min" )
-    DEFINE_ALL_STRINGS_FOR_TEMPORAL_UNIT(   hours,   hour_traits, std::ratio< 3600 >,   "hours",   "h" )
+    JM_UNITS_INTERNAL_DEFINE_STRINGS_FOR_TEMPORAL_UNIT( seconds, second_traits,         unit_scale, "seconds",   "s" )
+    JM_UNITS_INTERNAL_DEFINE_STRINGS_FOR_TEMPORAL_UNIT( minutes, minute_traits, std::ratio<   60 >, "minutes", "min" )
+    JM_UNITS_INTERNAL_DEFINE_STRINGS_FOR_TEMPORAL_UNIT(   hours,   hour_traits, std::ratio< 3600 >,   "hours",   "h" )
 } }
 
 

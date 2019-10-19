@@ -189,8 +189,8 @@ namespace custom
 
     // Stringification support for all prefixes ////////////////////////////////
 
-    DEFINE_ALL_STRINGS_FOR_UNIT( inch_traits, "inches", "in" )
-    DEFINE_ALL_STRINGS_FOR_UNIT( foot_traits,   "feet", "ft" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS( inch_traits, "inches", "in" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS( foot_traits,   "feet", "ft" )
 }
 
 // Test that the units were defined correctly

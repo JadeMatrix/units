@@ -50,10 +50,10 @@ namespace JadeMatrix { namespace units // Declarations /////////////////////////
     #undef DEFINE_PREFIX_FOR_ips
     
     
-    DEFINE_ALL_STRINGS_FOR_UNIT(         bit_traits,         "bits",     "b" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(        byte_traits,        "bytes",     "B" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(     floatop_traits,     "floatops", "FLOPs" )
-    DEFINE_ALL_STRINGS_FOR_UNIT( instruction_traits, "instructions",  "inst" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(         bit_traits,         "bits",     "b" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(        byte_traits,        "bytes",     "B" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(     floatop_traits,     "floatops", "FLOPs" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS( instruction_traits, "instructions",  "inst" )
     
     
     template<> struct unit_strings< flops< void > >

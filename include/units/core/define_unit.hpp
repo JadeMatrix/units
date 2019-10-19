@@ -13,7 +13,7 @@
 // the same namespace as the traits type is defined.  Uses a struct returned by
 // an undefined lookup function to avoid instantiation of the traits type (via
 // `std::declval<>()`).
-#define DEFINE_ALL_STRINGS_FOR_UNIT( \
+#define JM_UNITS_DEFINE_STRINGS_FOR_TRAITS( \
     TRAITS_TYPE, \
     UNIT_NAME_STR, \
     UNIT_SYM_STR \

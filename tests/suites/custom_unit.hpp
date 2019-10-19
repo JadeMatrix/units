@@ -19,7 +19,7 @@ namespace custom
     JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_foos )
     #undef DEFINE_PREFIX_FOR_foos
     
-    DEFINE_ALL_STRINGS_FOR_UNIT( foo_traits, "foos", "¿" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS( foo_traits, "foos", "¿" )
 }
 
 

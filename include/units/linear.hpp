@@ -58,13 +58,13 @@ namespace JadeMatrix { namespace units
     #undef DEFINE_PREFIX_FOR_knots
     
     
-    DEFINE_ALL_STRINGS_FOR_UNIT(          inch_traits,          "inches", "in" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(          foot_traits,            "feet", "ft" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(          yard_traits,           "yards", "yd" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(          mile_traits,           "miles", "mi" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(         meter_traits,          "meters",  "m" )
-    DEFINE_ALL_STRINGS_FOR_UNIT(        fathom_traits,         "fathoms", "fm" )
-    DEFINE_ALL_STRINGS_FOR_UNIT( nautical_mile_traits, " nautical miles",  "M" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(          inch_traits,          "inches", "in" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(          foot_traits,            "feet", "ft" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(          yard_traits,           "yards", "yd" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(          mile_traits,           "miles", "mi" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(         meter_traits,          "meters",  "m" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS(        fathom_traits,         "fathoms", "fm" )
+    JM_UNITS_DEFINE_STRINGS_FOR_TRAITS( nautical_mile_traits, " nautical miles",  "M" )
     
     template<> struct unit_strings< knots< void > >
     {
