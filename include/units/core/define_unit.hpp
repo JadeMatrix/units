@@ -93,8 +93,4 @@ units_##TRAITS_TYPE##_unit_strings units_unit_strings_lookup( TRAITS_TYPE&& );
     JM_UNITS_INTERNAL_FOREACH_SCALE_ZT        ( MACRO )
 
 
-// https://stackoverflow.com/questions/3046889/optional-parameters-with-c-macros
-// DEFINE_LINEAR_RELATION_FOR_UNIT( ... )
-
-
 #endif
