@@ -41,6 +41,12 @@ TEST_CASE( "JadeMatrix::units::seconds to std::chrono::seconds" )
     std::chrono::seconds std_seconds{ seconds };
     REQUIRE( std_seconds.count() == 7 );
 }
+TEST_CASE( "JadeMatrix::units::minutes to std::chrono::seconds" )
+{
+    units::minutes< long long > minutes{ 7 };
+    std::chrono::seconds std_seconds{ minutes };
+    REQUIRE( std_seconds.count() == 420 );
+}
 
 TEST_CASE( "seconds to minutes" )
 {
