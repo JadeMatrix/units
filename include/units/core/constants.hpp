@@ -3,28 +3,11 @@
 #define JM_UNITS_CORE_CONSTANTS_HPP
 
 
-#include <type_traits>  // enable_if, is_floating_point
+#include "internal/narrow.hpp"
 
 
 namespace JadeMatrix { namespace units { namespace constants
 {
-    namespace internal
-    {
-        // Explicit floating point narrowing logic so as not to trigger double
-        // promotion warnings
-        
-        template<
-            typename To,
-            typename From,
-            typename = void
-        > struct narrow { using type = From; };
-        template< typename To > struct narrow<
-            To,
-            long double,
-            typename std::enable_if< std::is_floating_point< To >::value >::type
-        > { using type = To; };
-    }
-    
     #define DEFINE_CONSTANT( NAME, TYPE, VALUE ) \
         template< typename T > struct NAME \
         { \
