@@ -3,10 +3,35 @@
 #define JM_UNITS_CORE_CONSTANTS_HPP
 
 
+#include <type_traits>  // enable_if, is_floating_point
+
+
 namespace JadeMatrix { namespace units { namespace constants
 {
+    namespace internal
+    {
+        // Explicit floating point narrowing logic so as not to trigger double
+        // promotion warnings
+        
+        template<
+            typename To,
+            typename From,
+            typename = void
+        > struct narrow { using type = From; };
+        template< typename To > struct narrow<
+            To,
+            long double,
+            typename std::enable_if< std::is_floating_point< To >::value >::type
+        > { using type = To; };
+    }
+    
     #define DEFINE_CONSTANT( NAME, TYPE, VALUE ) \
-    template< typename T > struct NAME { static constexpr TYPE value = VALUE; };
+        template< typename T > struct NAME \
+        { \
+            static constexpr auto value = static_cast< \
+                typename internal::narrow< T, TYPE >::type \
+            >( VALUE ); \
+        };
     
     // For integer constants, use the smallest int type to hold the value to
     // prevent unnecessary widening.
@@ -24,22 +49,6 @@ namespace JadeMatrix { namespace units { namespace constants
     DEFINE_CONSTANT( nautical_mile_meters, unsigned short, 1852  )
     
     #undef DEFINE_CONSTANT
-    
-    #define DEFINE_EXPLICIT_CAST_CONSTANT( NAME, TYPE ) \
-    template<> struct NAME< TYPE >{ \
-        static constexpr TYPE value = static_cast< TYPE >( \
-            NAME< void >::value \
-        ); \
-    };
-    
-    // Explicit floating point casts so as not to trigger double promotion
-    // warnings
-    DEFINE_EXPLICIT_CAST_CONSTANT( pi      , double )
-    DEFINE_EXPLICIT_CAST_CONSTANT( pi      , float  )
-    DEFINE_EXPLICIT_CAST_CONSTANT( inch_cms, double )
-    DEFINE_EXPLICIT_CAST_CONSTANT( inch_cms, float  )
-    
-    #undef DEFINE_EXPLICIT_CAST_CONSTANT
 } } }
 
 
