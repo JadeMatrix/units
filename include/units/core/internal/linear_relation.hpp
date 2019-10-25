@@ -5,10 +5,12 @@
 
 #include "core_type_detection.hpp"
 #include "core_types.hpp"
+#include "narrow.hpp"
 #include "utils.hpp"    // void_t, remove_cvref_t
 
+#include <ratio>
+#include <type_traits>  // true_type, false_type, enable_if
 #include <utility>      // declval
-#include <type_traits>  // true_type, false_type
 
 
 namespace JadeMatrix { namespace units { namespace internal // Constants lookup
@@ -39,6 +41,35 @@ namespace JadeMatrix { namespace units { namespace internal // Constants lookup
     DEFINE_DEFAULT_RELATION_FIELD( intercept, 0 )
     
     #undef DEFINE_DEFAULT_RELATION_FIELD
+} } }
+
+
+namespace JadeMatrix { namespace units { namespace internal // Slope promotion /
+{
+    // Promote the storage type of a linear relation to an appropriate floating
+    // point type if the slope numerator & denominator are integers and the
+    // resulting slope is not a whole number
+    
+    template<
+        typename Linear_Relation,
+        typename = void
+    > struct promote_linear_relation
+    {
+        template< typename T > using type = T;
+    };
+    template< typename Linear_Relation > struct promote_linear_relation<
+        Linear_Relation,
+        typename std::enable_if< std::ratio<
+            Linear_Relation::slope_num,
+            Linear_Relation::slope_den
+        >::type::den != 1 >::type
+    >
+    {
+        template< typename T > using type = typename internal::narrow<
+            T,
+            long double
+        >::type;
+    };
 } } }
 
 
@@ -77,13 +108,17 @@ namespace JadeMatrix { namespace units { namespace internal // One-way /////////
             static constexpr auto intercept = intercept_of< _lookup, T >::value;
         };
         
-        // In most cases this will just be T
-        template< typename T > using _common_type = typename std::common_type<
+        // In many cases this will just be T
+        template<
+            typename T
+        > using _common_type = typename promote_linear_relation<
+            _values< T >
+        >::template type< typename std::common_type<
             remove_cvref_t< T >,
             decltype( _values< T >::slope_num ),
             decltype( _values< T >::slope_den ),
             decltype( _values< T >::intercept )
-        >::type;
+        >::type >;
         
         template< typename T > static constexpr _common_type< T > apply( T&& v )
         {
