@@ -8,7 +8,7 @@ The requirements of this project are:
 * Respect the user's types
     * No common, intermediate storage type (e.g. storing all numbers as `double`)
     * All operations on units should preserve value types as if just the value types were used
-* Zero-cost abstraction
+* Zero-overhead abstraction
     * Do nothing at runtime that can't be done at compile-time
     * All unit conversions must result in the same value that would result from hand-coding a multiplication by a one-way conversion factor
 
@@ -40,10 +40,10 @@ Currently, a few linear, angular, and temporal units are provided in their own h
     * `hours`
     * `hertz`
 * Digital — `units/digital.hpp`
-    * bits
-    * bytes
-    * [flops](https://en.wikipedia.org/wiki/FLOPS)
-    * [ips](https://en.wikipedia.org/wiki/Instructions_per_second)
+    * `bits`
+    * `bytes`
+    * [`flops`](https://en.wikipedia.org/wiki/FLOPS)
+    * [`ips`](https://en.wikipedia.org/wiki/Instructions_per_second)
 
 All unit types have scaled versions for the following prefixes:
 
@@ -209,10 +209,10 @@ static_assert(
 );
 ```
 
-In this case a partial specialization of `traits_linear_relation< A, B, T >` represents how much of type A there is in type B — that is,
+The resulting type of `units_linear_relation_lookup( A, B )` is a struct representing how to convert from type B to type A — that is,
 
 ```
 A = B * slope_num / slope_den + intercept
 ```
 
-Note that only one relationship partial overload is necessary; the library will swap the numerator and denominator as needed depending on the direction of the conversion.
+Note that only one relationship partial overload is necessary; the library will invert the relationship as needed depending on the direction of the conversion.
