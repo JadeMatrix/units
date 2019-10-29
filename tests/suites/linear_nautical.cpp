@@ -1,8 +1,10 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
+#include <units/core/internal/core_type_detection.hpp>
 #include <units/linear.hpp>
 #include <units/stringify/to_string.hpp>
+#include <units/temporal.hpp>
 
 
 namespace units = ::JadeMatrix::units;
@@ -61,6 +63,20 @@ TEST_CASE( "meters to nautical miles" )
     REQUIRE( static_cast< long double >( nautical_miles ) == 7.0L / 1852.0L );
 }
 
+TEST_CASE( "nautical miles / hours = knots" )
+{
+    auto v1 = (
+        units::nautical_miles< long double >{ 24.0L }
+        / units::hours< int >{ 1 }
+    );
+    auto v2 = units::knots< long double >{ 24.0L };
+    
+    REQUIRE( v1 == v2 );
+    REQUIRE( units::internal::is_same_unit<
+        decltype( v1 )::template unit_type,
+        decltype( v2 )::template unit_type
+    >::value );
+}
 TEST_CASE( "knots stringification specialization" )
 {
     units::kiloknots< int > kkt{ 30 };

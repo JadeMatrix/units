@@ -1,9 +1,11 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
+#include <units/core/internal/core_type_detection.hpp>
 #include <units/core/constants.hpp>
 #include <units/angular.hpp>
 #include <units/stringify/to_string.hpp>
+#include <units/temporal.hpp>
 
 
 namespace units = ::JadeMatrix::units;
@@ -98,6 +100,20 @@ TEST_CASE( "revolutions to arcseconds" )
     REQUIRE( static_cast< long double >( arcseconds ) == 9072000.0L );
 }
 
+TEST_CASE( "revolutions / minutes = rpm" )
+{
+    auto v1 = (
+        units::revolutions< long double >{ 2735.0L }
+        / units::minutes< int >{ 1 }
+    );
+    auto v2 = units::rpm< long double >{ 2735.0L };
+    
+    REQUIRE( v1 == v2 );
+    REQUIRE( units::internal::is_same_unit<
+        decltype( v1 )::template unit_type,
+        decltype( v2 )::template unit_type
+    >::value );
+}
 TEST_CASE( "rpm stringification specialization" )
 {
     units::semirpm< int > srpm{ 5 };
