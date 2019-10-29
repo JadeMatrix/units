@@ -107,14 +107,17 @@ namespace JadeMatrix { namespace units
     #define DEFINE_PREFIX_FOR_seconds( PREFIX, SCALE ) template< typename T > using PREFIX##seconds = unit< second_traits, SCALE, T >;
     #define DEFINE_PREFIX_FOR_minutes( PREFIX, SCALE ) template< typename T > using PREFIX##minutes = unit< minute_traits, SCALE, T >;
     #define DEFINE_PREFIX_FOR_hours(   PREFIX, SCALE ) template< typename T > using PREFIX##hours   = unit<   hour_traits, SCALE, T >;
+    #define DEFINE_PREFIX_FOR_hertz(   PREFIX, SCALE ) template< typename T > using PREFIX##hertz   = per< ratio, PREFIX##seconds, T >;
     
     JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_seconds )
     JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_minutes )
     JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_hours   )
+    JM_UNITS_FOREACH_SCALE( DEFINE_PREFIX_FOR_hertz   )
     
     #undef DEFINE_PREFIX_FOR_seconds
     #undef DEFINE_PREFIX_FOR_minutes
     #undef DEFINE_PREFIX_FOR_hours
+    #undef DEFINE_PREFIX_FOR_hertz
     
     
     JM_UNITS_DEFINE_STRINGS_FOR_TRAITS( second_traits, "seconds", "s" )

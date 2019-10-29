@@ -1,7 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
-#include <units/core/constants.hpp>
+#include <units/core/internal/core_type_detection.hpp>
 #include <units/stringify/ostream.hpp>
 #include <units/temporal.hpp>
 
@@ -84,4 +84,19 @@ TEST_CASE( "hours to minutes" )
     units::hours< long double > hours{ 7 };
     units::minutes< long double > minutes{ hours };
     REQUIRE( static_cast< long double >( minutes ) == 420.0L );
+}
+
+TEST_CASE( "ratio / seconds = hertz" )
+{
+    auto v1 = (
+        units::ratio< long double >{ 40000.0L }
+        / units::seconds< int >{ 1 }
+    );
+    auto v2 = units::hertz< long double >{ 40000.0L };
+    
+    REQUIRE( v1 == v2 );
+    REQUIRE( units::internal::is_same_unit<
+        decltype( v1 )::template unit_type,
+        decltype( v2 )::template unit_type
+    >::value );
 }
