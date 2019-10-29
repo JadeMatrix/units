@@ -57,3 +57,31 @@ TEST_CASE(
     );
     REQUIRE( ( r1 / r2 ) == units::ratio< double >( 1.0 ) );
 }
+
+TEST_CASE( "preserve value when multiplied by ratio" )
+{
+    REQUIRE( static_cast< int >(
+        units::degrees< int >{ 90 } * units::ratio< int >{ 4 }
+    ) == 360 );
+}
+
+TEST_CASE( "preserve value when ratio multiplied by" )
+{
+    REQUIRE( static_cast< int >(
+        units::ratio< int >{ 4 } * units::degrees< int >{ 90 }
+    ) == 360 );
+}
+
+TEST_CASE( "preserve value when divided by ratio" )
+{
+    REQUIRE( static_cast< int >(
+        units::seconds< int >{ 3600 } / units::ratio< int >{ 60 }
+    ) == 60 );
+}
+
+TEST_CASE( "preserve value when ratio divided by" )
+{
+    REQUIRE( static_cast< int >(
+        units::ratio< int >{ 10 } / units::seconds< int >{ 5 }
+    ) == 2 );
+}
