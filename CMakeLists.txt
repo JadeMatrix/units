@@ -39,7 +39,7 @@ TARGET_INCLUDE_DIRECTORIES(
 
 INSTALL(
     TARGETS units
-    EXPORT "JadeMatrix-units-config"
+    EXPORT "jadematrix-units-config"
     RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
@@ -53,23 +53,23 @@ INSTALL(
 
 INCLUDE( CMakePackageConfigHelpers )
 WRITE_BASIC_PACKAGE_VERSION_FILE(
-    "${PROJECT_BINARY_DIR}/JadeMatrix-units-config-version.cmake"
+    "${PROJECT_BINARY_DIR}/jadematrix-units-config-version.cmake"
     COMPATIBILITY SameMinorVersion
 )
 INSTALL(
-    FILES "${PROJECT_BINARY_DIR}/JadeMatrix-units-config-version.cmake"
+    FILES "${PROJECT_BINARY_DIR}/jadematrix-units-config-version.cmake"
     DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/JadeMatrix-units/"
     COMPONENT cmake
 )
 
 INSTALL(
-    EXPORT "JadeMatrix-units-config"
+    EXPORT "jadematrix-units-config"
     NAMESPACE "JadeMatrix::units::"
     DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/JadeMatrix-units/"
     COMPONENT cmake
 )
 
-EXPORT( EXPORT "JadeMatrix-units-config" FILE "JadeMatrix-units-config.cmake" )
+EXPORT( EXPORT "jadematrix-units-config" FILE "jadematrix-units-config.cmake" )
 
 
 IF( BUILD_TESTING )
